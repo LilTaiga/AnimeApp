@@ -28,6 +28,7 @@ namespace AnimeApp.Pages.Account
         public Account_Big()
         {
             this.InitializeComponent();
+            LoadProfile();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -50,13 +51,32 @@ namespace AnimeApp.Pages.Account
             {
                 UserNotFoundText.Visibility = Visibility.Visible;
             }
-
-            AnilistAccount.GetInstance().lists = (await AnilistQuery.GetViewerDetails()).data.MediaListCollection;
-            if(AnilistAccount.GetInstance() != null)
-                ProfileAvatar.ProfilePicture = new BitmapImage(new Uri(AnilistAccount.GetInstance().avatarLarge));
+            LoadProfile();
 
             UsernameProgressRing.IsActive = false;
             UsernameTextBox.IsEnabled = true;
+        }
+
+        private void LoadProfile()
+        {
+            if (AnilistAccount.Id == null)
+            {
+                LoggedPanel.Visibility = Visibility.Collapsed;
+                LogInPanel.Visibility = Visibility.Visible;
+                return;
+            }
+
+            LogInPanel.Visibility = Visibility.Collapsed;
+            LoggedPanel.Visibility = Visibility.Visible;
+            UsernameText.Text = AnilistAccount.Name;
+
+            ProfileAvatar.ProfilePicture = new BitmapImage(new Uri(AnilistAccount.AvatarLarge));
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            LoggedPanel.Visibility = Visibility.Collapsed;
+            LogInPanel.Visibility = Visibility.Visible;
         }
     }
 }

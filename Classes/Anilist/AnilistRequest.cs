@@ -41,8 +41,8 @@ namespace AnimeApp.Classes.Anilist
             string token;
             if (authToken != null)
                 token = authToken;
-            else if (AnilistAccount.GetInstance().token != null)
-                token = AnilistAccount.GetInstance().token;
+            else if (AnilistAccount.Token != null)
+                token = AnilistAccount.Token;
             else
                 throw new Exception("User not authorized.");
 

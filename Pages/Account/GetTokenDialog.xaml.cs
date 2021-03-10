@@ -43,27 +43,18 @@ namespace AnimeApp.Pages.Account
             //Token is not yet verified if valid.
             //Store it in a variable, if variable, then store it into static class, and save it on disk.
             string token = TokenBox.Text;
-            AnilistResult result = await AnilistQuery.GetViewer(token);
-            if (result.data.Viewer == null)
+            try
+            {
+                await AnilistAccount.Register(token);
+            }
+            catch
             {
                 FetchProfile.Visibility = Visibility.Collapsed;
                 FetchFailed.Visibility = Visibility.Visible;
 
                 return;
             }
-
-            var acc = AnilistAccount.GetInstance();
-            acc.name = result.data.Viewer.name;
-            acc.id = result.data.Viewer.id.ToString();
-            acc.avatarMedium = result.data.Viewer.avatar.medium;
-            acc.avatarLarge = result.data.Viewer.avatar.large;
-            acc.token = token;
-
-            var localFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
-            var file = await localFolder.CreateFileAsync("Anilist", Windows.Storage.CreationCollisionOption.ReplaceExisting);
-
-            await FileIO.WriteTextAsync(file, token);
-
+            
             Hide();
         }
 

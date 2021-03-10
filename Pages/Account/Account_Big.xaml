@@ -21,12 +21,14 @@
             </Rectangle.Fill>
         </Rectangle>
 
-        <StackPanel RelativePanel.AlignVerticalCenterWithPanel="True"
+        <StackPanel x:Name="LogInPanel"
+                    RelativePanel.AlignVerticalCenterWithPanel="True"
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                     Orientation="Vertical"
-                    Spacing="5">
+                    Spacing="5"
+                    Visibility="Collapsed">
 
-            <PersonPicture x:Name="ProfileAvatar"/>
+            <PersonPicture/>
 
             <TextBlock Text="Log-in in your Anilist:"
                        FontSize="24"
@@ -52,6 +54,25 @@
             <TextBlock Text="This will open your web browser."
                        FontSize="10"
                        Foreground="Gray"/>
+        </StackPanel>
+        <StackPanel x:Name="LoggedPanel"
+                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    RelativePanel.AlignVerticalCenterWithPanel="True"
+                    Orientation="Vertical"
+                    Visibility="Collapsed">
+            <PersonPicture x:Name="ProfileAvatar"/>
+            <TextBlock Text="Currently logged in as:"
+                       FontSize="24"/>
+            <TextBlock x:Name="UsernameText"
+                       Text="Lorem Ipsilum"
+                       TextAlignment="Center"
+                       FontSize="24"/>
+
+            <Button Margin="0, 8, 0, 0"
+                    Content="Log In with another profile"
+                    HorizontalAlignment="Center"
+                    Click="Button_Click_1"/>
+
         </StackPanel>
     </RelativePanel>
 </Page>

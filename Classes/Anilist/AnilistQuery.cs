@@ -23,7 +23,7 @@ namespace AnimeApp.Classes.Anilist
             return data;
         }
 
-        public async static Task<AnilistResult> GetViewer(string _token = null)
+        public async static Task<AnilistResult> GetViewer(string _token)
         {
             var resource = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView("AnilistQueries");
             string body = resource.GetString("ViewerFetch");
@@ -39,7 +39,7 @@ namespace AnimeApp.Classes.Anilist
             var resource = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView("AnilistQueries");
             string body = resource.GetString("MediaListCollectionFetch");
 
-            var result = await AnilistRequest.SendQuery(body, string.Format("\"id\": {0}", AnilistAccount.GetInstance().id));
+            var result = await AnilistRequest.SendQueryAuthorized(body, string.Format("\"id\": {0}", AnilistAccount.Id));
             var data = JsonSerializer.Deserialize<AnilistResult>(result);
 
             return data;
