@@ -1,0 +1,57 @@
+﻿<Page
+    x:Class="AnimeApp.Pages.Account.Account_Big"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AnimeApp.Pages.Account"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="Transparent"
+    
+    RequestedTheme="Default">
+
+    <RelativePanel>
+        <Rectangle RelativePanel.AlignTopWithPanel="True"
+                   RelativePanel.AlignLeftWithPanel="True"
+                   RelativePanel.AlignRightWithPanel="True"
+                   RelativePanel.AlignBottomWithPanel="True">
+            <Rectangle.Fill>
+                <AcrylicBrush TintColor="{ThemeResource SystemAltHighColor}"
+                              TintOpacity="0.75"/>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <StackPanel RelativePanel.AlignVerticalCenterWithPanel="True"
+                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    Orientation="Vertical"
+                    Spacing="5">
+
+            <PersonPicture x:Name="ProfileAvatar"/>
+
+            <TextBlock Text="Log-in in your Anilist:"
+                       FontSize="24"
+                       TextAlignment="Center"/>
+            <TextBox x:Name="UsernameTextBox"
+                     MinWidth="250"
+                     PlaceholderText="Insert your Anilist account"/>
+            <TextBlock x:Name="UserNotFoundText"
+                       Text="User not found!"
+                       FontSize="12"
+                       Foreground="DarkRed"
+                       Visibility="Collapsed"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Log-in"
+                        MinWidth="100"
+                        Margin="0, 10, 0, 0"
+                        Click="Button_Click"/>
+                <ProgressRing Name="UsernameProgressRing"
+                              IsActive="False"
+                              Margin="10, 10, 0, 0"/>
+            </StackPanel>
+
+            <TextBlock Text="This will open your web browser."
+                       FontSize="10"
+                       Foreground="Gray"/>
+        </StackPanel>
+    </RelativePanel>
+</Page>
