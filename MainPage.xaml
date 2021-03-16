@@ -24,7 +24,7 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
 
-                <muxc:NavigationViewItem Content="Anime list">
+                <muxc:NavigationViewItem Content="Anime list" Tag="AnimeList">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE768;"/>
                     </muxc:NavigationViewItem.Icon>
@@ -103,13 +103,12 @@
                                RelativePanel.AlignTopWithPanel="True"
                                Height="44">
                         <Rectangle.Fill>
-                            <AcrylicBrush TintColor="Black"
+                            <AcrylicBrush TintColor="{ThemeResource SystemAltMediumLowColor}"
                                           Opacity="0.75"/>
                         </Rectangle.Fill>
                     </Rectangle>
 
                     <TextBlock x:Name="TitlebarText"
-                               Style="{StaticResource CaptionTextBlockStyle}"
                                Text="Animeapp"
                                Margin="48, 6, 0, 0"/>
                 </RelativePanel>

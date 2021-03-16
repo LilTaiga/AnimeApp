@@ -42,6 +42,9 @@ namespace AnimeApp
                     case "Account":
                         NavViewFrame.Navigate(typeof(Pages.Account.Account_Big));
                         break;
+                    case "AnimeList":
+                        NavViewFrame.Navigate(typeof(Pages.AnimeList));
+                        break;
                 }
             }
         }
