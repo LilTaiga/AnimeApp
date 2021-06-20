@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -13,7 +14,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-using AnimeApp.Classes;
+using AnimeApp.Classes.Anilist;
+using AnimeApp.Classes.Anilist.Result;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -24,12 +26,35 @@ namespace AnimeApp.Pages
     /// </summary>
     public sealed partial class AnimeList : Page
     {
-        public SampleData SampleData { get; set; }
+        public List<Entry> userEntries;                   //A collection of all user entries in his Anilist Account.
+        public ObservableCollection<Entry> medias;        //A collection used to display user entries in the app.
 
         public AnimeList()
         {
             this.InitializeComponent();
-            SampleData = new SampleData();
+
+            userEntries = new List<Entry>();
+            medias = new ObservableCollection<Entry>();
+
+            GetUserLists();
+        }
+
+        private async void GetUserLists()
+        {
+            if (AnilistAccount.UserLists == null)
+                await AnilistAccount.RetrieveLists();
+
+            List<List> lists = AnilistAccount.UserLists;
+            
+            foreach(List _list in lists)
+            {
+                foreach(Entry _entry in _list.entries)
+                {
+                    userEntries.Add(_entry);
+                    medias.Add(_entry);
+                }
+            }
+
         }
     }
 }

@@ -10,12 +10,19 @@
     
     mc:Ignorable="d"
     Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
+    
+    <!-- Setting up the main app layout-->
 
+    <!-- Using a grid to display the app contents -->
+    <!-- Navigation View on the left -->
+    <!-- Frame View on the right -->
     <Grid>
         <muxc:NavigationView x:Name="NavView" 
                              IsTitleBarAutoPaddingEnabled="False"
                              IsBackButtonVisible="Collapsed"
                              SelectionChanged="NavView_SelectionChanged">
+            
+            <!-- Defining Navigation View Menu -->
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItemHeader Content="Your profile"/>
                 <muxc:NavigationViewItem Content="Overview">
@@ -84,19 +91,38 @@
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.FooterMenuItems>
 
+            <!-- View Area-->
+            
             <RelativePanel x:Name="NavViewArea">
+                
+                <!-- Background image -->
                 
                 <Image Grid.Row="0"
                        Grid.RowSpan="3"
                        Source="https://safebooru.donmai.us/data/sample/__aisaka_taiga_toradora_drawn_by_deca_purio__sample-a941883ff5009866423ab4c1a09b2b4d.jpg"
                        Stretch="UniformToFill"/>
 
+                <!-- The Frame to display UWP Pages-->
+                
+                <Frame x:Name="NavViewFrame"
+                       
+                       RelativePanel.AlignLeftWithPanel="True"
+                       RelativePanel.AlignRightWithPanel="True"
+                       RelativePanel.AlignBottomWithPanel="True"
+                       RelativePanel.AlignTopWithPanel="True"/>
+
+                <!-- Setting up the titlebar area -->
+                <!-- It is defined here to stay on top of Frame contents -->
+                <!-- Also used to drag around the window -->
+                
                 <RelativePanel x:Name="TitleBarArea"
                       RelativePanel.AlignLeftWithPanel="True"
                       RelativePanel.AlignRightWithPanel="True"
                       RelativePanel.AlignTopWithPanel="True"
                       Height="44"
                       Margin="0, 0, 0, 0">
+                    
+                    <!-- An acrylic background to the define the titlebar box -->
 
                     <Rectangle RelativePanel.AlignLeftWithPanel="True"
                                RelativePanel.AlignRightWithPanel="True"
@@ -107,28 +133,25 @@
                                           Opacity="0.75"/>
                         </Rectangle.Fill>
                     </Rectangle>
+                    
+                    <!-- App name-->
 
                     <TextBlock x:Name="TitlebarText"
                                Text="Animeapp"
                                Margin="48, 6, 0, 0"/>
                 </RelativePanel>
-
-                <Frame x:Name="NavViewFrame"
-                       Grid.Row="1"
-                       
-                       RelativePanel.AlignLeftWithPanel="True"
-                       RelativePanel.AlignRightWithPanel="True"
-                       RelativePanel.AlignBottomWithPanel="True"
-                       RelativePanel.Below="TitleBarArea"/>
             </RelativePanel>
         </muxc:NavigationView>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
+                
+                <!-- When app window is too small, the Navigation View is set to minimal size -->
+                <!-- Change the app name text position to the right for spacing to stay consistent -->
+                
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger
-                            MinWindowWidth="640"/>
+                        <AdaptiveTrigger MinWindowWidth="640"/>
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>

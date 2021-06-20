@@ -3,11 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeApp.Pages"
-    xmlns:classes="using:AnimeApp.Classes"
+    xmlns:anilist="using:AnimeApp.Classes.Anilist.Result"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="Transparent">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
         <Style TargetType="CheckBox">
@@ -18,397 +18,136 @@
         </Style>
     </Page.Resources>
 
-    <RelativePanel>
-        <Rectangle RelativePanel.AlignTopWithPanel="True"
-                   RelativePanel.AlignLeftWithPanel="True"
-                   RelativePanel.AlignBottomWithPanel="True"
-                   RelativePanel.AlignRightWithPanel="True">
-            <Rectangle.Fill>
-                <AcrylicBrush TintColor="{ThemeResource SystemAltHighColor}"
-                              TintOpacity="0.75"/>
-            </Rectangle.Fill>
-        </Rectangle>
+    <RelativePanel Margin="0, 44, 0, 0">
+        <StackPanel x:Name="TabsMenu"
+                    Orientation="Horizontal"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.AlignTopWithPanel="True"
+                    Height="36"
+                    Margin="0, 0, 0, 2"
+                    BorderThickness="0, 0, 0, 2"
+                    BorderBrush="Gray">
+            <Button x:Name="WatchingTab"
+                    Content="Watching"
+                    Background="Transparent"/>
+            <Button x:Name="CompletedTab"
+                    Content="Completed"
+                    Background="Transparent"/>
+            <Button x:Name="PausedTab"
+                    Content="Paused"
+                    Background="Transparent"/>
+            <Button x:Name="DroppedTab"
+                    Content="Dropped"
+                    Background="Transparent"/>
+            <Button x:Name="PlanningTab"
+                    Content="Planning"
+                    Background="Transparent"/>
+        </StackPanel>
 
-        <Grid RelativePanel.AlignTopWithPanel="True"
+        <Grid x:Name="ColumnsDetails"
               RelativePanel.AlignLeftWithPanel="True"
-              RelativePanel.AlignBottomWithPanel="True"
-              RelativePanel.AlignRightWithPanel="True">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"
-                           MinHeight="40"
-                           MaxHeight="80"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+              RelativePanel.AlignRightWithPanel="True"
+              RelativePanel.Below="TabsMenu"
+              Height="24">
 
-            <StackPanel Height="40"
-                    Grid.Row="0"
-                    Orientation="Horizontal">
-                <Button Background="Transparent"
-                    Content="Watching (7)"
-                    Height="40"/>
-                <Button Background="Transparent"
-                    Content="Completed (29)"
-                    Height="40"/>
-                <Button Background="Transparent"
-                    Content="Paused (3)"
-                    Height="40"/>
-                <Button Background="Transparent"
-                    Content="Dropped (2)"
-                    Height="40"/>
-                <Button Background="Transparent"
-                    Content="Planning (183)"
-                    Height="40"/>
-            </StackPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="120"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="100"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Grid.Column="0"
-                       Text="Cover"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-
-                <TextBlock Grid.Column="1"
-                       Text="Title"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-
-                <TextBlock Grid.Column="2"
-                       Text="Progress"
-                       VerticalAlignment="Center"
+            <TextBlock Text="Cover"
+                       Grid.Column="0"
                        HorizontalAlignment="Center"/>
-                <TextBlock Grid.Column="3"
-                       Text="Score"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-                <TextBlock Grid.Column="4"
-                       Text="Type"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-                <TextBlock Grid.Column="5"
-                       Text="Season"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <Border BorderThickness="1"
-                    Height="1"
-                    BorderBrush="Gray"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="6"
-                    Margin="0, 0, 0, 4"/>
-
-                <!-- Item 1 -->
-
-                <Image Source="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx4224-ARdWFsE4yyKU.jpg"
-                   Grid.Column="0"
-                   Grid.Row="2"/>
-                <TextBlock Text="トラどら"
+            <TextBlock Text="Title"
                        Grid.Column="1"
-                       Grid.Row="2"
-                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Margin="4, 0, 0, 0"/>
+            <TextBlock Text="Progress"
+                       Grid.Column="2"
                        HorizontalAlignment="Center"/>
-                <StackPanel Orientation="Vertical"
-                        Grid.Column="2"
-                        Grid.Row="2"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                    <TextBlock Text="13/25"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="-"
-                            Padding="0"
-                            Width="20"/>
-                        <ProgressBar Width="120"
-                                 Margin="4, 0, 4, 0"
-                                 Value="52"/>
-                        <Button Content="+"
-                            Padding="0"
-                            Width="20"/>
-                    </StackPanel>
-                </StackPanel>
-
-                <TextBlock Grid.Column="3"
-                       Grid.Row="2"
-                       Text="100"
-                       VerticalAlignment="Center"
+            <TextBlock Text="Score"
+                       Grid.Column="3"
                        HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="4"
-                       Grid.Row="2"
-                       Text="TV"
-                       VerticalAlignment="Center"
+            <TextBlock Text="Type"
+                       Grid.Column="4"
                        HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="5"
-                       Grid.Row="2"
-                       Text="Summer 2020"
-                       VerticalAlignment="Center"
+            <TextBlock Text="Season"
+                       Grid.Column="5"
                        HorizontalAlignment="Center"/>
-
-                <!-- Item 2-->
-
-                <Image Source="https://www.atomix.com.au/media/2017/07/StockPhotoBanner.jpg"
-                   Grid.Column="0"
-                   Grid.Row="3"/>
-                <TextBlock Text="abla2"
-                       Grid.Column="1"
-                       Grid.Row="3"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-                <StackPanel Orientation="Vertical"
-                        Grid.Column="2"
-                        Grid.Row="3"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                    <TextBlock Text="7/13"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="-"
-                            Padding="0"
-                            Width="20"/>
-                        <ProgressBar Width="120"
-                                 Margin="4, 0, 4, 0"
-                                 Value="54"/>
-                        <Button Content="+"
-                            Padding="0"
-                            Width="20"/>
-                    </StackPanel>
-                </StackPanel>
-
-                <TextBlock Grid.Column="3"
-                       Grid.Row="3"
-                       Text="64"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="4"
-                       Grid.Row="3"
-                       Text="Movie"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="5"
-                       Grid.Row="3"
-                       Text="Fall 7"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <!-- Item 3 -->
-
-                <Image Source="https://i.ytimg.com/vi/3tleO8QtVTE/maxresdefault.jpg"
-                   Grid.Column="0"
-                   Grid.Row="4"/>
-                <TextBlock Text="Comi o cu de quem tá lendo"
-                       Grid.Column="1"
-                       Grid.Row="4"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-                <StackPanel Orientation="Vertical"
-                        Grid.Column="2"
-                        Grid.Row="4"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                    <TextBlock Text="999/5"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="-"
-                            Padding="0"
-                            Width="20"/>
-                        <ProgressBar Width="120"
-                                 Margin="4, 0, 4, 0"
-                                 Value="100"/>
-                        <Button Content="+"
-                            Padding="0"
-                            Width="20"/>
-                    </StackPanel>
-                </StackPanel>
-
-                <TextBlock Grid.Column="3"
-                       Grid.Row="4"
-                       Text="-73"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="4"
-                       Grid.Row="4"
-                       Text="Music"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="5"
-                       Grid.Row="4"
-                       Text="Winter 2020"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <!-- Item 4 -->
-
-                <Image Source="https://media.discordapp.net/attachments/472313197836107780/651576210194956298/3spsiuX.png"
-                   Grid.Column="0"
-                   Grid.Row="5"/>
-                <TextBlock Text="おｋ"
-                       Grid.Column="1"
-                       Grid.Row="5"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-                <StackPanel Orientation="Vertical"
-                        Grid.Column="2"
-                        Grid.Row="5"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="-"
-                            Padding="0"
-                            Width="20"/>
-                        <TextBlock Text="0/?"
-                               Width="120"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               TextAlignment="Center"/>
-                        <Button Content="+"
-                            Padding="0"
-                            Width="20"/>
-                    </StackPanel>
-                </StackPanel>
-
-                <TextBlock Grid.Column="3"
-                       Grid.Row="5"
-                       Text="0"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="4"
-                       Grid.Row="5"
-                       Text="TV short"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="5"
-                       Grid.Row="5"
-                       Text="Spring 0"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <!-- Item 5 -->
-
-                <Image Source="https://i.redd.it/jroxokb61ew11.jpg"
-                   Grid.Column="0"
-                   Grid.Row="6"/>
-                <TextBlock Text="User moonrunes"
-                       Grid.Column="1"
-                       Grid.Row="6"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-                <StackPanel Orientation="Vertical"
-                        Grid.Column="2"
-                        Grid.Row="6"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                    <TextBlock Text="0/99999"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="-"
-                            Padding="0"
-                            Width="20"/>
-                        <ProgressBar Width="120"
-                                 Margin="4, 0, 4, 0"
-                                 Value="0"/>
-                        <Button Content="+"
-                            Padding="0"
-                            Width="20"/>
-                    </StackPanel>
-                </StackPanel>
-
-                <TextBlock Grid.Column="3"
-                       Grid.Row="6"
-                       Text="0"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="4"
-                       Grid.Row="6"
-                       Text="TV"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="5"
-                       Grid.Row="6"
-                       Text="Fall 5"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <!-- Item 6 -->
-
-                <Image Source="https://images-ext-1.discordapp.net/external/aHlhBgKbdnF1oyVtF0X-0Cj9Dd0JzQ2aqHMeWJWGwnA/https/media.discordapp.net/attachments/472313197836107780/650906113893597197/o1So3UP.png"
-                   Grid.Column="0"
-                   Grid.Row="7"/>
-                <TextBlock Text="hgdfhdfhfdおｋ"
-                       Grid.Column="1"
-                       Grid.Row="7"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-                <StackPanel Orientation="Vertical"
-                        Grid.Column="2"
-                        Grid.Row="7"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="-"
-                            Padding="0"
-                            Width="20"/>
-                        <TextBlock Text="7/?"
-                               Width="120"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               TextAlignment="Center"/>
-                        <Button Content="+"
-                            Padding="0"
-                            Width="20"/>
-                    </StackPanel>
-                </StackPanel>
-
-                <TextBlock Grid.Column="3"
-                       Grid.Row="7"
-                       Text="0"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="4"
-                       Grid.Row="7"
-                       Text="ONA"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="5"
-                       Grid.Row="7"
-                       Text="Spring 0"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-            </Grid>
         </Grid>
+
+        <ListView RelativePanel.AlignLeftWithPanel="True"
+                  RelativePanel.AlignRightWithPanel="True"
+                  RelativePanel.AlignBottomWithPanel="True"
+                  RelativePanel.Below="ColumnsDetails"
+                  
+                  ItemsSource="{x:Bind medias, Mode=OneWay}"
+                  HorizontalContentAlignment="Stretch">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="anilist:Entry">
+                    <Grid Height="100"
+                          Margin="0, 0, -12, 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image x:Name="MediaImage"
+                               Source="{x:Bind media.coverImage.medium}"
+                               Width="100"
+                               Height="100"
+                               Grid.Column="0"/>
+
+                        <TextBlock x:Name="MediaTitle"
+                                   Text="{x:Bind media.title.romaji}"
+                                   TextWrapping="WrapWholeWords"
+                                   
+                                   Grid.Column="1"
+                                   VerticalAlignment="Center"/>
+
+                        <ProgressBar x:Name="EntryProgress"
+                                     Value="{x:Bind progress}"
+                                     Maximum="{x:Bind media.episodes.Value}"
+                                     
+                                     Grid.Column="2"/>
+
+                        <TextBlock x:Name="EntryScore"
+                                   Text="{x:Bind score}"
+                                   
+                                   Grid.Column="3"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+
+                        <TextBlock x:Name="MediaType"
+                                   Text="{x:Bind media.format}"
+                                   
+                                   Grid.Column="4"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+
+                        <TextBlock x:Name="MediaSeason"
+                                   Text="{x:Bind media.season}"
+                                   
+                                   Grid.Column="5"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
     </RelativePanel>
 </Page>

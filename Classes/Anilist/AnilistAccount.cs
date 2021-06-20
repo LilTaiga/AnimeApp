@@ -14,7 +14,7 @@ namespace AnimeApp.Classes.Anilist
         public static string AvatarMedium { get; private set; }
         public static string AvatarLarge { get; private set; }
         public static string Token { get; private set; }
-        public static List<AnilistResult.List> UserLists { get; private set; }
+        public static List<Result.List> UserLists { get; private set; }
 
         public static async Task LogIn()
         {
@@ -55,7 +55,7 @@ namespace AnimeApp.Classes.Anilist
             UserLists = lists;
         }
 
-        private static bool FilterLists(AnilistResult.List _item)
+        private static bool FilterLists(Result.List _item)
         {
             switch(_item.status)
             {
