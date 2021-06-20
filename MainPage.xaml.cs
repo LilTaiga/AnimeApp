@@ -6,6 +6,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.Storage;
 
 using AnimeApp.Classes.Anilist;
+using Windows.UI.ViewManagement;
+using Windows.UI;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -22,10 +24,15 @@ namespace AnimeApp
             this.InitializeComponent();
 
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+
             coreTitleBar.ExtendViewIntoTitleBar = true;
             coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
             // Set XAML element as a draggable region.
             Window.Current.SetTitleBar(TitleBarArea);
+
+            var titlebar = ApplicationView.GetForCurrentView().TitleBar;
+            titlebar.ButtonBackgroundColor = Colors.Transparent;
+            titlebar.ButtonInactiveBackgroundColor = Colors.Transparent;
         }
 
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
