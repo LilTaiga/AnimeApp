@@ -21,3 +21,5 @@ Currently this project is in a very early stage, I'm still implementing some bas
     * - [ ] By title
     * - [ ] By genre(s)
   * - [ ] Lookup seasons on Anilist
+* - [ ] Automatically update anime lists
+ * - [ ] Add media detection
