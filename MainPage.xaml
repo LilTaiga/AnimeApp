@@ -21,7 +21,7 @@
                              IsTitleBarAutoPaddingEnabled="False"
                              IsBackButtonVisible="Collapsed"
                              SelectionChanged="NavView_SelectionChanged">
-            
+
             <!-- Defining Navigation View Menu -->
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItemHeader Content="Your profile"/>

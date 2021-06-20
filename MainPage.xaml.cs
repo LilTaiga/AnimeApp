@@ -45,6 +45,9 @@ namespace AnimeApp
                     case "AnimeList":
                         NavViewFrame.Navigate(typeof(Pages.AnimeList));
                         break;
+                    default:
+                        NavViewFrame.Navigate(typeof(Pages.NotImplemented));
+                        break;
                 }
             }
         }

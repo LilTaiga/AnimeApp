@@ -1,0 +1,33 @@
+﻿<Page
+    x:Class="AnimeApp.Pages.NotImplemented"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AnimeApp.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <RelativePanel>
+        <Rectangle RelativePanel.AlignTopWithPanel="True"
+                   RelativePanel.AlignLeftWithPanel="True"
+                   RelativePanel.AlignRightWithPanel="True"
+                   RelativePanel.AlignBottomWithPanel="True">
+            <Rectangle.Fill>
+                <AcrylicBrush TintColor="{ThemeResource SystemAltHighColor}"
+                              TintOpacity="0.75"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        
+        <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    RelativePanel.AlignVerticalCenterWithPanel="True"
+                    Orientation="Vertical">
+            <TextBlock Text=":("
+                       FontSize="108"
+                       Foreground="Gray"/>
+            <TextBlock Text="This tab has not been implemented yet."
+                       FontSize="32"/>
+            <TextBlock Text="Maybe in a future update..."
+                       FontSize="24"/>
+        </StackPanel>
+    </RelativePanel>
+</Page>

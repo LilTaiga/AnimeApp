@@ -7,25 +7,28 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="Transparent"
+    
+    RequestedTheme="Default">
 
-    <Page.Resources>
-        <Style TargetType="CheckBox">
-            <Setter Property="MinWidth" Value="32"/>
-            <Setter Property="Width" Value="32"/>
-            <Setter Property="MinHeight" Value="32"/>
-            <Setter Property="Height" Value="32"/>
-        </Style>
-    </Page.Resources>
-
-    <RelativePanel Margin="0, 44, 0, 0">
+    <RelativePanel Margin="0, 0, 0, 0">
+        <Rectangle RelativePanel.AlignTopWithPanel="True"
+                   RelativePanel.AlignLeftWithPanel="True"
+                   RelativePanel.AlignRightWithPanel="True"
+                   RelativePanel.AlignBottomWithPanel="True">
+            <Rectangle.Fill>
+                <AcrylicBrush TintColor="{ThemeResource SystemAltHighColor}"
+                              TintOpacity="0.75"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        
         <StackPanel x:Name="TabsMenu"
                     Orientation="Horizontal"
                     RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True"
                     RelativePanel.AlignTopWithPanel="True"
                     Height="36"
-                    Margin="0, 0, 0, 2"
+                    Margin="0, 40, 0, 2"
                     BorderThickness="0, 0, 0, 2"
                     BorderBrush="Gray">
             <Button x:Name="WatchingTab"

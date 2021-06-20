@@ -137,6 +137,9 @@
     <Compile Include="Pages\AnimeList.xaml.cs">
       <DependentUpon>AnimeList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\NotImplemented.xaml.cs">
+      <DependentUpon>NotImplemented.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +175,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\AnimeList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NotImplemented.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
