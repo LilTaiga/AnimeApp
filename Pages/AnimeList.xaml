@@ -11,146 +11,146 @@
     
     RequestedTheme="Default">
 
-    <RelativePanel Margin="0, 0, 0, 0">
-        <Rectangle RelativePanel.AlignTopWithPanel="True"
-                   RelativePanel.AlignLeftWithPanel="True"
-                   RelativePanel.AlignRightWithPanel="True"
-                   RelativePanel.AlignBottomWithPanel="True">
-            <Rectangle.Fill>
-                <AcrylicBrush TintColor="{ThemeResource SystemAltHighColor}"
-                              TintOpacity="0.75"/>
-            </Rectangle.Fill>
-        </Rectangle>
-        
-        <StackPanel x:Name="TabsMenu"
-                    Orientation="Horizontal"
-                    RelativePanel.AlignLeftWithPanel="True"
-                    RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.AlignTopWithPanel="True"
-                    Height="36"
-                    Margin="0, 40, 0, 2"
-                    BorderThickness="0, 0, 0, 2"
-                    BorderBrush="Gray">
-            <Button x:Name="WatchingTab"
-                    Content="Watching"
-                    Background="Transparent"/>
-            <Button x:Name="CompletedTab"
-                    Content="Completed"
-                    Background="Transparent"/>
-            <Button x:Name="PausedTab"
-                    Content="Paused"
-                    Background="Transparent"/>
-            <Button x:Name="DroppedTab"
-                    Content="Dropped"
-                    Background="Transparent"/>
-            <Button x:Name="PlanningTab"
-                    Content="Planning"
-                    Background="Transparent"/>
-        </StackPanel>
+    <NavigationView x:Name="NavView"
+                    PaneDisplayMode="Top"
+                    IsBackButtonVisible="Collapsed"
+                    IsSettingsVisible="False"
+                    SelectionChanged="NavigationView_SelectionChanged">
 
-        <Grid x:Name="ColumnsDetails"
-              RelativePanel.AlignLeftWithPanel="True"
-              RelativePanel.AlignRightWithPanel="True"
-              RelativePanel.Below="TabsMenu"
-              Height="24">
+        <NavigationView.MenuItems>
+            <NavigationViewItem Content="Watching" x:Name ="AnimeWatching" Tag="CURRENT"/>
+            <NavigationViewItem Content="Completed" x:Name ="AnimeCompleted" Tag="COMPLETED"/>
+            <NavigationViewItem Content="Paused" x:Name ="AnimePaused" Tag="PAUSED"/>
+            <NavigationViewItem Content="Dropped" x:Name ="AnimeDropped" Tag="DROPPED"/>
+            <NavigationViewItem Content="Planning" x:Name ="AnimePlanning" Tag="PLANNING"/>
+        </NavigationView.MenuItems>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="60"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="120"/>
-            </Grid.ColumnDefinitions>
+        <NavigationView.AutoSuggestBox>
+            <AutoSuggestBox Name="SearchBox"
+                            PlaceholderText="Search your anime"
+                            QueryIcon="Find"
+                            
+                            MaxWidth="500"
+                            MinWidth="200"
+                            FlowDirection="LeftToRight"/>
+        </NavigationView.AutoSuggestBox>
 
-            <TextBlock Text="Cover"
-                       Grid.Column="0"
-                       HorizontalAlignment="Center"/>
-            <TextBlock Text="Title"
-                       Grid.Column="1"
-                       HorizontalAlignment="Left"
-                       Margin="4, 0, 0, 0"/>
-            <TextBlock Text="Progress"
-                       Grid.Column="2"
-                       HorizontalAlignment="Center"/>
-            <TextBlock Text="Score"
-                       Grid.Column="3"
-                       HorizontalAlignment="Center"/>
-            <TextBlock Text="Type"
-                       Grid.Column="4"
-                       HorizontalAlignment="Center"/>
-            <TextBlock Text="Season"
-                       Grid.Column="5"
-                       HorizontalAlignment="Center"/>
-        </Grid>
+        <RelativePanel>
+            <Rectangle RelativePanel.AlignTopWithPanel="True"
+                       RelativePanel.AlignLeftWithPanel="True"
+                       RelativePanel.AlignRightWithPanel="True"
+                       RelativePanel.AlignBottomWithPanel="True">
+                <Rectangle.Fill>
+                    <AcrylicBrush TintColor="{ThemeResource SystemAltHighColor}"
+                                  TintOpacity="0.75"/>
+                </Rectangle.Fill>
+            </Rectangle>
 
-        <ListView RelativePanel.AlignLeftWithPanel="True"
+            <Grid x:Name="ColumnsDetails"
+                  RelativePanel.AlignLeftWithPanel="True"
                   RelativePanel.AlignRightWithPanel="True"
-                  RelativePanel.AlignBottomWithPanel="True"
-                  RelativePanel.Below="ColumnsDetails"
+                  RelativePanel.AlignTopWithPanel="True"
+                  Height="24">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Cover"
+                           Grid.Column="0"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Title"
+                           Grid.Column="1"
+                           HorizontalAlignment="Left"
+                           Margin="4, 0, 0, 0"/>
+                <TextBlock Text="Progress"
+                           Grid.Column="2"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Score"
+                           Grid.Column="3"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Type"
+                           Grid.Column="4"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Season"
+                           Grid.Column="5"
+                           HorizontalAlignment="Center"/>
+            </Grid>
+
+            <ListView RelativePanel.AlignLeftWithPanel="True"
+                      RelativePanel.AlignRightWithPanel="True"
+                      RelativePanel.AlignBottomWithPanel="True"
+                      RelativePanel.Below="ColumnsDetails"
                   
-                  ItemsSource="{x:Bind medias, Mode=OneWay}"
-                  HorizontalContentAlignment="Stretch">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="anilist:Entry">
-                    <Grid Height="100"
-                          Margin="0, 0, -12, 0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="60"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="120"/>
-                        </Grid.ColumnDefinitions>
+                      ItemsSource="{x:Bind medias, Mode=OneWay}"
+                      HorizontalContentAlignment="Stretch">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="anilist:Entry">
+                        <Grid Height="100"
+                              Margin="0, 0, -12, 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="120"/>
+                            </Grid.ColumnDefinitions>
 
-                        <Image x:Name="MediaImage"
-                               Source="{x:Bind media.coverImage.medium}"
-                               Width="100"
-                               Height="100"
-                               Grid.Column="0"/>
+                            <Image x:Name="MediaImage"
+                                   Source="{x:Bind media.coverImage.medium}"
+                                   Width="100"
+                                   Height="100"
+                                   Grid.Column="0"/>
 
-                        <TextBlock x:Name="MediaTitle"
-                                   Text="{x:Bind media.title.romaji}"
-                                   TextWrapping="WrapWholeWords"
+                            <TextBlock x:Name="MediaTitle"
+                                       Text="{x:Bind media.title.romaji}"
+                                       TextWrapping="WrapWholeWords"
                                    
-                                   Grid.Column="1"
-                                   VerticalAlignment="Center"/>
+                                       Grid.Column="1"
+                                       VerticalAlignment="Center"/>
 
-                        <ProgressBar x:Name="EntryProgress"
-                                     Value="{x:Bind progress}"
-                                     Maximum="{x:Bind media.episodes.Value}"
+                            <ProgressBar x:Name="EntryProgress"
+                                         Value="{x:Bind progress}"
+                                         Maximum="{x:Bind media.episodes.Value}"
                                      
-                                     Grid.Column="2"/>
+                                         Grid.Column="2"/>
 
-                        <TextBlock x:Name="EntryScore"
-                                   Text="{x:Bind score}"
+                            <TextBlock x:Name="EntryScore"
+                                       Text="{x:Bind score}"
                                    
-                                   Grid.Column="3"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"/>
+                                       Grid.Column="3"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
 
-                        <TextBlock x:Name="MediaType"
-                                   Text="{x:Bind media.format}"
+                            <TextBlock x:Name="MediaType"
+                                       Text="{x:Bind media.format}"
                                    
-                                   Grid.Column="4"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"/>
+                                       Grid.Column="4"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
 
-                        <TextBlock x:Name="MediaSeason"
-                                   Text="{x:Bind media.season}"
+                            <TextBlock x:Name="MediaSeason"
+                                       Text="{x:Bind media.season}"
                                    
-                                   Grid.Column="5"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"/>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
-    </RelativePanel>
+                                       Grid.Column="5"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </RelativePanel>
+    </NavigationView>
 </Page>
