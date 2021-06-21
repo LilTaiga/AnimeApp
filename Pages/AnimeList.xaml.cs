@@ -107,8 +107,6 @@ namespace AnimeApp.Pages
                 ChangeTab((MediaStatus)Enum.Parse(typeof(MediaStatus), tabTag));
                 if (OrderComboBox.SelectedIndex != -1)
                     SortMedias((SortColumn)Enum.Parse(typeof(SortColumn), OrderComboBox.SelectedItem.ToString()));
-                else
-                    groupEntriesSorted.AddRange(groupEntries);
 
                 UpdateView();
             }
@@ -124,7 +122,18 @@ namespace AnimeApp.Pages
         {
             visibleEntries.Clear();
 
-            foreach(Entry _entry in groupEntriesSorted)
+            //Temporary getaround to guarantee items always will be displayed.
+            //Needs to be reworked after search is implemented.
+
+            IEnumerable<Entry> displayList;
+            if (groupEntriesFiltered.Count != 0)
+                displayList = groupEntriesFiltered;
+            else if (groupEntriesSorted.Count != 0)
+                displayList = groupEntriesSorted;
+            else
+                displayList = groupEntries;
+
+            foreach(Entry _entry in displayList)
             {
                 visibleEntries.Add(_entry);
             }
