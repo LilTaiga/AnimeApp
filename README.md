@@ -12,8 +12,10 @@ Currently this project is in a very early stage, I'm still implementing some bas
   * - [x] View all your anime entries
   * - [x] Group your anime entries
   * - [x] Sort your anime entries
-  * - [ ] Search your anime entries
-  * - [ ] Update sort feature
+  * - [x] Search your anime entries
+  * - [ ] Rework code and add comments
+  * - [ ] Update sort and search features
+  * - [ ] Find bugs
 * - [ ] Update your anime lists
   * - [ ] View anime information in full detail
   * - [ ] Edit user entries and uploading changes to Anilist
