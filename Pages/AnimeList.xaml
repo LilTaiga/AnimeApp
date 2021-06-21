@@ -30,9 +30,12 @@
                             PlaceholderText="Search your anime"
                             QueryIcon="Find"
                             
-                            MaxWidth="500"
-                            MinWidth="200"
-                            FlowDirection="LeftToRight"/>
+                            Width="250"
+                            FlowDirection="LeftToRight"
+                            
+                            TextChanged="SearchBox_TextChanged"
+                            QuerySubmitted="SearchBox_QuerySubmitted"
+                            SuggestionChosen="SearchBox_SuggestionChosen"/>
         </NavigationView.AutoSuggestBox>
 
         <NavigationView.PaneFooter>

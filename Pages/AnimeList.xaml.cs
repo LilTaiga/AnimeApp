@@ -51,7 +51,7 @@ namespace AnimeApp.Pages
             await GetUserLists();
 
             ChangeTab(MediaStatus.CURRENT);
-            SortMedias(SortColumn.Progress);
+            SortEntries(SortColumn.Progress);
             UpdateView();
         }
 
@@ -64,13 +64,14 @@ namespace AnimeApp.Pages
             userLists = lists;
         }
 
+        //
+        //  Tab Change
+        //
+
         private void ChangeTab(MediaStatus _tab)
         {
             groupEntries.Clear();
-            groupEntriesSorted.Clear();
-            groupEntriesFiltered.Clear();
-
-            foreach(List _list in userLists)
+            foreach (List _list in userLists)
             {
                 if (_list.status == _tab.ToString())
                 {
@@ -78,24 +79,9 @@ namespace AnimeApp.Pages
                     break;
                 }
             }
-        }
 
-        private void SortMedias(SortColumn sortBy)
-        {
-            switch(sortBy)
-            {
-                case SortColumn.Title:
-                    groupEntriesSorted = groupEntries.OrderBy(groupEntries => groupEntries.media.title.userPreferred).ToList();
-                    return;
-                case SortColumn.Score:
-                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.score).ToList();
-                    return;
-                case SortColumn.Progress:
-                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.progress).ToList();
-                    return;
-                default:
-                    throw new Exception("Ops, you found something that you shouldn't have.");
-            }
+            UpdateEntriesSorted();
+            UpdateEntriesFiltered();
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -105,38 +91,104 @@ namespace AnimeApp.Pages
                 var tabTag = args.SelectedItemContainer.Tag.ToString();
 
                 ChangeTab((MediaStatus)Enum.Parse(typeof(MediaStatus), tabTag));
-                if (OrderComboBox.SelectedIndex != -1)
-                    SortMedias((SortColumn)Enum.Parse(typeof(SortColumn), OrderComboBox.SelectedItem.ToString()));
-
                 UpdateView();
+            }
+        }
+
+        //
+        //  Sort
+        //
+
+        private void SortEntries(SortColumn sortBy)
+        {
+            switch(sortBy)
+            {
+                case SortColumn.Title:
+                    groupEntriesSorted = groupEntries.OrderBy(groupEntries => groupEntries.media.title.userPreferred).ToList();
+                    break;
+                case SortColumn.Score:
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.score).ToList();
+                    break;
+                case SortColumn.Progress:
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.progress).ToList();
+                    break;
+                default:
+                    throw new Exception("Ops, you found something that you shouldn't have.");
+            }
+
+            UpdateEntriesFiltered();
+        }
+
+        private void UpdateEntriesSorted()
+        {
+            groupEntriesSorted.Clear();
+            if (OrderComboBox.SelectedIndex != -1)
+            {
+                SortEntries((SortColumn)Enum.Parse(typeof(SortColumn), OrderComboBox.SelectedItem.ToString()));
+            }
+            else
+            {
+                groupEntriesSorted.AddRange(groupEntries);
             }
         }
 
         private void OrderComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SortMedias((SortColumn)Enum.Parse(typeof(SortColumn), e.AddedItems[0].ToString()));
+            SortEntries((SortColumn)Enum.Parse(typeof(SortColumn), OrderComboBox.SelectedItem.ToString()));
             UpdateView();
         }
+
+        //
+        //  Search
+        //
+
+        private void SearchEntries(string _searchText)
+        {
+            groupEntriesFiltered.Clear();
+
+            var filtered = groupEntriesSorted.FindAll(groupEntriesSorted => groupEntriesSorted.media.title.romaji.Contains(_searchText, StringComparison.CurrentCultureIgnoreCase));
+            groupEntriesFiltered.AddRange(filtered);
+        }
+
+        private void UpdateEntriesFiltered()
+        {
+            groupEntriesFiltered.Clear();
+            if (!string.IsNullOrWhiteSpace(SearchBox.Text))
+            {
+                SearchEntries(SearchBox.Text);
+            }
+            else
+            {
+                groupEntriesFiltered.AddRange(groupEntriesSorted);
+            }
+        }
+
+        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            SearchEntries(sender.Text);
+            UpdateView();
+        }
+
+        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+
+        }
+
+        private void SearchBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+
+        }
+
+        //
+        //  View
+        //
 
         private void UpdateView()
         {
             visibleEntries.Clear();
 
-            //Temporary getaround to guarantee items always will be displayed.
-            //Needs to be reworked after search is implemented.
-
-            IEnumerable<Entry> displayList;
-            if (groupEntriesFiltered.Count != 0)
-                displayList = groupEntriesFiltered;
-            else if (groupEntriesSorted.Count != 0)
-                displayList = groupEntriesSorted;
-            else
-                displayList = groupEntries;
-
-            foreach(Entry _entry in displayList)
-            {
+            foreach (Entry _entry in groupEntriesFiltered)
                 visibleEntries.Add(_entry);
-            }
         }
     }
 }
