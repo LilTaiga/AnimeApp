@@ -17,51 +17,85 @@ using Windows.UI.Xaml.Navigation;
 using AnimeApp.Classes.Anilist;
 using AnimeApp.Classes.Anilist.Result;
 using AnimeApp.Enums;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace AnimeApp.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class AnimeList : Page
     {
-        public List<List> userLists;
+        public List<List> userLists;                            //A reference to the current user lists, for ease of acess.
 
-        public List<Entry> visibleMedias;
-        public ObservableCollection<Entry> medias;        //A collection used to display user entries in the app.
+        public List<Entry> groupEntries;                        //All entries from the current list.
+        public List<Entry> groupEntriesSorted;                  //All entries from the current list, after being sorted.
+        public List<Entry> groupEntriesFiltered;                //All entries from the current list, after being sorted, after being filtered.
+        public ObservableCollection<Entry> visibleEntries;      //The displayed entries on the user screen.
 
-        private MediaStatus currentTab;
-
+        //Default constructor
+        //Initializes all lists to an empty list.
         public AnimeList()
         {
             this.InitializeComponent();
 
-            visibleMedias = new List<Entry>();
-            medias = new ObservableCollection<Entry>();
+            groupEntries = new List<Entry>();
+            groupEntriesSorted = new List<Entry>();
+            groupEntriesFiltered = new List<Entry>();
+            visibleEntries = new ObservableCollection<Entry>();
 
-            GetUserLists();
+            SetupEntries();
         }
 
-        private async void GetUserLists()
+        private async void SetupEntries()
+        {
+            await GetUserLists();
+
+            ChangeTab(MediaStatus.CURRENT);
+            SortMedias(SortColumn.Progress);
+            UpdateView();
+        }
+
+        private async Task GetUserLists()
         {
             if (AnilistAccount.UserLists == null)
                 await AnilistAccount.RetrieveLists();
 
             List<List> lists = AnilistAccount.UserLists;
             userLists = lists;
-            
-            foreach(List _list in lists)
+        }
+
+        private void ChangeTab(MediaStatus _tab)
+        {
+            groupEntries.Clear();
+            groupEntriesSorted.Clear();
+            groupEntriesFiltered.Clear();
+
+            foreach(List _list in userLists)
             {
-                foreach(Entry _entry in _list.entries)
+                if (_list.status == _tab.ToString())
                 {
-                    visibleMedias.Add(_entry);
-                    medias.Add(_entry);
+                    groupEntries.AddRange(_list.entries);
+                    break;
                 }
             }
+        }
 
-            NavView.SelectedItem = NavView.MenuItems[0];
+        private void SortMedias(SortColumn sortBy)
+        {
+            switch(sortBy)
+            {
+                case SortColumn.Title:
+                    groupEntriesSorted = groupEntries.OrderBy(groupEntries => groupEntries.media.title.userPreferred).ToList();
+                    return;
+                case SortColumn.Score:
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.score).ToList();
+                    return;
+                case SortColumn.Progress:
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.progress).ToList();
+                    return;
+                default:
+                    throw new Exception("Ops, you found something that you shouldn't have.");
+            }
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -70,80 +104,29 @@ namespace AnimeApp.Pages
             {
                 var tabTag = args.SelectedItemContainer.Tag.ToString();
 
-                if (tabTag != currentTab.ToString())
-                {
-                    NavigationView_ChangeTab((MediaStatus)Enum.Parse(typeof(MediaStatus), tabTag));
-                    currentTab = (MediaStatus)Enum.Parse(typeof(MediaStatus), tabTag);
-                }
-            }
-        }
+                ChangeTab((MediaStatus)Enum.Parse(typeof(MediaStatus), tabTag));
+                if (OrderComboBox.SelectedIndex != -1)
+                    SortMedias((SortColumn)Enum.Parse(typeof(SortColumn), OrderComboBox.SelectedItem.ToString()));
+                else
+                    groupEntriesSorted.AddRange(groupEntries);
 
-        private void NavigationView_ChangeTab(MediaStatus _tab)
-        {
-            visibleMedias.Clear();
-            medias.Clear();
-
-            foreach(List _list in userLists)
-            {
-                if (_list.status == _tab.ToString())
-                {
-                    visibleMedias.AddRange(_list.entries);
-                    break;
-                }
-            }
-
-            if(OrderComboBox.SelectedIndex == -1)
-            {
-                foreach (Entry _entry in visibleMedias)
-                {
-                    medias.Add(_entry);
-                }
-            }
-            else
-            {
-                SortVisibleMedias((SortColumn)Enum.Parse(typeof(SortColumn), OrderComboBox.SelectedItem.ToString()));
+                UpdateView();
             }
         }
 
         private void OrderComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SortVisibleMedias((SortColumn)Enum.Parse(typeof(SortColumn), e.AddedItems[0].ToString()));
+            SortMedias((SortColumn)Enum.Parse(typeof(SortColumn), e.AddedItems[0].ToString()));
+            UpdateView();
         }
 
-        private void ReorderViewList(IEnumerable<Entry> _newOrder)
+        private void UpdateView()
         {
-            visibleMedias.Clear();
-            medias.Clear();
+            visibleEntries.Clear();
 
-            visibleMedias.AddRange(_newOrder);
-
-            foreach (Entry _entry in visibleMedias)
+            foreach(Entry _entry in groupEntriesSorted)
             {
-                medias.Add(_entry);
-            }
-        }
-
-        private void SortVisibleMedias(SortColumn sortBy)
-        {
-            IEnumerable<Entry> newOrder;
-
-            if (sortBy == SortColumn.Title)
-            {
-                newOrder = visibleMedias.OrderBy(visibleMedias => visibleMedias.media.title).ToList();
-                ReorderViewList(newOrder);
-                return;
-            }
-            else if (sortBy == SortColumn.Progress)
-            {
-                newOrder = visibleMedias.OrderByDescending(visibleMedias => visibleMedias.progress).ToList();
-                ReorderViewList(newOrder);
-                return;
-            }
-            else if (sortBy == SortColumn.Score)
-            {
-                newOrder = visibleMedias.OrderByDescending(visibleMedias => visibleMedias.score).ToList();
-                ReorderViewList(newOrder);
-                return;
+                visibleEntries.Add(_entry);
             }
         }
     }

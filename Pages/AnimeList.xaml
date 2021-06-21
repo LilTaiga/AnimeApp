@@ -109,7 +109,7 @@
                       RelativePanel.AlignBottomWithPanel="True"
                       RelativePanel.Below="ColumnsDetails"
                   
-                      ItemsSource="{x:Bind medias, Mode=OneWay}"
+                      ItemsSource="{x:Bind visibleEntries, Mode=OneWay}"
                       HorizontalContentAlignment="Stretch">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="anilist:Entry">
