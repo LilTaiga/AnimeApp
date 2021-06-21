@@ -11,8 +11,9 @@ Currently this project is in a very early stage, I'm still implementing some bas
   * - [x] Connect to your Anilist account
   * - [x] View all your anime entries
   * - [x] Group your anime entries
-  * - [ ] Sort your anime entries
+  * - [x] Sort your anime entries
   * - [ ] Search your anime entries
+  * - [ ] Update sort feature
 * - [ ] Update your anime lists
   * - [ ] View anime information in full detail
   * - [ ] Edit user entries and uploading changes to Anilist
