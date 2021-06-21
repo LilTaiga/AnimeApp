@@ -35,6 +35,21 @@
                             FlowDirection="LeftToRight"/>
         </NavigationView.AutoSuggestBox>
 
+        <NavigationView.PaneFooter>
+            <ComboBox x:Name="OrderComboBox"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Margin="0, 0, 4, 0"
+                      
+                      SelectionChanged="OrderComboBox_SelectionChanged"
+                      PlaceholderText="Sort by"
+                      Width="200">
+                <x:String>Title</x:String>
+                <x:String>Score</x:String>
+                <x:String>Progress</x:String>
+            </ComboBox>
+        </NavigationView.PaneFooter>
+
         <RelativePanel>
             <Rectangle RelativePanel.AlignTopWithPanel="True"
                        RelativePanel.AlignLeftWithPanel="True"
@@ -60,26 +75,33 @@
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="120"/>
                 </Grid.ColumnDefinitions>
-
+                
                 <TextBlock Text="Cover"
                            Grid.Column="0"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
                 <TextBlock Text="Title"
                            Grid.Column="1"
                            HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
                            Margin="4, 0, 0, 0"/>
                 <TextBlock Text="Progress"
                            Grid.Column="2"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
                 <TextBlock Text="Score"
                            Grid.Column="3"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
                 <TextBlock Text="Type"
                            Grid.Column="4"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
                 <TextBlock Text="Season"
                            Grid.Column="5"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+                
             </Grid>
 
             <ListView RelativePanel.AlignLeftWithPanel="True"

@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 
 using AnimeApp.Classes.Anilist;
 using AnimeApp.Classes.Anilist.Result;
+using AnimeApp.Enums;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -30,15 +31,6 @@ namespace AnimeApp.Pages
 
         public List<Entry> visibleMedias;
         public ObservableCollection<Entry> medias;        //A collection used to display user entries in the app.
-
-        enum MediaStatus
-        {
-            CURRENT = 1,
-            COMPLETED = 2,
-            PAUSED = 3,
-            DROPPED = 4,
-            PLANNING = 5
-        }
 
         private MediaStatus currentTab;
 
@@ -100,9 +92,58 @@ namespace AnimeApp.Pages
                 }
             }
 
-            foreach(Entry _entry in visibleMedias)
+            if(OrderComboBox.SelectedIndex == -1)
+            {
+                foreach (Entry _entry in visibleMedias)
+                {
+                    medias.Add(_entry);
+                }
+            }
+            else
+            {
+                SortVisibleMedias((SortColumn)Enum.Parse(typeof(SortColumn), OrderComboBox.SelectedItem.ToString()));
+            }
+        }
+
+        private void OrderComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SortVisibleMedias((SortColumn)Enum.Parse(typeof(SortColumn), e.AddedItems[0].ToString()));
+        }
+
+        private void ReorderViewList(IEnumerable<Entry> _newOrder)
+        {
+            visibleMedias.Clear();
+            medias.Clear();
+
+            visibleMedias.AddRange(_newOrder);
+
+            foreach (Entry _entry in visibleMedias)
             {
                 medias.Add(_entry);
+            }
+        }
+
+        private void SortVisibleMedias(SortColumn sortBy)
+        {
+            IEnumerable<Entry> newOrder;
+
+            if (sortBy == SortColumn.Title)
+            {
+                newOrder = visibleMedias.OrderBy(visibleMedias => visibleMedias.media.title).ToList();
+                ReorderViewList(newOrder);
+                return;
+            }
+            else if (sortBy == SortColumn.Progress)
+            {
+                newOrder = visibleMedias.OrderByDescending(visibleMedias => visibleMedias.progress).ToList();
+                ReorderViewList(newOrder);
+                return;
+            }
+            else if (sortBy == SortColumn.Score)
+            {
+                newOrder = visibleMedias.OrderByDescending(visibleMedias => visibleMedias.score).ToList();
+                ReorderViewList(newOrder);
+                return;
             }
         }
     }

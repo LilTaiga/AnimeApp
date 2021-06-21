@@ -125,6 +125,9 @@
     <Compile Include="Classes\Anilist\AnilistRequest.cs" />
     <Compile Include="Classes\Anilist\AnilistResult.cs" />
     <Compile Include="Classes\SampleData.cs" />
+    <Compile Include="Enums\MediaStatus.cs" />
+    <Compile Include="Enums\SortColumn.cs" />
+    <Compile Include="Enums\SortOrder.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -212,6 +215,7 @@
   <ItemGroup>
     <None Include=".editorconfig" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

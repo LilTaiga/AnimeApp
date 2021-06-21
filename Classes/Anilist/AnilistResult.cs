@@ -39,12 +39,17 @@ namespace AnimeApp.Classes.Anilist.Result
         public string large { get; set; }
     }
 
-    public class Title
+    public class Title : IComparable<Title>
     {
         public string romaji { get; set; }
         public string english { get; set; }
         public string native { get; set; }
         public string userPreferred { get; set; }
+
+        public int CompareTo(Title _other)
+        {
+            return string.Compare(romaji, _other.romaji, true);
+        }
     }
 
     public class StartDate
@@ -93,7 +98,7 @@ namespace AnimeApp.Classes.Anilist.Result
         public string site { get; set; }
     }
 
-    public class Media
+    public class Media : IComparable<Title>
     {
         public int id { get; set; }
         public Title title { get; set; }
@@ -118,6 +123,11 @@ namespace AnimeApp.Classes.Anilist.Result
         public NextAiringEpisode nextAiringEpisode { get; set; }
         public string siteUrl { get; set; }
         public List<ExternalLink> externalLinks { get; set; }
+
+        public int CompareTo(Title _other)
+        {
+            return string.Compare(title.romaji, _other.romaji, true);
+        }
     }
 
     public class Entry
