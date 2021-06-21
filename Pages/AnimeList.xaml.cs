@@ -25,15 +25,14 @@ namespace AnimeApp.Pages
 {
     public sealed partial class AnimeList : Page
     {
-        public List<List> userLists;                            //A reference to the current user lists, for ease of acess.
-
         public List<Entry> groupEntries;                        //All entries from the current list.
         public List<Entry> groupEntriesSorted;                  //All entries from the current list, after being sorted.
         public List<Entry> groupEntriesFiltered;                //All entries from the current list, after being sorted, after being filtered.
         public ObservableCollection<Entry> visibleEntries;      //The displayed entries on the user screen.
 
-        //Default constructor
-        //Initializes all lists to an empty list.
+        #region Page initialization
+
+        //Initializes page and it's resources.
         public AnimeList()
         {
             this.InitializeComponent();
@@ -43,35 +42,52 @@ namespace AnimeApp.Pages
             groupEntriesFiltered = new List<Entry>();
             visibleEntries = new ObservableCollection<Entry>();
 
-            SetupEntries();
+            SetupView();
         }
 
-        private async void SetupEntries()
+        //Select the default options on navigation bar, to not leave it without selections.
+        private async void SetupView()
         {
-            await GetUserLists();
+            try
+            {
+                await GetUserLists();
+            }
+            catch
+            {
+                return;
+            }
 
             ChangeTab(MediaStatus.CURRENT);
             SortEntries(SortColumn.Progress);
             UpdateView();
         }
 
+        //Tries to get user lists.
+        //Shows an "User not logged in" screen if it catches an exception.
         private async Task GetUserLists()
         {
-            if (AnilistAccount.UserLists == null)
+            try
+            {
                 await AnilistAccount.RetrieveLists();
-
-            List<List> lists = AnilistAccount.UserLists;
-            userLists = lists;
+            }
+            catch(Exception e)
+            {
+                //User not logged in.
+                //TODO: Implement "User not logged in" screen.
+                throw new Exception();
+            }
         }
 
-        //
-        //  Tab Change
-        //
+        #endregion
+
+
+
+        #region NavigationView Navigation
 
         private void ChangeTab(MediaStatus _tab)
         {
             groupEntries.Clear();
-            foreach (List _list in userLists)
+            foreach (List _list in AnilistAccount.UserLists)
             {
                 if (_list.status == _tab.ToString())
                 {
@@ -95,9 +111,11 @@ namespace AnimeApp.Pages
             }
         }
 
-        //
-        //  Sort
-        //
+        #endregion
+
+
+
+        #region NavigationView Sort
 
         private void SortEntries(SortColumn sortBy)
         {
@@ -138,9 +156,11 @@ namespace AnimeApp.Pages
             UpdateView();
         }
 
-        //
-        //  Search
-        //
+        #endregion
+
+
+
+        #region NavigationView Search
 
         private void SearchEntries(string _searchText)
         {
@@ -179,9 +199,11 @@ namespace AnimeApp.Pages
 
         }
 
-        //
-        //  View
-        //
+        #endregion
+
+
+
+        #region View
 
         private void UpdateView()
         {
@@ -190,5 +212,7 @@ namespace AnimeApp.Pages
             foreach (Entry _entry in groupEntriesFiltered)
                 visibleEntries.Add(_entry);
         }
+
+        #endregion
     }
 }

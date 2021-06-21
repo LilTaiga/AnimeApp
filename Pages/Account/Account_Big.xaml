@@ -11,6 +11,8 @@
     RequestedTheme="Default">
 
     <RelativePanel>
+        
+        <!-- Transparent Background -->
         <Rectangle RelativePanel.AlignTopWithPanel="True"
                    RelativePanel.AlignLeftWithPanel="True"
                    RelativePanel.AlignRightWithPanel="True"
@@ -21,6 +23,9 @@
             </Rectangle.Fill>
         </Rectangle>
 
+        <!-- Account Stuff -->
+        
+        <!-- Not logged in -->
         <StackPanel x:Name="LogInPanel"
                     RelativePanel.AlignVerticalCenterWithPanel="True"
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
@@ -42,10 +47,11 @@
                        Foreground="DarkRed"
                        Visibility="Collapsed"/>
             <StackPanel Orientation="Horizontal">
-                <Button Content="Log-in"
+                <Button x:Name="LogInButton"
+                        Content="Log-in"
                         MinWidth="100"
                         Margin="0, 10, 0, 0"
-                        Click="Button_Click"/>
+                        Click="LogInButton_Click"/>
                 <ProgressRing Name="UsernameProgressRing"
                               IsActive="False"
                               Margin="10, 10, 0, 0"/>
@@ -55,11 +61,13 @@
                        FontSize="10"
                        Foreground="Gray"/>
         </StackPanel>
+        
+        <!-- After logged in-->
         <StackPanel x:Name="LoggedPanel"
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                     RelativePanel.AlignVerticalCenterWithPanel="True"
                     Orientation="Vertical"
-                    Visibility="Collapsed">
+                    Visibility="Visible">
             <PersonPicture x:Name="ProfileAvatar"/>
             <TextBlock Text="Currently logged in as:"
                        FontSize="24"/>
@@ -68,10 +76,11 @@
                        TextAlignment="Center"
                        FontSize="24"/>
 
-            <Button Margin="0, 8, 0, 0"
+            <Button x:Name="LogOffButton"
+                    Margin="0, 8, 0, 0"
                     Content="Log In with another profile"
                     HorizontalAlignment="Center"
-                    Click="Button_Click_1"/>
+                    Click="LogOffButton_Click"/>
 
         </StackPanel>
     </RelativePanel>

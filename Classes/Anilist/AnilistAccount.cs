@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
+using AnimeApp.Classes.Anilist.Result;
+
 namespace AnimeApp.Classes.Anilist
 {
+    //Stores all information related to the current Anilist account.
     public static class AnilistAccount
     {
         public static string Id { get; private set; }
@@ -14,14 +18,22 @@ namespace AnimeApp.Classes.Anilist
         public static string AvatarMedium { get; private set; }
         public static string AvatarLarge { get; private set; }
         public static string Token { get; private set; }
-        public static List<Result.List> UserLists { get; private set; }
+        public static List<List> UserLists { get; private set; }
 
+        #region Profile
+
+        //Tries to authenticate with Anilist by fetching user's profile.
+        //Load user information into memory.
+        //If user don't have a token, the profile fetch will fail.
+        //If user is already authenticated, raises an exception.
         public static async Task LogIn()
         {
-            if (Token == null)
-                Token = await LoadFromDisk();
+            if (Token != null)
+                throw new Exception("User already logged in.");
 
-            var result = await AnilistQuery.GetViewer(Token);
+            Token = await LoadFromDisk();
+
+            AnilistResponse result = await AnilistQuery.GetViewer(Token);
             if (result.data.Viewer == null)
                 throw new Exception("User not authorized.");
 
@@ -31,12 +43,21 @@ namespace AnimeApp.Classes.Anilist
             AvatarLarge = result.data.Viewer.avatar.large;
         }
 
+        //Tries to verify the authenticity of token.
+        //If token is invalid, a exception is raised.
+        //If token is valid, then store user information and save it on disk.
+        //If there's a user registered already, an exception is raised.
         public static async Task Register(string _token)
         {
-            var result = await AnilistQuery.GetViewer(_token);
+            if(Token != null)
+                throw new Exception("User already registered.");
+
+
+            AnilistResponse result = await AnilistQuery.GetViewer(_token);
             if (result.data.Viewer == null)
                 throw new Exception("User not authorized.");
 
+            //User identity verified
             Id = result.data.Viewer.id.ToString();
             Name = result.data.Viewer.name;
             AvatarMedium = result.data.Viewer.avatar.medium;
@@ -46,16 +67,52 @@ namespace AnimeApp.Classes.Anilist
             await SaveOnDisk();
         }
 
-        public static async Task RetrieveLists()
+        //Deletes all information about user, from memory and disk.
+        public static async Task Unregister()
         {
-            var result = await AnilistQuery.GetViewerDetails();
-            var lists = result.data.MediaListCollection.lists;
+            Task diskDelete = DeleteFromDisk();
 
-            lists.RemoveAll(FilterLists);
+            Id = null;
+            Name = null;
+            AvatarMedium = null;
+            AvatarLarge = null;
+            Token = null;
+            UserLists = null;
+
+            await diskDelete;
+        }
+
+        #endregion
+
+
+
+        #region Retrieving user information
+
+        //Retrieves user's lists of anime lists.
+        //There are five official Anilist lists, and user custom lists.
+        //Must pass parameter as true to retrieve custom lists.
+        //If user is not logged in, an exception is raised.
+        public static async Task RetrieveLists(bool includeCustomLists = false)
+        {
+            if (Token == null)
+                throw new Exception("User not logged in.");
+
+            //Get user lists.
+            AnilistResponse result = await AnilistQuery.GetViewerDetails();
+            List<List> lists = result.data.MediaListCollection.lists;
+
+            //Remove custom lists.
+            if(!includeCustomLists)
+                lists.RemoveAll(RemoveCustomLists);
+
+            //Store user lists.
             UserLists = lists;
         }
 
-        private static bool FilterLists(Result.List _item)
+        //A LINQ function to remove custom lists.
+        //Returns false to maintain official lists.
+        //Return true to remove custom lists.
+        private static bool RemoveCustomLists(Result.List _item)
         {
             switch(_item.status)
             {
@@ -70,20 +127,47 @@ namespace AnimeApp.Classes.Anilist
             }
         }
 
+        #endregion
+
+
+
+        #region Saving & Loading - Storage
+
+        //Saves the current token into disk.
+        //Replaces old token, if it exists.
         private static async Task SaveOnDisk()
         {
-            var cacheFolder = ApplicationData.Current.LocalCacheFolder;
-            var file = await cacheFolder.CreateFileAsync("Anilist", CreationCollisionOption.ReplaceExisting);
+            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
+            StorageFile file = await cacheFolder.CreateFileAsync("Anilist", CreationCollisionOption.ReplaceExisting);
 
             await FileIO.WriteTextAsync(file, Token);
         }
 
+        //Tries to load user's token from disk.
+        //If token is found, returns it.
+        //If token is not found, returns null.
         private static async Task<string> LoadFromDisk()
         {
-            var cacheFolder = ApplicationData.Current.LocalCacheFolder;
-            var file = await cacheFolder.GetFileAsync("Anilist");
+            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
 
-            return await FileIO.ReadTextAsync(file);
+            try
+            {
+                StorageFile file = await cacheFolder.GetFileAsync("Anilist");
+                return await FileIO.ReadTextAsync(file);
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
         }
+
+        private static async Task DeleteFromDisk()
+        {
+            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
+            StorageFile file = await cacheFolder.GetFileAsync("Anilist");
+            await file.DeleteAsync();
+        }
+
+        #endregion
     }
 }

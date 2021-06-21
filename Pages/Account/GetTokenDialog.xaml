@@ -23,7 +23,7 @@
                  Height="96"
                  TextWrapping="Wrap"
                  ScrollViewer.VerticalScrollMode="Auto"
-                 TextChanged="TextBox_TextChanged"/>
+                 TextChanged="TokenBox_TextChanged"/>
 
         <StackPanel Grid.Row="2"
                     x:Name="FetchProfile"

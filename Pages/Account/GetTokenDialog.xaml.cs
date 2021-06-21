@@ -28,20 +28,25 @@ namespace AnimeApp.Pages.Account
             this.InitializeComponent();
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //Enables the Authorize button when character count is above 50.
+        private void TokenBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
 
             AuthorizeButton.IsEnabled = textBox.Text.Length >= 50;
         }
 
+        //User has pasted the token into TextBox.
+        //Verify if token is correct.
         private async void AuthorizeButton_Click(object sender, RoutedEventArgs e)
         {
+            //Updates the UI to reflect the verification.
             FetchProfile.Visibility = Visibility.Visible;
             FetchFailed.Visibility = Visibility.Collapsed;
 
             //Token is not yet verified if valid.
-            //Store it in a variable, if variable, then store it into static class, and save it on disk.
+            //Store it in a variable, if valid, then store it into static class, and save it on disk.
+            //If invalid, show error UI.
             string token = TokenBox.Text;
             try
             {
