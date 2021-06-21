@@ -10,7 +10,7 @@ Currently this project is in a very early stage, I'm still implementing some bas
 * - [ ] Linking your account
   * - [x] Connect to your Anilist account
   * - [x] View all your anime entries
-  * - [ ] Group your anime entries
+  * - [x] Group your anime entries
   * - [ ] Sort your anime entries
   * - [ ] Search your anime entries
 * - [ ] Update your anime lists
