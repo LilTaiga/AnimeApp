@@ -65,11 +65,11 @@ namespace AnimeApp.Pages.Account
 
             try
             {
-                result = await AnilistQuery.SearchForUser(_username);
+                result = await AnilistOperations.SearchForUser(_username);
             }
             catch(Exception e)
             {
-                return false;
+                throw new Exception("Failed profile fetch.", e);
             }
 
             //The connection was successful.

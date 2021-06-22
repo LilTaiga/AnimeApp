@@ -121,7 +121,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Anilist\AnilistAccount.cs" />
-    <Compile Include="Classes\Anilist\AnilistQuery.cs" />
+    <Compile Include="Classes\Anilist\AnilistOperations.cs" />
     <Compile Include="Classes\Anilist\AnilistRequest.cs" />
     <Compile Include="Classes\Anilist\AnilistResult.cs" />
     <Compile Include="Classes\SampleData.cs" />

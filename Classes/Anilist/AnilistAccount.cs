@@ -33,7 +33,7 @@ namespace AnimeApp.Classes.Anilist
 
             Token = await LoadFromDisk();
 
-            AnilistResponse result = await AnilistQuery.GetViewer(Token);
+            AnilistResponse result = await AnilistOperations.GetViewer();
             if (result.data.Viewer == null)
                 throw new Exception("User not authorized.");
 
@@ -53,7 +53,7 @@ namespace AnimeApp.Classes.Anilist
                 throw new Exception("User already registered.");
 
 
-            AnilistResponse result = await AnilistQuery.GetViewer(_token);
+            AnilistResponse result = await AnilistOperations.GetViewer(_token);
             if (result.data.Viewer == null)
                 throw new Exception("User not authorized.");
 
@@ -98,7 +98,7 @@ namespace AnimeApp.Classes.Anilist
                 throw new Exception("User not logged in.");
 
             //Get user lists.
-            AnilistResponse result = await AnilistQuery.GetViewerDetails();
+            AnilistResponse result = await AnilistOperations.GetViewerAnimeLists();
             List<List> lists = result.data.MediaListCollection.lists;
 
             //Remove custom lists.
@@ -155,7 +155,7 @@ namespace AnimeApp.Classes.Anilist
                 StorageFile file = await cacheFolder.GetFileAsync("Anilist");
                 return await FileIO.ReadTextAsync(file);
             }
-            catch(Exception e)
+            catch
             {
                 return null;
             }

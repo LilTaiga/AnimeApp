@@ -74,7 +74,7 @@ namespace AnimeApp.Pages
             {
                 //User not logged in.
                 //TODO: Implement "User not logged in" screen.
-                throw new Exception();
+                throw e;
             }
         }
 
