@@ -13,7 +13,7 @@ Currently this project is in a very early stage, I'm still implementing some bas
   * - [x] Group your anime entries
   * - [x] Sort your anime entries
   * - [x] Search your anime entries
-  * - [ ] Rework code and add comments
+  * - [x] Rework code and add comments
   * - [ ] Update sort and search features
   * - [ ] Update UI
   * - [ ] Find bugs
