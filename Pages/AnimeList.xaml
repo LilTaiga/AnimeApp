@@ -107,13 +107,72 @@
                 
             </Grid>
 
-            <ListView RelativePanel.AlignLeftWithPanel="True"
+            <StackPanel x:Name="RetrievingListsPanel"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        RelativePanel.AlignVerticalCenterWithPanel="True"
+                        Visibility="Collapsed">
+                
+                
+                <ProgressRing Width="100"
+                              Height="100"
+                              
+                              IsActive="True"
+                              IsEnabled="True"/>
+                <TextBlock Text="Retrieving your anime lists..."
+                           HorizontalTextAlignment="Center"
+                           
+                           FontSize="32"/>
+
+            </StackPanel>
+
+            <StackPanel x:Name="RetrievingFailedPanel"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        RelativePanel.AlignVerticalCenterWithPanel="True"
+                        RelativePanel.Above="NotLoggedInPanel"
+                        Visibility="Visible">
+
+                <TextBlock Text=":("
+                           HorizontalTextAlignment="Center"
+                           
+                           FontSize="64"
+                           Foreground="Gray"
+                           Margin="0, 0, 0, 16"/>
+                
+                <TextBlock Text="Ops, looks like we cant retrieve your lists now."
+                           HorizontalTextAlignment="Center"
+                           
+                           FontSize="32"/>
+
+            </StackPanel>
+
+            <StackPanel x:Name="NotLoggedInPanel"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        RelativePanel.AlignVerticalCenterWithPanel="True"
+                        Visibility="Visible">
+
+                <TextBlock Text="You didn't link your account yet."
+                           HorizontalTextAlignment="Center"
+                           
+                           FontSize="32"
+                           
+                           Margin="0, 0, 0, 24"/>
+
+                <Button Content="Go to Accounts page"
+                        
+                        Style="{ThemeResource AccentButtonStyle}"
+                        Click="Button_Click"/>
+
+            </StackPanel>
+
+            <ListView x:Name="EntriesListView"
+                      RelativePanel.AlignLeftWithPanel="True"
                       RelativePanel.AlignRightWithPanel="True"
                       RelativePanel.AlignBottomWithPanel="True"
                       RelativePanel.Below="ColumnsDetails"
                   
                       ItemsSource="{x:Bind visibleEntries, Mode=OneWay}"
-                      HorizontalContentAlignment="Stretch">
+                      HorizontalContentAlignment="Stretch"
+                      Visibility="Collapsed">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="anilist:Entry">
                         <Grid Height="100"

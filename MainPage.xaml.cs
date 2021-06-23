@@ -52,12 +52,28 @@ namespace AnimeApp
                         NavViewFrame.Navigate(typeof(Pages.Account.Account_Big));
                         break;
                     case "AnimeList":
-                        NavViewFrame.Navigate(typeof(Pages.AnimeList));
+                        NavViewFrame.Navigate(typeof(Pages.AnimeList), this);
                         break;
                     default:
                         NavViewFrame.Navigate(typeof(Pages.NotImplemented));
                         break;
                 }
+            }
+        }
+
+        public void NavigateTo(string pageName)
+        {
+            switch (pageName)
+            {
+                case "Account":
+                    NavViewFrame.Navigate(typeof(Pages.Account.Account_Big));
+                    break;
+                case "AnimeList":
+                    NavViewFrame.Navigate(typeof(Pages.AnimeList));
+                    break;
+                default:
+                    NavViewFrame.Navigate(typeof(Pages.NotImplemented));
+                    break;
             }
         }
     }

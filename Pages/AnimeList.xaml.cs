@@ -48,34 +48,61 @@ namespace AnimeApp.Pages
         //Select the default options on navigation bar, to not leave it without selections.
         private async void SetupView()
         {
-            try
+            EntriesListView.Visibility = Visibility.Collapsed;
+            RetrievingFailedPanel.Visibility = Visibility.Collapsed;
+            NotLoggedInPanel.Visibility = Visibility.Collapsed;
+
+            RetrievingListsPanel.Visibility = Visibility.Visible;
+
+            //Checks if user is logged, if not, display message to Log in.
+            if (AnilistAccount.Token == null)
+                NotLoggedIn();
+
+            //User is logged in, but hasn't retrieved his lists yet.
+            if(AnilistAccount.UserLists == null)
             {
-                await GetUserLists();
-            }
-            catch
-            {
-                return;
+                await DisplayRetrieving();
             }
 
-            ChangeTab(MediaStatus.CURRENT);
-            SortEntries(SortColumn.Progress);
+            if (AnilistAccount.UserLists != null)
+            {
+                RetrievingListsPanel.Visibility = Visibility.Collapsed;
+                EntriesListView.Visibility = Visibility.Visible;
+
+                ChangeTab(MediaStatus.CURRENT);
+                SortEntries(SortColumn.Progress);
+            }
+
+
             UpdateView();
         }
 
-        //Tries to get user lists.
-        //Shows an "User not logged in" screen if it catches an exception.
-        private async Task GetUserLists()
+        //Display the "Retrieving your lists..." message.
+        //
+        private async Task DisplayRetrieving()
         {
+            RetrievingListsPanel.Visibility = Visibility.Visible;
+
             try
             {
                 await AnilistAccount.RetrieveLists();
             }
-            catch(Exception e)
+            catch
             {
-                //User not logged in.
-                //TODO: Implement "User not logged in" screen.
-                throw e;
+                RetrievingFailed();
             }
+        }
+
+        private void RetrievingFailed()
+        {
+            RetrievingListsPanel.Visibility = Visibility.Collapsed;
+            RetrievingFailedPanel.Visibility = Visibility.Visible;
+        }
+
+        private void NotLoggedIn()
+        {
+            RetrievingListsPanel.Visibility = Visibility.Collapsed;
+            NotLoggedInPanel.Visibility = Visibility.Visible;
         }
 
         #endregion
@@ -205,12 +232,47 @@ namespace AnimeApp.Pages
 
         #region View
 
+        //Updates the screen, showing new entries or displaying an error screen.
         private void UpdateView()
+        {
+            if (AnilistAccount.UserLists == null)
+                BlockNavigation();
+            else
+                DisplayEntries();
+        }
+
+        //No entries to navigate, block the UI to avoid unnecessary navigation.
+        private void BlockNavigation()
+        {
+            foreach(NavigationViewItem item in NavView.MenuItems)
+            {
+                item.IsEnabled = false;
+            }
+
+            SearchBox.IsEnabled = false;
+            OrderComboBox.IsEnabled = false;
+        }
+
+        //There are entries to navigate, display them in the screen.
+        private void DisplayEntries()
         {
             visibleEntries.Clear();
 
             foreach (Entry _entry in groupEntriesFiltered)
                 visibleEntries.Add(_entry);
+        }
+
+        //User clicked the button to go to Accounts page, redirect main NavigationView to Accounts page.
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var parentNavView = ((RelativePanel)Frame.Parent).Parent as Microsoft.UI.Xaml.Controls.NavigationView;
+            foreach(Microsoft.UI.Xaml.Controls.NavigationViewItem item in parentNavView.FooterMenuItems.OfType<Microsoft.UI.Xaml.Controls.NavigationViewItem>())
+            {
+                if ((item.Tag??"").ToString().Equals("Account"))
+                    parentNavView.SelectedItem = item;
+            }
+
+            //Frame.Navigate(typeof(AnimeApp.Pages.Account.Account_Big));
         }
 
         #endregion

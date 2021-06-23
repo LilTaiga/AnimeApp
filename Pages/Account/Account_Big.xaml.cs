@@ -69,23 +69,18 @@ namespace AnimeApp.Pages.Account
             }
             catch(Exception e)
             {
-                throw new Exception("Failed profile fetch.", e);
+
+                //The profile requested was not found.
+                //Update the UI to indicate to reason of failure.
+                UserNotFoundText.Visibility = Visibility.Visible;
+                return false;
             }
 
             //The connection was successful.
-            //Now we need to examinate the contents of the response.
-            if (result.data.User != null)
-            {
-                //A profile was found.
-                //Now lets check if this profile is the user's.
-                await GetTokenFromUser();
-                return true;
-            }
-
-            //The profile requested was not found.
-            //Update the UI to indicate to reason of failure.
-            UserNotFoundText.Visibility = Visibility.Visible;
-            return false;
+            //A profile was found.
+            //Now lets check if this profile is the user's.
+            await GetTokenFromUser();
+            return true;
         }
 
         //Verifies the authenticity of user.

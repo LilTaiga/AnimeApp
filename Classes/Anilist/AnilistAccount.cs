@@ -80,6 +80,7 @@ namespace AnimeApp.Classes.Anilist
             UserLists = null;
 
             await diskDelete;
+            GC.Collect();
         }
 
         #endregion
