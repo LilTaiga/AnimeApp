@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 
 #pragma warning disable IDE1006
 namespace AnimeApp.Classes.Anilist.Result
@@ -98,7 +96,7 @@ namespace AnimeApp.Classes.Anilist.Result
         public string site { get; set; }
     }
 
-    public class Media : IComparable<Title>
+    public class Media
     {
         public int id { get; set; }
         public Title title { get; set; }
@@ -124,9 +122,22 @@ namespace AnimeApp.Classes.Anilist.Result
         public string siteUrl { get; set; }
         public List<ExternalLink> externalLinks { get; set; }
 
-        public int CompareTo(Title _other)
+        public double GetNumberOfAiredEpisodes()
         {
-            return string.Compare(title.romaji, _other.romaji, true);
+            return episodes != null ? (int)episodes : nextAiringEpisode.episode - 1;
+        }
+
+        public string GetMediaFormat()
+        {
+           string newFormat =  format.Replace('_', ' ').ToLower().Replace("tv", "TV").Replace("ova", "OVA").Replace("ona", "ONA");
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(newFormat);
+        }
+
+        public string GetSeasonAndYear()
+        {
+            string SeasonAndYear = $"{season} {seasonYear}";
+
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(SeasonAndYear.ToLower());
         }
     }
 
@@ -140,6 +151,11 @@ namespace AnimeApp.Classes.Anilist.Result
         public int createdAt { get; set; }
         public int updatedAt { get; set; }
         public Media media { get; set; }
+
+        public string GetProgressFormatted()
+        {
+            return progress + "/" + (media.episodes != null ? media.episodes.ToString() : (media.nextAiringEpisode.episode - 1).ToString() + "+");
+        }
     }
 
     public class List

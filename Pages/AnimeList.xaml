@@ -123,13 +123,19 @@
                            
                            FontSize="32"/>
 
+                <StackPanel.Transitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition/>
+                    </TransitionCollection>
+                </StackPanel.Transitions>
+
             </StackPanel>
 
             <StackPanel x:Name="RetrievingFailedPanel"
                         RelativePanel.AlignHorizontalCenterWithPanel="True"
                         RelativePanel.AlignVerticalCenterWithPanel="True"
                         RelativePanel.Above="NotLoggedInPanel"
-                        Visibility="Visible">
+                        Visibility="Collapsed">
 
                 <TextBlock Text=":("
                            HorizontalTextAlignment="Center"
@@ -148,7 +154,7 @@
             <StackPanel x:Name="NotLoggedInPanel"
                         RelativePanel.AlignHorizontalCenterWithPanel="True"
                         RelativePanel.AlignVerticalCenterWithPanel="True"
-                        Visibility="Visible">
+                        Visibility="Collapsed">
 
                 <TextBlock Text="You didn't link your account yet."
                            HorizontalTextAlignment="Center"
@@ -172,7 +178,7 @@
                   
                       ItemsSource="{x:Bind visibleEntries, Mode=OneWay}"
                       HorizontalContentAlignment="Stretch"
-                      Visibility="Collapsed">
+                      Visibility="Visible">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="anilist:Entry">
                         <Grid Height="100"
@@ -199,11 +205,24 @@
                                        Grid.Column="1"
                                        VerticalAlignment="Center"/>
 
-                            <ProgressBar x:Name="EntryProgress"
-                                         Value="{x:Bind progress}"
-                                         Maximum="{x:Bind media.episodes.Value}"
-                                     
-                                         Grid.Column="2"/>
+                            <StackPanel x:Name="EntryProgressStackPanel"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+
+                                <TextBlock x:Name="EntryProgressText"
+                                           Text="{x:Bind GetProgressFormatted()}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                       
+                                           FontSize="16"/>
+                                <ProgressBar x:Name="EntryProgressBar"
+                                             Value="{x:Bind progress}"
+                                             Maximum="{x:Bind media.GetNumberOfAiredEpisodes()}"
+                                             Width="180"
+                                         
+                                             Margin="0, 8, 0, 0"/>
+                            </StackPanel>
 
                             <TextBlock x:Name="EntryScore"
                                        Text="{x:Bind score}"
@@ -213,14 +232,14 @@
                                        HorizontalAlignment="Center"/>
 
                             <TextBlock x:Name="MediaType"
-                                       Text="{x:Bind media.format}"
+                                       Text="{x:Bind media.GetMediaFormat()}"
                                    
                                        Grid.Column="4"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Center"/>
 
                             <TextBlock x:Name="MediaSeason"
-                                       Text="{x:Bind media.season}"
+                                       Text="{x:Bind media.GetSeasonAndYear()}"
                                    
                                        Grid.Column="5"
                                        VerticalAlignment="Center"
@@ -228,7 +247,7 @@
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                
+
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
