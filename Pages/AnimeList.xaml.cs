@@ -25,6 +25,8 @@ namespace AnimeApp.Pages
 {
     public sealed partial class AnimeList : Page
     {
+        private bool isOrderingCrescent;
+
         public List<Entry> groupEntries;                        //All entries from the current list.
         public List<Entry> groupEntriesSorted;                  //All entries from the current list, after being sorted.
         public List<Entry> groupEntriesFiltered;                //All entries from the current list, after being sorted, after being filtered.
@@ -36,6 +38,9 @@ namespace AnimeApp.Pages
         public AnimeList()
         {
             this.InitializeComponent();
+
+            /*for (int i = 3; i < OrderComboBox.Items.Count; i++)
+                ((ComboBoxItem)OrderComboBox.Items[i]).IsEnabled = false;*/
 
             groupEntries = new List<Entry>();
             groupEntriesSorted = new List<Entry>();
@@ -58,18 +63,21 @@ namespace AnimeApp.Pages
             if (AnilistAccount.Token == null)
                 NotLoggedIn();
 
-            //User is logged in, but hasn't retrieved his lists yet.
-            if(AnilistAccount.UserLists == null)
+            //User is logged in, but hasn't retrieved their lists yet.
+            if (AnilistAccount.UserLists == null)
             {
                 await DisplayRetrieving();
             }
 
+            //User is logged in, and has retrieved their lists.
             if (AnilistAccount.UserLists != null)
             {
                 RetrievingListsPanel.Visibility = Visibility.Collapsed;
                 EntriesListView.Visibility = Visibility.Visible;
 
                 ChangeTab(MediaStatus.CURRENT);
+
+                isOrderingCrescent = true;
                 SortEntries(SortColumn.Progress);
             }
 
@@ -146,7 +154,9 @@ namespace AnimeApp.Pages
 
         private void SortEntries(SortColumn sortBy)
         {
-            switch(sortBy)
+            OrderComboBox.SelectedIndex = (int)sortBy - 1;
+
+            switch (sortBy)
             {
                 case SortColumn.Title:
                     groupEntriesSorted = groupEntries.OrderBy(groupEntries => groupEntries.media.title.userPreferred).ToList();
@@ -157,9 +167,33 @@ namespace AnimeApp.Pages
                 case SortColumn.Progress:
                     groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.progress).ToList();
                     break;
+                case SortColumn.Last_Updated:
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.updatedAt).ToList();
+                    break;
+                case SortColumn.Last_Added:
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.createdAt).ToList();
+                    break;
+                case SortColumn.Start_Date:
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.startDate).ToList();
+                    break;
+                case SortColumn.Completed_Date:
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.endDate).ToList();
+                    break;
+                case SortColumn.Release_Date:
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.startDate).ToList();
+                    break;
+                case SortColumn.Average_Score:
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.averageScore ?? 0).ToList();
+                    break;
+                case SortColumn.Popularity:
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.popularity).ToList();
+                    break;
                 default:
                     throw new Exception("Ops, you found something that you shouldn't have.");
             }
+
+            if (isOrderingCrescent)
+                groupEntriesSorted.Reverse();
 
             UpdateEntriesFiltered();
         }
@@ -169,7 +203,8 @@ namespace AnimeApp.Pages
             groupEntriesSorted.Clear();
             if (OrderComboBox.SelectedIndex != -1)
             {
-                SortEntries((SortColumn)Enum.Parse(typeof(SortColumn), OrderComboBox.SelectedItem.ToString()));
+                SortEntries((SortColumn)Enum.Parse(typeof(SortColumn), (((ComboBoxItem)OrderComboBox.SelectedItem).Tag ??
+                                                                       ((ComboBoxItem)OrderComboBox.SelectedItem).Content).ToString()));
             }
             else
             {
@@ -179,8 +214,22 @@ namespace AnimeApp.Pages
 
         private void OrderComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SortEntries((SortColumn)Enum.Parse(typeof(SortColumn), OrderComboBox.SelectedItem.ToString()));
+            SortEntries((SortColumn)Enum.Parse(typeof(SortColumn), (((ComboBoxItem)OrderComboBox.SelectedItem).Tag ??
+                                                                   ((ComboBoxItem)OrderComboBox.SelectedItem).Content).ToString()));
             UpdateView();
+        }
+
+
+        private void OrderwayButton_Click(object sender, RoutedEventArgs e)
+        {
+            isOrderingCrescent = !isOrderingCrescent;
+            groupEntriesFiltered.Reverse();
+            UpdateView();
+
+            if (OrderwayIcon.Glyph == "\uE70E")
+                OrderwayIcon.Glyph = "\uE70D";
+            else
+                OrderwayIcon.Glyph = "\uE70E";
         }
 
         #endregion
@@ -250,6 +299,7 @@ namespace AnimeApp.Pages
             }
 
             SearchBox.IsEnabled = false;
+            OrderwayButton.IsEnabled = false;
             OrderComboBox.IsEnabled = false;
         }
 
@@ -271,10 +321,9 @@ namespace AnimeApp.Pages
                 if ((item.Tag??"").ToString().Equals("Account"))
                     parentNavView.SelectedItem = item;
             }
-
-            //Frame.Navigate(typeof(AnimeApp.Pages.Account.Account_Big));
         }
 
         #endregion
+
     }
 }

@@ -39,18 +39,64 @@
         </NavigationView.AutoSuggestBox>
 
         <NavigationView.PaneFooter>
-            <ComboBox x:Name="OrderComboBox"
-                      VerticalAlignment="Center"
-                      HorizontalAlignment="Center"
-                      Margin="0, 0, 4, 0"
-                      
-                      SelectionChanged="OrderComboBox_SelectionChanged"
-                      PlaceholderText="Sort by"
-                      Width="200">
-                <x:String>Title</x:String>
-                <x:String>Score</x:String>
-                <x:String>Progress</x:String>
-            </ComboBox>
+            <StackPanel x:Name="OrderingStackPanel"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Margin="0, 0, 4, 0"
+                        Orientation="Horizontal">
+                <ComboBox x:Name="OrderComboBox"
+                          SelectionChanged="OrderComboBox_SelectionChanged"
+                          PlaceholderText="Sort by"
+                          Width="200"
+                          
+                          BorderThickness="1, 1, 0, 1"
+                          CornerRadius="2, 0, 0, 2">
+                    <ComboBoxItem Content="Title"
+                                  IsEnabled="True"/>
+                    <ComboBoxItem Content="Score"
+                                  IsEnabled="True"/>
+                    <ComboBoxItem Content="Progress"
+                                  IsEnabled="True"/>
+                    <ComboBoxItem Content="Last Updated" Tag="Last_Updated"
+                                  IsEnabled="True"/>
+                    <ComboBoxItem Content="Last Added" Tag="Last_Added"
+                                  IsEnabled="True"/>
+                    <ComboBoxItem Content="Start Date" Tag="Start_Date"
+                                  IsEnabled="False"/>
+                    <ComboBoxItem Content="Completed Date" Tag="Completed_Date"
+                                  IsEnabled="False"/>
+                    <ComboBoxItem Content="Release Date" Tag="Release_Date"
+                                  IsEnabled="False"/>
+                    <ComboBoxItem Content="Average Score" Tag="Average_Score"
+                                  IsEnabled="True"/>
+                    <ComboBoxItem Content="Popularity"
+                                  IsEnabled="True"/>
+                    <!--<x:String>Title</x:String>
+                    <x:String>Score</x:String>
+                    <x:String>Progress</x:String>
+                    <x:String>Last Updated</x:String>
+                    <x:String>Last Added</x:String>
+                    <x:String>Start Date</x:String>
+                    <x:String>Completed Date</x:String>
+                    <x:String>Release Date</x:String>
+                    <x:String>Average Score</x:String>
+                    <x:String>Popularity</x:String>-->
+                </ComboBox>
+                <Button x:Name="OrderwayButton"
+                        Height="32"
+                        Width="32"
+                        Padding="0, 0, 0, 0"
+                        
+                        BorderBrush="#A6A6A6"
+                        BorderThickness="0, 1, 1, 1"
+                        CornerRadius="0, 2, 2, 0"
+                        
+                        Click="OrderwayButton_Click">
+                    <FontIcon x:Name="OrderwayIcon"
+                              FontFamily="Segoe MDL2 Assets" Glyph="&#xE70E;"
+                              FontSize="16"/>
+                </Button>
+            </StackPanel>
         </NavigationView.PaneFooter>
 
         <RelativePanel>
