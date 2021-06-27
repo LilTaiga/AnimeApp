@@ -62,11 +62,11 @@
                     <ComboBoxItem Content="Last Added" Tag="Last_Added"
                                   IsEnabled="True"/>
                     <ComboBoxItem Content="Start Date" Tag="Start_Date"
-                                  IsEnabled="False"/>
+                                  IsEnabled="True"/>
                     <ComboBoxItem Content="Completed Date" Tag="Completed_Date"
-                                  IsEnabled="False"/>
+                                  IsEnabled="True"/>
                     <ComboBoxItem Content="Release Date" Tag="Release_Date"
-                                  IsEnabled="False"/>
+                                  IsEnabled="True"/>
                     <ComboBoxItem Content="Average Score" Tag="Average_Score"
                                   IsEnabled="True"/>
                     <ComboBoxItem Content="Popularity"
@@ -95,6 +95,30 @@
                     <FontIcon x:Name="OrderwayIcon"
                               FontFamily="Segoe MDL2 Assets" Glyph="&#xE70E;"
                               FontSize="16"/>
+                </Button>
+
+                <Button Width="32"
+                        Height="32"
+                        
+                        Margin="8, 0, 0, 0"
+                        Padding="0">
+                    <Button.Content>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF0E2;"
+                                  FontSize="16"/>
+                    </Button.Content>
+                    
+                    <Button.Flyout>
+                        <MenuFlyout Placement="BottomEdgeAlignedRight">
+                            <MenuFlyoutItem Text="Grid">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF0E2;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Big List" Icon="AllApps"/>
+                            <MenuFlyoutItem Text="Small List" Icon="List"/>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                    
                 </Button>
             </StackPanel>
         </NavigationView.PaneFooter>

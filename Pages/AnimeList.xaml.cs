@@ -174,10 +174,10 @@ namespace AnimeApp.Pages
                     groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.createdAt).ToList();
                     break;
                 case SortColumn.Start_Date:
-                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.startDate).ToList();
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.startedAt).ToList();
                     break;
                 case SortColumn.Completed_Date:
-                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.endDate).ToList();
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.completedAt).ToList();
                     break;
                 case SortColumn.Release_Date:
                     groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.startDate).ToList();
@@ -188,8 +188,6 @@ namespace AnimeApp.Pages
                 case SortColumn.Popularity:
                     groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.popularity).ToList();
                     break;
-                default:
-                    throw new Exception("Ops, you found something that you shouldn't have.");
             }
 
             if (isOrderingCrescent)

@@ -118,7 +118,99 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MediaListCollectionFetch" xml:space="preserve">
-    <value>query($id: Int){MediaListCollection(userId: $id, type: ANIME){lists{name status isCustomList entries{mediaId score progress repeat priority createdAt updatedAt priority media{id title{romaji english native userPreferred}title{english romaji native userPreferred}format status description startDate {year month day}endDate {year month day} season seasonYear seasonInt episodes duration coverImage {color medium large extraLarge }genres synonyms averageScore meanScore popularity tags{id name category rank isGeneralSpoiler isMediaSpoiler isAdult}isAdult nextAiringEpisode{airingAt timeUntilAiring episode}siteUrl externalLinks{url site}}}}}}</value>
+    <value>query ($id: Int) {
+  MediaListCollection(userId: $id, type: ANIME) {
+    lists {
+      name
+      status
+      isCustomList
+      entries{
+        mediaId
+        score
+        progress
+        repeat
+        priority
+        createdAt
+        updatedAt
+        priority
+        startedAt {
+          year
+          month
+          day
+        }
+        completedAt {
+          year
+          month
+          day
+        }
+        media {
+          id
+          title {
+            romaji
+            english
+            native
+            userPreferred
+          }
+          title {
+            english
+            romaji
+            native
+            userPreferred
+          }
+          format
+          status
+          description
+          startDate {
+            year
+            month
+            day
+          }
+          endDate {
+            year
+            month
+            day
+          }
+          season
+          seasonYear
+          seasonInt
+          episodes
+          duration
+          coverImage {
+            color
+            medium
+            large
+            extraLarge
+          }
+          genres
+          synonyms
+          averageScore
+          meanScore
+          popularity
+          tags {
+            id
+            name
+            category
+            rank
+            isGeneralSpoiler
+            isMediaSpoiler
+            isAdult
+          }
+          isAdult
+          nextAiringEpisode {
+            airingAt
+            timeUntilAiring
+            episode
+          }
+          siteUrl
+          externalLinks {
+            url
+            site
+          }
+        }
+      }
+    }
+  }
+}</value>
     <comment>The GraphQL query to get the list of the specified User.</comment>
   </data>
   <data name="UserFetch" xml:space="preserve">

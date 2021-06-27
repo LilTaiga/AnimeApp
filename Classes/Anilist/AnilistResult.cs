@@ -50,11 +50,19 @@ namespace AnimeApp.Classes.Anilist.Result
         }
     }
 
-    public class StartDate
+    public class StartDate : IComparable<StartDate>
     {
         public int? year { get; set; }
         public int? month { get; set; }
         public int? day { get; set; }
+
+        public int CompareTo(StartDate other)
+        {
+            DateTime date = new DateTime(year ?? 1, month ?? 1, day ?? 1);
+            DateTime otherDate = new DateTime(other.year ?? 1, other.month ?? 1, other.day ?? 1);
+
+            return date.CompareTo(otherDate);
+        }
     }
 
     public class EndDate
@@ -124,7 +132,7 @@ namespace AnimeApp.Classes.Anilist.Result
 
         public double GetNumberOfAiredEpisodes()
         {
-            return episodes != null ? (int)episodes : nextAiringEpisode.episode - 1;
+            return episodes ?? (nextAiringEpisode != null ? nextAiringEpisode.episode : 1);
         }
 
         public string GetMediaFormat()
@@ -135,9 +143,39 @@ namespace AnimeApp.Classes.Anilist.Result
 
         public string GetSeasonAndYear()
         {
-            string SeasonAndYear = $"{season} {seasonYear}";
+            string SeasonAndYear = $"{season ?? "Unknown"} {startDate.year}";
 
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(SeasonAndYear.ToLower());
+        }
+    }
+
+    public class StartedAt : IComparable<StartedAt>
+    {
+        public int? year { get; set; }
+        public int? month { get; set; }
+        public int? day { get; set; }
+
+        public int CompareTo(StartedAt other)
+        {
+            DateTime date = new DateTime(year ?? 1, month ?? 1, day ?? 1);
+            DateTime otherDate = new DateTime(other.year ?? 1, other.month ?? 1, other.day ?? 1);
+
+            return date.CompareTo(otherDate);
+        }
+    }
+
+    public class CompletedAt : IComparable<CompletedAt>
+    {
+        public int? year { get; set; }
+        public int? month { get; set; }
+        public int? day { get; set; }
+
+        public int CompareTo(CompletedAt other)
+        {
+            DateTime date = new DateTime(year ?? 1, month ?? 1, day ?? 1);
+            DateTime otherDate = new DateTime(other.year ?? 1, other.month ?? 1, other.day ?? 1);
+
+            return date.CompareTo(otherDate);
         }
     }
 
@@ -150,11 +188,13 @@ namespace AnimeApp.Classes.Anilist.Result
         public int priority { get; set; }
         public int createdAt { get; set; }
         public int updatedAt { get; set; }
+        public StartedAt startedAt { get; set; }
+        public CompletedAt completedAt { get; set; }
         public Media media { get; set; }
 
         public string GetProgressFormatted()
         {
-            return progress + "/" + (media.episodes != null ? media.episodes.ToString() : (media.nextAiringEpisode.episode - 1).ToString() + "+");
+            return progress + "/" + (media.episodes ?? (media.nextAiringEpisode != null ? media.nextAiringEpisode.episode - 1 : 0)).ToString() + "+";
         }
     }
 
