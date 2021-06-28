@@ -97,28 +97,46 @@
                               FontSize="16"/>
                 </Button>
 
-                <Button Width="32"
+                <Button x:Name="ExhibitionModeButton"
+                        Width="32"
                         Height="32"
                         
                         Margin="8, 0, 0, 0"
                         Padding="0">
                     <Button.Content>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF0E2;"
+                        <FontIcon x:Name="ExhibitionModeIcon"
+                                  FontFamily="Segoe MDL2 Assets" Glyph="&#xE179;"
                                   FontSize="16"/>
                     </Button.Content>
-                    
+
                     <Button.Flyout>
                         <MenuFlyout Placement="BottomEdgeAlignedRight">
-                            <MenuFlyoutItem Text="Grid">
+                            <MenuFlyoutItem x:Name="ExhibitionModeGrid"
+                                            Text="Grid"
+                                            FlowDirection="RightToLeft"
+                                            
+                                            Click="ExhibitionModeGrid_Click">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF0E2;"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Big List" Icon="AllApps"/>
-                            <MenuFlyoutItem Text="Small List" Icon="List"/>
+
+                            <!--Glyph="&#xE179;"-->
+                            <MenuFlyoutItem x:Name="ExhibitionModeListBig"
+                                            Text="Big List" Icon="AllApps" 
+                                            FlowDirection="RightToLeft"
+                                            
+                                            Click="ExhibitionModeListBig_Click"/>
+
+                            <!--Glyph="&#xE14C;"-->
+                            <MenuFlyoutItem x:Name="ExhibitionModeListCompact"
+                                            Text="Small List" Icon="List"
+                                            FlowDirection="RightToLeft"
+                                            
+                                            Click="ExhibitionModeListCompact_Click"/>
                         </MenuFlyout>
                     </Button.Flyout>
-                    
+
                 </Button>
             </StackPanel>
         </NavigationView.PaneFooter>
@@ -134,55 +152,357 @@
                 </Rectangle.Fill>
             </Rectangle>
 
-            <Grid x:Name="ColumnsDetails"
-                  RelativePanel.AlignLeftWithPanel="True"
-                  RelativePanel.AlignRightWithPanel="True"
-                  RelativePanel.AlignTopWithPanel="True"
-                  Height="24">
+            <RelativePanel x:Name="ExhibitionModeGridPanel"
+                           RelativePanel.AlignTopWithPanel="True"
+                           RelativePanel.AlignLeftWithPanel="True"
+                           RelativePanel.AlignRightWithPanel="True"
+                           RelativePanel.AlignBottomWithPanel="True"
+                           
+                           Visibility="Collapsed">
+                <GridView x:Name="EntriesViewGrid"
+                          RelativePanel.AlignTopWithPanel="True"
+                          RelativePanel.AlignLeftWithPanel="True"
+                          RelativePanel.AlignRightWithPanel="True"
+                          RelativePanel.AlignBottomWithPanel="True"
+                          
+                          ItemsSource="{x:Bind visibleEntries, Mode=OneWay}"
+                          HorizontalContentAlignment="Center"
+                          HorizontalAlignment="Center">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="anilist:Entry">
+                            <StackPanel Width="250"
+                                        Height="340"
+                                        Margin="0, 8">
+                                <Border Width="200"
+                                        Height="250"
+                                
+                                        CornerRadius="8">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="{x:Bind media.coverImage.large}"
+                                                    Stretch="UniformToFill"/>
+                                    </Border.Background>
+                                </Border>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="120"/>
-                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{x:Bind media.title.userPreferred}"
+                                           HorizontalAlignment="Center"
+                                           TextAlignment="Center"
+                                           TextWrapping="WrapWholeWords"
+                                           TextTrimming="WordEllipsis"
+                                           MaxLines="3"/>
+
+                                <RelativePanel Margin="0, 16, 0 0">
+                                    <TextBlock Text="{x:Bind media.GetMediaFormat()}"
+                                               RelativePanel.AlignLeftWithPanel="True"
+                                               RelativePanel.AlignBottomWithPanel="True"
+                                               Foreground="Gray"
+                                               Margin="25, 0, 0, 0"/>
+
+                                    <TextBlock Text="{x:Bind GetProgressFormatted()}"
+                                               RelativePanel.AlignRightWithPanel="True"
+                                               RelativePanel.AlignBottomWithPanel="True"
+                                               Margin="0, 0, 25, 0"/>
+                                </RelativePanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+
+                    <!--<GridViewItem>
+                        <StackPanel Width="250"
+                                    Height="340"
+                                    Margin="0, 8">
+                            <Border Width="200"
+                                    Height="250"
+                                
+                                    CornerRadius="8">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx98580-JuYPIA1BumA5.png"
+                                                Stretch="UniformToFill"/>
+                                </Border.Background>
+                            </Border>
+
+                            <TextBlock Text="Maou Gakuin no Futekigousha: Shijou Saikyou no Maou no Shiso, Tensei shite Shison-tachi no Gakkou e Kayou"
+                                       HorizontalAlignment="Center"
+                                       TextAlignment="Center"
+                                       TextWrapping="WrapWholeWords"
+                                       TextTrimming="WordEllipsis"
+                                       MaxLines="3"/>
+
+                            <RelativePanel Margin="0, 16, 0 0">
+                                <TextBlock Text="OVA"
+                                           RelativePanel.AlignLeftWithPanel="True"
+                                           RelativePanel.AlignBottomWithPanel="True"
+                                           Foreground="Gray"
+                                           Margin="25, 0, 0, 0"/>
+
+                                <TextBlock Text="1/1"
+                                           RelativePanel.AlignRightWithPanel="True"
+                                           RelativePanel.AlignBottomWithPanel="True"
+                                           Margin="0, 0, 25, 0"/>
+                            </RelativePanel>
+                        </StackPanel>
+                    </GridViewItem>-->
+
+                </GridView>
+            </RelativePanel>
+
+            <RelativePanel x:Name="ExhibitionModeListBigPanel"
+                           RelativePanel.AlignTopWithPanel="True"
+                           RelativePanel.AlignBottomWithPanel="True"
+                           RelativePanel.AlignLeftWithPanel="True"
+                           RelativePanel.AlignRightWithPanel="True"
+                        
+                           Visibility="Collapsed">
+
+                <Grid x:Name="ColumnsDetailsListBig"
+                      RelativePanel.AlignLeftWithPanel="True"
+                      RelativePanel.AlignRightWithPanel="True"
+                      RelativePanel.AlignTopWithPanel="True"
+                      Height="24">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Cover"
+                               Grid.Column="0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="Title"
+                               Grid.Column="1"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               Margin="4, 0, 0, 0"/>
+                    <TextBlock Text="Progress"
+                               Grid.Column="2"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="Score"
+                               Grid.Column="3"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="Type"
+                               Grid.Column="4"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="Season"
+                               Grid.Column="5"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+
+                </Grid>
+
+                <ListView x:Name="EntriesViewListBig"
+                          RelativePanel.Below="ColumnsDetailsListBig"
+                          RelativePanel.AlignLeftWithPanel="True"
+                          RelativePanel.AlignRightWithPanel="True"
+                          RelativePanel.AlignBottomWithPanel="True"
+                  
+                          ItemsSource="{x:Bind visibleEntries, Mode=OneWay}"
+                          HorizontalContentAlignment="Stretch">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="anilist:Entry">
+                            <Grid Height="100"
+                                  Margin="0, 0, -12, 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0"
+                                        Width="68"
+                                        Height="96"
+                                        
+                                        CornerRadius="4">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="{x:Bind media.coverImage.large}"
+                                                    Stretch="UniformToFill"/>
+                                    </Border.Background>
+                                </Border>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="{x:Bind media.title.userPreferred}"
+                                           TextWrapping="WrapWholeWords"
+                                   
+                                           VerticalAlignment="Center"/>
+
+                                <StackPanel Grid.Column="2"
+                                            
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+
+                                    <TextBlock Text="{x:Bind GetProgressFormatted()}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                       
+                                               FontSize="16"/>
+                                    <ProgressBar Value="{x:Bind progress}"
+                                                 Maximum="{x:Bind media.GetNumberOfAiredEpisodes()}"
+                                                 Width="180"
+                                         
+                                                 Margin="0, 8, 0, 0"/>
+                                </StackPanel>
+
+                                <TextBlock Grid.Column="3"
+                                           Text="{x:Bind score}"
+                                   
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="4"
+                                           Text="{x:Bind media.GetMediaFormat()}"
+                                   
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="5"
+                                           Text="{x:Bind media.GetSeasonAndYear()}"
+                                   
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+
+            </RelativePanel>
+
+            <RelativePanel x:Name="ExhibitionModeListCompactPanel"
+                           RelativePanel.AlignTopWithPanel="True"
+                           RelativePanel.AlignBottomWithPanel="True"
+                           RelativePanel.AlignLeftWithPanel="True"
+                           RelativePanel.AlignRightWithPanel="True"
+                        
+                           Visibility="Collapsed">
                 
-                <TextBlock Text="Cover"
-                           Grid.Column="0"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-                <TextBlock Text="Title"
-                           Grid.Column="1"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           Margin="4, 0, 0, 0"/>
-                <TextBlock Text="Progress"
-                           Grid.Column="2"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-                <TextBlock Text="Score"
-                           Grid.Column="3"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-                <TextBlock Text="Type"
-                           Grid.Column="4"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-                <TextBlock Text="Season"
-                           Grid.Column="5"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-                
-            </Grid>
+                <Grid x:Name="ColumnsDetailsListCompact"
+                      RelativePanel.AlignLeftWithPanel="True"
+                      RelativePanel.AlignRightWithPanel="True"
+                      RelativePanel.AlignTopWithPanel="True"
+                      Height="24">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Title"
+                               Grid.Column="0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               Margin="12, 0, 0, 0"/>
+                    <TextBlock Text="Progress"
+                               Grid.Column="1"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="Score"
+                               Grid.Column="2"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="Type"
+                               Grid.Column="3"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="Season"
+                               Grid.Column="4"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+
+                </Grid>
+
+                <ListView x:Name="EntriesViewListCompact"
+                          RelativePanel.Below="ColumnsDetailsListCompact"
+                          RelativePanel.AlignLeftWithPanel="True"
+                          RelativePanel.AlignRightWithPanel="True"
+                          RelativePanel.AlignBottomWithPanel="True"
+                          
+                          ItemsSource="{x:Bind visibleEntries, Mode=OneTime}"
+                          HorizontalContentAlignment="Stretch">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="anilist:Entry">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" 
+                                           Text="{x:Bind media.title.userPreferred}"
+                                           TextWrapping="WrapWholeWords"
+                                           
+                                           VerticalAlignment="Center"/>
+
+                                <StackPanel Grid.Column="1"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+
+                                    <TextBlock Text="{x:Bind GetProgressFormatted()}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                       
+                                               FontSize="16"/>
+                                    <ProgressBar Value="{x:Bind progress}"
+                                                 Maximum="{x:Bind media.GetNumberOfAiredEpisodes()}"
+                                                 Width="180"
+                                         
+                                                 Margin="0, 8, 0, 0"/>
+                                </StackPanel>
+
+                                <TextBlock Grid.Column="2"
+                                           Text="{x:Bind score}"
+                                   
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="3"
+                                           Text="{x:Bind media.GetMediaFormat()}"
+                                   
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="4"
+                                           Text="{x:Bind media.GetSeasonAndYear()}"
+                                   
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </RelativePanel>
 
             <StackPanel x:Name="RetrievingListsPanel"
                         RelativePanel.AlignHorizontalCenterWithPanel="True"
                         RelativePanel.AlignVerticalCenterWithPanel="True"
                         Visibility="Collapsed">
-                
-                
+
+
                 <ProgressRing Width="100"
                               Height="100"
                               
@@ -213,7 +533,7 @@
                            FontSize="64"
                            Foreground="Gray"
                            Margin="0, 0, 0, 16"/>
-                
+
                 <TextBlock Text="Ops, looks like we can't retrieve your lists now."
                            HorizontalTextAlignment="Center"
                            
@@ -239,91 +559,6 @@
                         Click="Button_Click"/>
 
             </StackPanel>
-
-            <ListView x:Name="EntriesListView"
-                      RelativePanel.AlignLeftWithPanel="True"
-                      RelativePanel.AlignRightWithPanel="True"
-                      RelativePanel.AlignBottomWithPanel="True"
-                      RelativePanel.Below="ColumnsDetails"
-                  
-                      ItemsSource="{x:Bind visibleEntries, Mode=OneWay}"
-                      HorizontalContentAlignment="Stretch"
-                      Visibility="Visible">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="anilist:Entry">
-                        <Grid Height="100"
-                              Margin="0, 0, -12, 0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="120"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Image x:Name="MediaImage"
-                                   Source="{x:Bind media.coverImage.medium}"
-                                   Width="100"
-                                   Height="100"
-                                   Grid.Column="0"/>
-
-                            <TextBlock x:Name="MediaTitle"
-                                       Text="{x:Bind media.title.romaji}"
-                                       TextWrapping="WrapWholeWords"
-                                   
-                                       Grid.Column="1"
-                                       VerticalAlignment="Center"/>
-
-                            <StackPanel x:Name="EntryProgressStackPanel"
-                                        Grid.Column="2"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center">
-
-                                <TextBlock x:Name="EntryProgressText"
-                                           Text="{x:Bind GetProgressFormatted()}"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Center"
-                                       
-                                           FontSize="16"/>
-                                <ProgressBar x:Name="EntryProgressBar"
-                                             Value="{x:Bind progress}"
-                                             Maximum="{x:Bind media.GetNumberOfAiredEpisodes()}"
-                                             Width="180"
-                                         
-                                             Margin="0, 8, 0, 0"/>
-                            </StackPanel>
-
-                            <TextBlock x:Name="EntryScore"
-                                       Text="{x:Bind score}"
-                                   
-                                       Grid.Column="3"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
-
-                            <TextBlock x:Name="MediaType"
-                                       Text="{x:Bind media.GetMediaFormat()}"
-                                   
-                                       Grid.Column="4"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
-
-                            <TextBlock x:Name="MediaSeason"
-                                       Text="{x:Bind media.GetSeasonAndYear()}"
-                                   
-                                       Grid.Column="5"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
         </RelativePanel>
     </NavigationView>
 </Page>

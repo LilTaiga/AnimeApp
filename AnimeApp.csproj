@@ -124,6 +124,7 @@
     <Compile Include="Classes\Anilist\AnilistOperations.cs" />
     <Compile Include="Classes\Anilist\AnilistRequest.cs" />
     <Compile Include="Classes\Anilist\AnilistResult.cs" />
+    <Compile Include="Enums\ExhibitionMode.cs" />
     <Compile Include="Enums\MediaStatus.cs" />
     <Compile Include="Enums\SortColumn.cs" />
     <Compile Include="Enums\SortOrder.cs" />

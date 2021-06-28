@@ -194,7 +194,7 @@ namespace AnimeApp.Classes.Anilist.Result
 
         public string GetProgressFormatted()
         {
-            return progress + "/" + (media.episodes ?? (media.nextAiringEpisode != null ? media.nextAiringEpisode.episode - 1 : 0)).ToString() + "+";
+            return progress + "/" + (media.episodes ?? (media.nextAiringEpisode != null ? media.nextAiringEpisode.episode - 1 : 0)).ToString() + (media.episodes == null ? "+" : "");
         }
     }
 

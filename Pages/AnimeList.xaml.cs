@@ -53,7 +53,9 @@ namespace AnimeApp.Pages
         //Select the default options on navigation bar, to not leave it without selections.
         private async void SetupView()
         {
-            EntriesListView.Visibility = Visibility.Collapsed;
+            ExhibitionModeListBigPanel.Visibility = Visibility.Collapsed;
+            ExhibitionModeListCompactPanel.Visibility = Visibility.Collapsed;
+
             RetrievingFailedPanel.Visibility = Visibility.Collapsed;
             NotLoggedInPanel.Visibility = Visibility.Collapsed;
 
@@ -73,14 +75,18 @@ namespace AnimeApp.Pages
             if (AnilistAccount.UserLists != null)
             {
                 RetrievingListsPanel.Visibility = Visibility.Collapsed;
-                EntriesListView.Visibility = Visibility.Visible;
+                AnimeWatching.Content += " (" + AnilistAccount.UserLists[3].entries.Count + ")";
+                AnimeCompleted.Content += " (" + AnilistAccount.UserLists[0].entries.Count + ")";
+                AnimePaused.Content += " (" + AnilistAccount.UserLists[2].entries.Count + ")";
+                AnimeDropped.Content += " (" + AnilistAccount.UserLists[4].entries.Count + ")";
+                AnimePlanning.Content += " (" + AnilistAccount.UserLists[1].entries.Count + ")";
+                ExhibitionModeListBig_Click(null, null);
 
                 ChangeTab(MediaStatus.CURRENT);
 
                 isOrderingCrescent = true;
                 SortEntries(SortColumn.Progress);
             }
-
 
             UpdateView();
         }
@@ -323,5 +329,32 @@ namespace AnimeApp.Pages
 
         #endregion
 
+        private void ExhibitionModeGrid_Click(object sender, RoutedEventArgs e)
+        {
+            ExhibitionModeIcon.Glyph = "\uF0E2";
+
+            ExhibitionModeListCompactPanel.Visibility = Visibility.Collapsed;
+            ExhibitionModeListBigPanel.Visibility = Visibility.Collapsed;
+            ExhibitionModeGridPanel.Visibility = Visibility.Visible;
+        }
+
+        private void ExhibitionModeListBig_Click(object sender, RoutedEventArgs e)
+        {
+            ExhibitionModeIcon.Glyph = "\uE179";
+
+            ExhibitionModeGridPanel.Visibility = Visibility.Collapsed;
+            ExhibitionModeListCompactPanel.Visibility = Visibility.Collapsed;
+            ExhibitionModeListBigPanel.Visibility = Visibility.Visible;
+        }
+
+        private void ExhibitionModeListCompact_Click(object sender, RoutedEventArgs e)
+        {
+            ExhibitionModeIcon.Glyph = "\uE14C";
+
+            ExhibitionModeGridPanel.Visibility = Visibility.Collapsed;
+            ExhibitionModeListBigPanel.Visibility = Visibility.Collapsed;
+            ExhibitionModeListCompactPanel.Visibility = Visibility.Visible;
+            
+        }
     }
 }
