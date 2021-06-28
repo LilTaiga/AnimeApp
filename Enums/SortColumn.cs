@@ -2,6 +2,7 @@
 {
     public enum SortColumn
     {
+        None = 0,
         Title = 1,
         Score = 2,
         Progress = 3,

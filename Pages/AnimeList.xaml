@@ -10,7 +10,86 @@
     
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    
+    SizeChanged="Page_SizeChanged">
+
+    <Page.Resources>
+        <Storyboard x:Name="ExpandedToCompact">
+            <DoubleAnimation From="250.0" To="32.0" Duration="0:0:0.167"
+                             Storyboard.TargetName="SearchBoxExpanded"
+                             Storyboard.TargetProperty="Width"
+                             EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+
+            <DoubleAnimation From="200.0" To="0.0" Duration="0:0:0.167"
+                             Storyboard.TargetName="OrderComboBoxExpanded"
+                             Storyboard.TargetProperty="Width"
+                             EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+
+            <ObjectAnimationUsingKeyFrames Duration="0:0:0.167"
+                                           Storyboard.TargetName="FooterCompact"
+                                           Storyboard.TargetProperty="Visibility">
+                <ObjectAnimationUsingKeyFrames.KeyFrames>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.167" Value="Visible"/>
+                </ObjectAnimationUsingKeyFrames.KeyFrames>
+            </ObjectAnimationUsingKeyFrames>
+
+            <ObjectAnimationUsingKeyFrames Duration="0:0:0.167"
+                                           Storyboard.TargetName="FooterExpanded"
+                                           Storyboard.TargetProperty="Visibility">
+                <ObjectAnimationUsingKeyFrames.KeyFrames>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.167" Value="Collapsed"/>
+                </ObjectAnimationUsingKeyFrames.KeyFrames>
+            </ObjectAnimationUsingKeyFrames>
+            
+        </Storyboard>
+
+        <Storyboard x:Name="CompactToExpanded">
+
+            <DoubleAnimation From="32.0" To="250.0" Duration="0:0:0.167"
+                             Storyboard.TargetName="SearchBoxExpanded"
+                             Storyboard.TargetProperty="Width"
+                             EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+
+            <DoubleAnimation From="0.0" To="200.0" Duration="0:0:0.167"
+                             Storyboard.TargetName="OrderComboBoxExpanded"
+                             Storyboard.TargetProperty="Width"
+                             EnableDependentAnimation="True">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+
+            <ObjectAnimationUsingKeyFrames Duration="0:0:0"
+                                           Storyboard.TargetName="FooterCompact"
+                                           Storyboard.TargetProperty="Visibility">
+                <ObjectAnimationUsingKeyFrames.KeyFrames>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Collapsed"/>
+                </ObjectAnimationUsingKeyFrames.KeyFrames>
+            </ObjectAnimationUsingKeyFrames>
+
+            <ObjectAnimationUsingKeyFrames Duration="0:0:0"
+                                           Storyboard.TargetName="FooterExpanded"
+                                           Storyboard.TargetProperty="Visibility">
+                <ObjectAnimationUsingKeyFrames.KeyFrames>
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
+                </ObjectAnimationUsingKeyFrames.KeyFrames>
+            </ObjectAnimationUsingKeyFrames>
+            
+        </Storyboard>
+    </Page.Resources>
 
     <muxc:NavigationView x:Name="NavView"
                          PaneDisplayMode="Top"
@@ -27,73 +106,169 @@
             <muxc:NavigationViewItem Content="Planning" x:Name ="AnimePlanning" Tag="PLANNING"/>
         </muxc:NavigationView.MenuItems>
 
-        <muxc:NavigationView.AutoSuggestBox>
-            <AutoSuggestBox Name="SearchBox"
-                            PlaceholderText="Search your anime"
-                            QueryIcon="Find"
-                            
-                            Width="250"
-                            FlowDirection="LeftToRight"
-                            
-                            TextChanged="SearchBox_TextChanged"
-                            QuerySubmitted="SearchBox_QuerySubmitted"
-                            SuggestionChosen="SearchBox_SuggestionChosen"/>
-        </muxc:NavigationView.AutoSuggestBox>
-
         <muxc:NavigationView.PaneFooter>
-            <StackPanel x:Name="OrderingStackPanel"
+            <StackPanel x:Name="FooterPanel"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Margin="0, 0, 4, 0"
                         Orientation="Horizontal">
-                <ComboBox x:Name="OrderComboBox"
-                          SelectionChanged="OrderComboBox_SelectionChanged"
-                          PlaceholderText="Sort by"
-                          Width="200"
-                          
-                          BorderThickness="1, 1, 0, 1"
-                          CornerRadius="2, 0, 0, 2">
-                    <ComboBoxItem Content="Title"
-                                  IsEnabled="True"/>
-                    <ComboBoxItem Content="Score"
-                                  IsEnabled="True"/>
-                    <ComboBoxItem Content="Progress"
-                                  IsEnabled="True"/>
-                    <ComboBoxItem Content="Last Updated" Tag="Last_Updated"
-                                  IsEnabled="True"/>
-                    <ComboBoxItem Content="Last Added" Tag="Last_Added"
-                                  IsEnabled="True"/>
-                    <ComboBoxItem Content="Start Date" Tag="Start_Date"
-                                  IsEnabled="True"/>
-                    <ComboBoxItem Content="Completed Date" Tag="Completed_Date"
-                                  IsEnabled="True"/>
-                    <ComboBoxItem Content="Release Date" Tag="Release_Date"
-                                  IsEnabled="True"/>
-                    <ComboBoxItem Content="Average Score" Tag="Average_Score"
-                                  IsEnabled="True"/>
-                    <ComboBoxItem Content="Popularity"
-                                  IsEnabled="True"/>
-                </ComboBox>
 
-                <Button x:Name="OrderwayButton"
-                        Height="32"
-                        Width="32"
-                        Padding="0, 0, 0, 0"
+                <StackPanel x:Name="FooterCompact"
+                            Orientation="Horizontal"
+                            
+                            Visibility="Visible">
+                    <Button x:Name="SearchBoxButton"
+                            Width="32"
+                            Height="32"
                         
-                        BorderThickness="0, 1, 1, 1"
-                        CornerRadius="0, 2, 2, 0"
+                            Padding="0"
+                            Margin="4, 0">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE11A;"
+                                  FontSize="16"/>
+                        <Button.Flyout>
+                            <Flyout>
+                                <AutoSuggestBox x:Name="SearchBoxCompact"
+                                                PlaceholderText="Search your anime"
+                                                Text="{x:Bind SearchBoxExpanded.Text, Mode=TwoWay}"
+                                                QueryIcon="Find"
+                            
+                                                Width="250"
+                                                FlowDirection="LeftToRight"
+                            
+                                                TextChanged="SearchBox_TextChanged"
+                                                QuerySubmitted="SearchBox_QuerySubmitted"
+                                                SuggestionChosen="SearchBox_SuggestionChosen"/>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+
+                    <Button x:Name="OrderwayButton"
+                            Width="32"
+                            Height="32"
                         
-                        Click="OrderwayButton_Click">
-                    <FontIcon x:Name="OrderwayIcon"
-                              FontFamily="Segoe MDL2 Assets" Glyph="&#xE70E;"
-                              FontSize="16"/>
-                </Button>
+                            Padding="0"
+                            Margin="4, 0">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE174;"
+                                  FontSize="16"/>
+                        <Button.Flyout>
+                            <Flyout>
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox x:Name="OrderComboBoxCompact"
+                                              SelectionChanged="OrderComboBox_SelectionChanged"
+                                              SelectedIndex="{x:Bind OrderComboBoxExpanded.SelectedIndex, Mode=TwoWay}"
+                                              PlaceholderText="Sort by"
+                                              Width="200"
+                          
+                                              BorderThickness="1, 1, 0, 1"
+                                              CornerRadius="2, 0, 0, 2">
+                                        <ComboBoxItem Content="Title"
+                                                      IsEnabled="True"/>
+                                        <ComboBoxItem Content="Score"
+                                                      IsEnabled="True"/>
+                                        <ComboBoxItem Content="Progress"
+                                                      IsEnabled="True"/>
+                                        <ComboBoxItem Content="Last Updated" Tag="Last_Updated"
+                                                      IsEnabled="True"/>
+                                        <ComboBoxItem Content="Last Added" Tag="Last_Added"
+                                                      IsEnabled="True"/>
+                                        <ComboBoxItem Content="Start Date" Tag="Start_Date"
+                                                      IsEnabled="True"/>
+                                        <ComboBoxItem Content="Completed Date" Tag="Completed_Date"
+                                                      IsEnabled="True"/>
+                                        <ComboBoxItem Content="Release Date" Tag="Release_Date"
+                                                      IsEnabled="True"/>
+                                        <ComboBoxItem Content="Average Score" Tag="Average_Score"
+                                                      IsEnabled="True"/>
+                                        <ComboBoxItem Content="Popularity"
+                                                      IsEnabled="True"/>
+                                    </ComboBox>
+
+                                    <Button Height="32"
+                                            Width="32"
+                                            Padding="0, 0, 0, 0"
+                        
+                                            BorderThickness="0, 1, 1, 1"
+                                            CornerRadius="0, 2, 2, 0"
+                        
+                                            Click="OrderwayButton_Click">
+                                        <FontIcon x:Name="OrderwayCollapsedIcon"
+                                                  FontFamily="Segoe MDL2 Assets" Glyph="&#xE70E;"
+                                                  FontSize="16"/>
+                                    </Button>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel x:Name="FooterExpanded"
+                            Orientation="Horizontal"
+                            
+                            Visibility="Collapsed">
+                    <AutoSuggestBox x:Name="SearchBoxExpanded"
+                                    PlaceholderText="Search your anime"
+                                    Text="{x:Bind SearchBoxCompact.Text, Mode=TwoWay}"
+                                    QueryIcon="Find"
+                            
+                                    Width="250"
+                                    Margin="4, 0"
+                                    FlowDirection="LeftToRight"
+                            
+                                    TextChanged="SearchBox_TextChanged"
+                                    QuerySubmitted="SearchBox_QuerySubmitted"
+                                    SuggestionChosen="SearchBox_SuggestionChosen"/>
+
+                    <ComboBox x:Name="OrderComboBoxExpanded"
+                              SelectionChanged="OrderComboBox_SelectionChanged"
+                              SelectedIndex="{x:Bind OrderComboBoxCompact.SelectedIndex, Mode=TwoWay}"
+                              PlaceholderText="Sort by"
+                              Width="200"
+                              Margin="4, 0, 0, 0"
+                          
+                              BorderThickness="1, 1, 0, 1"
+                              CornerRadius="2, 0, 0, 2">
+                        <ComboBoxItem Content="Title"
+                                      IsEnabled="True"/>
+                        <ComboBoxItem Content="Score"
+                                      IsEnabled="True"/>
+                        <ComboBoxItem Content="Progress"
+                                      IsEnabled="True"/>
+                        <ComboBoxItem Content="Last Updated" Tag="Last_Updated"
+                                      IsEnabled="True"/>
+                        <ComboBoxItem Content="Last Added" Tag="Last_Added"
+                                      IsEnabled="True"/>
+                        <ComboBoxItem Content="Start Date" Tag="Start_Date"
+                                      IsEnabled="True"/>
+                        <ComboBoxItem Content="Completed Date" Tag="Completed_Date"
+                                      IsEnabled="True"/>
+                        <ComboBoxItem Content="Release Date" Tag="Release_Date"
+                                      IsEnabled="True"/>
+                        <ComboBoxItem Content="Average Score" Tag="Average_Score"
+                                      IsEnabled="True"/>
+                        <ComboBoxItem Content="Popularity"
+                                      IsEnabled="True"/>
+                    </ComboBox>
+
+                    <Button x:Name="OrderwayExpandedButton"
+                            Height="32"
+                            Width="32"
+                            Padding="0"
+                        
+                            BorderThickness="0, 1, 1, 1"
+                            CornerRadius="0, 2, 2, 0"
+                        
+                            Click="OrderwayButton_Click">
+                        <FontIcon x:Name="OrderwayExpandedIcon"
+                                  FontFamily="Segoe MDL2 Assets" Glyph="&#xE70E;"
+                                  FontSize="16"/>
+                    </Button>
+                </StackPanel>
 
                 <Button x:Name="ExhibitionModeButton"
                         Width="32"
                         Height="32"
                         
-                        Margin="8, 0, 0, 0"
+                        Margin="4, 0, 0, 0"
                         Padding="0">
                     <Button.Content>
                         <FontIcon x:Name="ExhibitionModeIcon"
@@ -128,7 +303,6 @@
                                             Click="ExhibitionModeListCompact_Click"/>
                         </MenuFlyout>
                     </Button.Flyout>
-
                 </Button>
             </StackPanel>
         </muxc:NavigationView.PaneFooter>
@@ -513,5 +687,20 @@
 
             </StackPanel>
         </RelativePanel>
+
+        <!--<VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1460"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="FooterCompact.Visibility" Value="Collapsed"/>
+                        <Setter Target="FooterExpanded.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>-->
     </muxc:NavigationView>
 </Page>
