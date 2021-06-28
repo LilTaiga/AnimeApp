@@ -14,8 +14,9 @@ Currently this project is in a very early stage, I'm still implementing some bas
   * - [x] Sort your anime entries
   * - [x] Search your anime entries
   * - [x] Rework code and add comments
-  * - [ ] Update sort and search features
-  * - [ ] Update UI
+  * - [x] Update sort and search features
+  * - [x] Update UI
+  * - [ ] Add quality of life updates?
   * - [ ] Find bugs
 * - [ ] Update your anime lists
   * - [ ] View anime information in full detail
