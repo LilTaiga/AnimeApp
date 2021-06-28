@@ -6,25 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="Transparent"
     
-    RequestedTheme="Default">
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <RelativePanel>
-        
-        <!-- Transparent Background -->
-        <Rectangle RelativePanel.AlignTopWithPanel="True"
-                   RelativePanel.AlignLeftWithPanel="True"
-                   RelativePanel.AlignRightWithPanel="True"
-                   RelativePanel.AlignBottomWithPanel="True">
-            <Rectangle.Fill>
-                <AcrylicBrush TintColor="{ThemeResource SystemAltHighColor}"
-                              TintOpacity="0.75"/>
-            </Rectangle.Fill>
-        </Rectangle>
-
         <!-- Account Stuff -->
-        
         <!-- Not logged in -->
         <StackPanel x:Name="LogInPanel"
                     RelativePanel.AlignVerticalCenterWithPanel="True"
@@ -33,7 +21,7 @@
                     Spacing="5"
                     Visibility="Collapsed">
 
-            <PersonPicture/>
+            <muxc:PersonPicture/>
 
             <TextBlock Text="Log-in in your Anilist:"
                        FontSize="24"
@@ -52,7 +40,7 @@
                         MinWidth="100"
                         Margin="0, 10, 0, 0"
                         Click="LogInButton_Click"/>
-                <ProgressRing Name="UsernameProgressRing"
+                <muxc:ProgressRing Name="UsernameProgressRing"
                               IsActive="False"
                               Margin="10, 10, 0, 0"/>
             </StackPanel>
@@ -68,7 +56,7 @@
                     RelativePanel.AlignVerticalCenterWithPanel="True"
                     Orientation="Vertical"
                     Visibility="Visible">
-            <PersonPicture x:Name="ProfileAvatar"/>
+            <muxc:PersonPicture x:Name="ProfileAvatar"/>
             <TextBlock Text="Currently logged in as:"
                        FontSize="24"/>
             <TextBlock x:Name="UsernameText"

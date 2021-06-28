@@ -5,6 +5,7 @@
     xmlns:local="using:AnimeApp.Pages.Account"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Title="Anilist Authorization">
 
@@ -30,7 +31,7 @@
                     Orientation="Horizontal"
                     Margin="0, 4, 0, 0"
                     Visibility="Collapsed">
-            <ProgressRing IsActive="True"/>
+            <muxc:ProgressRing IsActive="True"/>
             <TextBlock Text="Fetching your profile"/>
         </StackPanel>
 

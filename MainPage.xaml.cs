@@ -19,27 +19,15 @@ namespace AnimeApp
         public MainPage()
         {
             AnilistAccount.LogIn();
-            this.InitializeComponent();
+            InitializeComponent();
 
-            //Hides the default taskbar to set custom taskbar
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-
-            coreTitleBar.ExtendViewIntoTitleBar = true;
-            coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
             // Set XAML element as a draggable region.
             Window.Current.SetTitleBar(TitleBarArea);
 
             //Sets the taskbar buttons to transparent.
-            var titlebar = ApplicationView.GetForCurrentView().TitleBar;
+            ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
             titlebar.ButtonBackgroundColor = Colors.Transparent;
             titlebar.ButtonInactiveBackgroundColor = Colors.Transparent;
-        }
-
-        //Called when the scaling or DPI changes.
-        //Updates the taskbar height to be more accurate with the visual.
-        private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
-        {
-            TitleBarArea.Height = sender.Height;
         }
 
         private void NavView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)

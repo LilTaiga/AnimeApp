@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+using muxc = Microsoft.UI.Xaml.Controls;
+
 using AnimeApp.Classes.Anilist;
 using AnimeApp.Classes.Anilist.Result;
 using AnimeApp.Enums;
@@ -37,10 +39,7 @@ namespace AnimeApp.Pages
         //Initializes page and it's resources.
         public AnimeList()
         {
-            this.InitializeComponent();
-
-            /*for (int i = 3; i < OrderComboBox.Items.Count; i++)
-                ((ComboBoxItem)OrderComboBox.Items[i]).IsEnabled = false;*/
+            InitializeComponent();
 
             groupEntries = new List<Entry>();
             groupEntriesSorted = new List<Entry>();
@@ -53,9 +52,6 @@ namespace AnimeApp.Pages
         //Select the default options on navigation bar, to not leave it without selections.
         private async void SetupView()
         {
-            ExhibitionModeListBigPanel.Visibility = Visibility.Collapsed;
-            ExhibitionModeListCompactPanel.Visibility = Visibility.Collapsed;
-
             RetrievingFailedPanel.Visibility = Visibility.Collapsed;
             NotLoggedInPanel.Visibility = Visibility.Collapsed;
 
@@ -75,11 +71,11 @@ namespace AnimeApp.Pages
             if (AnilistAccount.UserLists != null)
             {
                 RetrievingListsPanel.Visibility = Visibility.Collapsed;
-                AnimeWatching.Content += " (" + AnilistAccount.UserLists[3].entries.Count + ")";
+                /*AnimeWatching.Content += " (" + AnilistAccount.UserLists[3].entries.Count + ")";
                 AnimeCompleted.Content += " (" + AnilistAccount.UserLists[0].entries.Count + ")";
                 AnimePaused.Content += " (" + AnilistAccount.UserLists[2].entries.Count + ")";
                 AnimeDropped.Content += " (" + AnilistAccount.UserLists[4].entries.Count + ")";
-                AnimePlanning.Content += " (" + AnilistAccount.UserLists[1].entries.Count + ")";
+                AnimePlanning.Content += " (" + AnilistAccount.UserLists[1].entries.Count + ")";*/
                 ExhibitionModeListBig_Click(null, null);
 
                 ChangeTab(MediaStatus.CURRENT);
@@ -141,7 +137,7 @@ namespace AnimeApp.Pages
             UpdateEntriesFiltered();
         }
 
-        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private void NavigationView_SelectionChanged(muxc.NavigationView sender, muxc.NavigationViewSelectionChangedEventArgs args)
         {
             if (args.SelectedItemContainer != null)
             {
@@ -165,7 +161,7 @@ namespace AnimeApp.Pages
             switch (sortBy)
             {
                 case SortColumn.Title:
-                    groupEntriesSorted = groupEntries.OrderBy(groupEntries => groupEntries.media.title.userPreferred).ToList();
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.title.userPreferred).ToList();
                     break;
                 case SortColumn.Score:
                     groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.score).ToList();
@@ -297,7 +293,7 @@ namespace AnimeApp.Pages
         //No entries to navigate, block the UI to avoid unnecessary navigation.
         private void BlockNavigation()
         {
-            foreach(NavigationViewItem item in NavView.MenuItems)
+            foreach(muxc.NavigationViewItem item in NavView.MenuItems)
             {
                 item.IsEnabled = false;
             }
@@ -319,8 +315,8 @@ namespace AnimeApp.Pages
         //User clicked the button to go to Accounts page, redirect main NavigationView to Accounts page.
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var parentNavView = ((RelativePanel)Frame.Parent).Parent as Microsoft.UI.Xaml.Controls.NavigationView;
-            foreach(Microsoft.UI.Xaml.Controls.NavigationViewItem item in parentNavView.FooterMenuItems.OfType<Microsoft.UI.Xaml.Controls.NavigationViewItem>())
+            var parentNavView = ((RelativePanel)Frame.Parent).Parent as muxc.NavigationView;
+            foreach(muxc.NavigationViewItem item in parentNavView.FooterMenuItems.OfType<muxc.NavigationViewItem>())
             {
                 if ((item.Tag??"").ToString().Equals("Account"))
                     parentNavView.SelectedItem = item;
@@ -333,28 +329,33 @@ namespace AnimeApp.Pages
         {
             ExhibitionModeIcon.Glyph = "\uF0E2";
 
-            ExhibitionModeListCompactPanel.Visibility = Visibility.Collapsed;
-            ExhibitionModeListBigPanel.Visibility = Visibility.Collapsed;
-            ExhibitionModeGridPanel.Visibility = Visibility.Visible;
+            UnloadObject(ExhibitionModeListBigPanel);
+            UnloadObject(ExhibitionModeListCompactPanel);
+            GC.Collect();
+
+            FindName("ExhibitionModeGridPanel");
         }
 
         private void ExhibitionModeListBig_Click(object sender, RoutedEventArgs e)
         {
             ExhibitionModeIcon.Glyph = "\uE179";
 
-            ExhibitionModeGridPanel.Visibility = Visibility.Collapsed;
-            ExhibitionModeListCompactPanel.Visibility = Visibility.Collapsed;
-            ExhibitionModeListBigPanel.Visibility = Visibility.Visible;
+            UnloadObject(ExhibitionModeGridPanel);
+            UnloadObject(ExhibitionModeListCompactPanel);
+            GC.Collect();
+
+            FindName("ExhibitionModeListBigPanel");
         }
 
         private void ExhibitionModeListCompact_Click(object sender, RoutedEventArgs e)
         {
             ExhibitionModeIcon.Glyph = "\uE14C";
 
-            ExhibitionModeGridPanel.Visibility = Visibility.Collapsed;
-            ExhibitionModeListBigPanel.Visibility = Visibility.Collapsed;
-            ExhibitionModeListCompactPanel.Visibility = Visibility.Visible;
-            
+            UnloadObject(ExhibitionModeGridPanel);
+            UnloadObject(ExhibitionModeListBigPanel);
+            GC.Collect();
+
+            FindName("ExhibitionModeListCompactPanel");
         }
     }
 }

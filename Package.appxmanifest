@@ -8,14 +8,14 @@
 
   <Identity
     Name="43023831-c10a-419d-977b-4f5fdb67b8b8"
-    Publisher="CN=lilta"
-    Version="1.0.0.0" />
+    Publisher="CN=Lil Taiga"
+    Version="0.1.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="43023831-c10a-419d-977b-4f5fdb67b8b8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>AnimeApp</DisplayName>
-    <PublisherDisplayName>lilta</PublisherDisplayName>
+    <PublisherDisplayName>Lil Taiga</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

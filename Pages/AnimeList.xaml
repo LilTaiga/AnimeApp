@@ -7,25 +7,27 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="Transparent"
     
-    RequestedTheme="Default">
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <NavigationView x:Name="NavView"
-                    PaneDisplayMode="Top"
-                    IsBackButtonVisible="Collapsed"
-                    IsSettingsVisible="False"
-                    SelectionChanged="NavigationView_SelectionChanged">
+    <muxc:NavigationView x:Name="NavView"
+                         PaneDisplayMode="Top"
+                         IsBackButtonVisible="Collapsed"
+                         IsSettingsVisible="False"
+                         SelectionChanged="NavigationView_SelectionChanged"
+                         Margin="0, 40, 0, 0">
 
-        <NavigationView.MenuItems>
-            <NavigationViewItem Content="Watching" x:Name ="AnimeWatching" Tag="CURRENT"/>
-            <NavigationViewItem Content="Completed" x:Name ="AnimeCompleted" Tag="COMPLETED"/>
-            <NavigationViewItem Content="Paused" x:Name ="AnimePaused" Tag="PAUSED"/>
-            <NavigationViewItem Content="Dropped" x:Name ="AnimeDropped" Tag="DROPPED"/>
-            <NavigationViewItem Content="Planning" x:Name ="AnimePlanning" Tag="PLANNING"/>
-        </NavigationView.MenuItems>
+        <muxc:NavigationView.MenuItems>
+            <muxc:NavigationViewItem Content="Watching" x:Name ="AnimeWatching" Tag="CURRENT"/>
+            <muxc:NavigationViewItem Content="Completed" x:Name ="AnimeCompleted" Tag="COMPLETED"/>
+            <muxc:NavigationViewItem Content="Paused" x:Name ="AnimePaused" Tag="PAUSED"/>
+            <muxc:NavigationViewItem Content="Dropped" x:Name ="AnimeDropped" Tag="DROPPED"/>
+            <muxc:NavigationViewItem Content="Planning" x:Name ="AnimePlanning" Tag="PLANNING"/>
+        </muxc:NavigationView.MenuItems>
 
-        <NavigationView.AutoSuggestBox>
+        <muxc:NavigationView.AutoSuggestBox>
             <AutoSuggestBox Name="SearchBox"
                             PlaceholderText="Search your anime"
                             QueryIcon="Find"
@@ -36,9 +38,9 @@
                             TextChanged="SearchBox_TextChanged"
                             QuerySubmitted="SearchBox_QuerySubmitted"
                             SuggestionChosen="SearchBox_SuggestionChosen"/>
-        </NavigationView.AutoSuggestBox>
+        </muxc:NavigationView.AutoSuggestBox>
 
-        <NavigationView.PaneFooter>
+        <muxc:NavigationView.PaneFooter>
             <StackPanel x:Name="OrderingStackPanel"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
@@ -71,23 +73,13 @@
                                   IsEnabled="True"/>
                     <ComboBoxItem Content="Popularity"
                                   IsEnabled="True"/>
-                    <!--<x:String>Title</x:String>
-                    <x:String>Score</x:String>
-                    <x:String>Progress</x:String>
-                    <x:String>Last Updated</x:String>
-                    <x:String>Last Added</x:String>
-                    <x:String>Start Date</x:String>
-                    <x:String>Completed Date</x:String>
-                    <x:String>Release Date</x:String>
-                    <x:String>Average Score</x:String>
-                    <x:String>Popularity</x:String>-->
                 </ComboBox>
+
                 <Button x:Name="OrderwayButton"
                         Height="32"
                         Width="32"
                         Padding="0, 0, 0, 0"
                         
-                        BorderBrush="#A6A6A6"
                         BorderThickness="0, 1, 1, 1"
                         CornerRadius="0, 2, 2, 0"
                         
@@ -139,35 +131,23 @@
 
                 </Button>
             </StackPanel>
-        </NavigationView.PaneFooter>
+        </muxc:NavigationView.PaneFooter>
 
         <RelativePanel>
-            <Rectangle RelativePanel.AlignTopWithPanel="True"
-                       RelativePanel.AlignLeftWithPanel="True"
-                       RelativePanel.AlignRightWithPanel="True"
-                       RelativePanel.AlignBottomWithPanel="True">
-                <Rectangle.Fill>
-                    <AcrylicBrush TintColor="{ThemeResource SystemAltHighColor}"
-                                  TintOpacity="0.75"/>
-                </Rectangle.Fill>
-            </Rectangle>
-
             <RelativePanel x:Name="ExhibitionModeGridPanel"
                            RelativePanel.AlignTopWithPanel="True"
                            RelativePanel.AlignLeftWithPanel="True"
                            RelativePanel.AlignRightWithPanel="True"
                            RelativePanel.AlignBottomWithPanel="True"
                            
-                           Visibility="Collapsed">
+                           x:Load="False">
                 <GridView x:Name="EntriesViewGrid"
                           RelativePanel.AlignTopWithPanel="True"
                           RelativePanel.AlignLeftWithPanel="True"
                           RelativePanel.AlignRightWithPanel="True"
                           RelativePanel.AlignBottomWithPanel="True"
                           
-                          ItemsSource="{x:Bind visibleEntries, Mode=OneWay}"
-                          HorizontalContentAlignment="Center"
-                          HorizontalAlignment="Center">
+                          ItemsSource="{x:Bind visibleEntries, Mode=OneWay}">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="anilist:Entry">
                             <StackPanel Width="250"
@@ -188,60 +168,29 @@
                                            TextAlignment="Center"
                                            TextWrapping="WrapWholeWords"
                                            TextTrimming="WordEllipsis"
-                                           MaxLines="3"/>
+                                           MaxLines="3"
+                                           
+                                           x:Phase="1"/>
 
                                 <RelativePanel Margin="0, 16, 0 0">
                                     <TextBlock Text="{x:Bind media.GetMediaFormat()}"
                                                RelativePanel.AlignLeftWithPanel="True"
                                                RelativePanel.AlignBottomWithPanel="True"
                                                Foreground="Gray"
-                                               Margin="25, 0, 0, 0"/>
+                                               Margin="25, 0, 0, 0"
+                                               
+                                               x:Phase="2"/>
 
                                     <TextBlock Text="{x:Bind GetProgressFormatted()}"
                                                RelativePanel.AlignRightWithPanel="True"
                                                RelativePanel.AlignBottomWithPanel="True"
-                                               Margin="0, 0, 25, 0"/>
+                                               Margin="0, 0, 25, 0"
+                                               
+                                               x:Phase="2"/>
                                 </RelativePanel>
                             </StackPanel>
                         </DataTemplate>
                     </GridView.ItemTemplate>
-
-                    <!--<GridViewItem>
-                        <StackPanel Width="250"
-                                    Height="340"
-                                    Margin="0, 8">
-                            <Border Width="200"
-                                    Height="250"
-                                
-                                    CornerRadius="8">
-                                <Border.Background>
-                                    <ImageBrush ImageSource="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx98580-JuYPIA1BumA5.png"
-                                                Stretch="UniformToFill"/>
-                                </Border.Background>
-                            </Border>
-
-                            <TextBlock Text="Maou Gakuin no Futekigousha: Shijou Saikyou no Maou no Shiso, Tensei shite Shison-tachi no Gakkou e Kayou"
-                                       HorizontalAlignment="Center"
-                                       TextAlignment="Center"
-                                       TextWrapping="WrapWholeWords"
-                                       TextTrimming="WordEllipsis"
-                                       MaxLines="3"/>
-
-                            <RelativePanel Margin="0, 16, 0 0">
-                                <TextBlock Text="OVA"
-                                           RelativePanel.AlignLeftWithPanel="True"
-                                           RelativePanel.AlignBottomWithPanel="True"
-                                           Foreground="Gray"
-                                           Margin="25, 0, 0, 0"/>
-
-                                <TextBlock Text="1/1"
-                                           RelativePanel.AlignRightWithPanel="True"
-                                           RelativePanel.AlignBottomWithPanel="True"
-                                           Margin="0, 0, 25, 0"/>
-                            </RelativePanel>
-                        </StackPanel>
-                    </GridViewItem>-->
-
                 </GridView>
             </RelativePanel>
 
@@ -251,7 +200,7 @@
                            RelativePanel.AlignLeftWithPanel="True"
                            RelativePanel.AlignRightWithPanel="True"
                         
-                           Visibility="Collapsed">
+                           x:Load="False">
 
                 <Grid x:Name="ColumnsDetailsListBig"
                       RelativePanel.AlignLeftWithPanel="True"
@@ -332,7 +281,9 @@
                                            Text="{x:Bind media.title.userPreferred}"
                                            TextWrapping="WrapWholeWords"
                                    
-                                           VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center"
+                                           
+                                           x:Phase="1"/>
 
                                 <StackPanel Grid.Column="2"
                                             
@@ -387,7 +338,7 @@
                            RelativePanel.AlignLeftWithPanel="True"
                            RelativePanel.AlignRightWithPanel="True"
                         
-                           Visibility="Collapsed">
+                           x:Load="False">
                 
                 <Grid x:Name="ColumnsDetailsListCompact"
                       RelativePanel.AlignLeftWithPanel="True"
@@ -450,7 +401,9 @@
                                            Text="{x:Bind media.title.userPreferred}"
                                            TextWrapping="WrapWholeWords"
                                            
-                                           VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center"
+                                           
+                                           x:Phase="1"/>
 
                                 <StackPanel Grid.Column="1"
                                             HorizontalAlignment="Center"
@@ -503,7 +456,7 @@
                         Visibility="Collapsed">
 
 
-                <ProgressRing Width="100"
+                <muxc:ProgressRing Width="100"
                               Height="100"
                               
                               IsActive="True"
@@ -560,5 +513,5 @@
 
             </StackPanel>
         </RelativePanel>
-    </NavigationView>
+    </muxc:NavigationView>
 </Page>
