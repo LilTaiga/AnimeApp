@@ -27,7 +27,9 @@ namespace AnimeApp.Pages
 {
     public sealed partial class AnimeList : Page
     {
-        private bool isOrderingCrescent;
+        private SortColumn sortColumn;
+        private bool isSortCrescent;
+        public string SearchString { get; set; }
 
         public List<Entry> groupEntries;                        //All entries from the current list.
         public List<Entry> groupEntriesSorted;                  //All entries from the current list, after being sorted.
@@ -71,17 +73,19 @@ namespace AnimeApp.Pages
             if (AnilistAccount.UserLists != null)
             {
                 RetrievingListsPanel.Visibility = Visibility.Collapsed;
-                /*AnimeWatching.Content += " (" + AnilistAccount.UserLists[3].entries.Count + ")";
-                AnimeCompleted.Content += " (" + AnilistAccount.UserLists[0].entries.Count + ")";
-                AnimePaused.Content += " (" + AnilistAccount.UserLists[2].entries.Count + ")";
-                AnimeDropped.Content += " (" + AnilistAccount.UserLists[4].entries.Count + ")";
-                AnimePlanning.Content += " (" + AnilistAccount.UserLists[1].entries.Count + ")";*/
+                AnimeWatching.Content += " (" + AnilistAccount.UserLists.Find(n => n.name == "Watching").entries.Count + ")";
+                AnimeCompleted.Content += " (" + AnilistAccount.UserLists.Find(n => n.name == "Completed").entries.Count + ")";
+                AnimePaused.Content += " (" + AnilistAccount.UserLists.Find(n => n.name == "Paused").entries.Count + ")";
+                AnimeDropped.Content += " (" + AnilistAccount.UserLists.Find(n => n.name == "Dropped").entries.Count + ")";
+                AnimePlanning.Content += " (" + AnilistAccount.UserLists.Find(n => n.name == "Planning").entries.Count + ")";
                 ExhibitionModeListBig_Click(null, null);
 
+                NavView.SelectedItem = NavView.MenuItems[0];
                 ChangeTab(MediaStatus.CURRENT);
 
-                isOrderingCrescent = true;
-                SortEntries(SortColumn.Progress);
+                sortColumn = SortColumn.Progress;
+                isSortCrescent = true;
+                SortEntries();
             }
 
             UpdateView();
@@ -132,7 +136,6 @@ namespace AnimeApp.Pages
                     break;
                 }
             }
-
             UpdateEntriesSorted();
             UpdateEntriesFiltered();
         }
@@ -154,11 +157,9 @@ namespace AnimeApp.Pages
 
         #region NavigationView Sort
 
-        private void SortEntries(SortColumn sortBy)
+        private void SortEntries()
         {
-            OrderComboBox.SelectedIndex = (int)sortBy - 1;
-
-            switch (sortBy)
+            switch (sortColumn)
             {
                 case SortColumn.Title:
                     groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.title.userPreferred).ToList();
@@ -192,7 +193,7 @@ namespace AnimeApp.Pages
                     break;
             }
 
-            if (isOrderingCrescent)
+            if (isSortCrescent)
                 groupEntriesSorted.Reverse();
 
             UpdateEntriesFiltered();
@@ -201,35 +202,37 @@ namespace AnimeApp.Pages
         private void UpdateEntriesSorted()
         {
             groupEntriesSorted.Clear();
-            if (OrderComboBox.SelectedIndex != -1)
-            {
-                SortEntries((SortColumn)Enum.Parse(typeof(SortColumn), (((ComboBoxItem)OrderComboBox.SelectedItem).Tag ??
-                                                                       ((ComboBoxItem)OrderComboBox.SelectedItem).Content).ToString()));
-            }
-            else
-            {
-                groupEntriesSorted.AddRange(groupEntries);
-            }
+            SortEntries();
         }
 
         private void OrderComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SortEntries((SortColumn)Enum.Parse(typeof(SortColumn), (((ComboBoxItem)OrderComboBox.SelectedItem).Tag ??
-                                                                   ((ComboBoxItem)OrderComboBox.SelectedItem).Content).ToString()));
+            ComboBox bb = sender as ComboBox;
+            sortColumn = (SortColumn)Enum.Parse(typeof(SortColumn), (((ComboBoxItem)bb.SelectedItem).Tag ??
+                                                                    ((ComboBoxItem)bb.SelectedItem).Content).ToString());
+
+            SortEntries();
             UpdateView();
         }
 
 
         private void OrderwayButton_Click(object sender, RoutedEventArgs e)
         {
-            isOrderingCrescent = !isOrderingCrescent;
             groupEntriesFiltered.Reverse();
             UpdateView();
 
-            if (OrderwayIcon.Glyph == "\uE70E")
-                OrderwayIcon.Glyph = "\uE70D";
+            if (isSortCrescent)
+            {
+                OrderwayExpandedIcon.Glyph = "\uE70D";
+                OrderwayCollapsedIcon.Glyph = "\uE70D";
+            }
             else
-                OrderwayIcon.Glyph = "\uE70E";
+            {
+                OrderwayExpandedIcon.Glyph = "\uE70E";
+                OrderwayCollapsedIcon.Glyph = "\uE70E";
+            }
+
+            isSortCrescent = !isSortCrescent;
         }
 
         #endregion
@@ -238,20 +241,20 @@ namespace AnimeApp.Pages
 
         #region NavigationView Search
 
-        private void SearchEntries(string _searchText)
+        private void SearchEntries()
         {
             groupEntriesFiltered.Clear();
 
-            var filtered = groupEntriesSorted.FindAll(groupEntriesSorted => groupEntriesSorted.media.title.romaji.Contains(_searchText, StringComparison.CurrentCultureIgnoreCase));
+            var filtered = groupEntriesSorted.FindAll(groupEntriesSorted => groupEntriesSorted.media.title.romaji.Contains(SearchString, StringComparison.CurrentCultureIgnoreCase));
             groupEntriesFiltered.AddRange(filtered);
         }
 
         private void UpdateEntriesFiltered()
         {
             groupEntriesFiltered.Clear();
-            if (!string.IsNullOrWhiteSpace(SearchBox.Text))
+            if (!string.IsNullOrWhiteSpace(SearchString))
             {
-                SearchEntries(SearchBox.Text);
+                SearchEntries();
             }
             else
             {
@@ -261,7 +264,8 @@ namespace AnimeApp.Pages
 
         private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            SearchEntries(sender.Text);
+            SearchString = sender.Text;
+            SearchEntries();
             UpdateView();
         }
 
@@ -298,9 +302,14 @@ namespace AnimeApp.Pages
                 item.IsEnabled = false;
             }
 
-            SearchBox.IsEnabled = false;
+            SearchBoxButton.IsEnabled = false;
             OrderwayButton.IsEnabled = false;
-            OrderComboBox.IsEnabled = false;
+
+            SearchBoxExpanded.IsEnabled = false;
+            OrderComboBoxExpanded.IsEnabled = false;
+            OrderwayExpandedButton.IsEnabled = false;
+
+            ExhibitionModeButton.IsEnabled = false;
         }
 
         //There are entries to navigate, display them in the screen.
@@ -356,6 +365,14 @@ namespace AnimeApp.Pages
             GC.Collect();
 
             FindName("ExhibitionModeListCompactPanel");
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Width < 1150 && e.PreviousSize.Width >= 1150)
+                ExpandedToCompact.Begin();
+            else if(e.NewSize.Width >= 1150 && e.PreviousSize.Width < 1150)
+                CompactToExpanded.Begin();
         }
     }
 }
