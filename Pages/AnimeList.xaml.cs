@@ -73,11 +73,11 @@ namespace AnimeApp.Pages
             if (AnilistAccount.UserLists != null)
             {
                 RetrievingListsPanel.Visibility = Visibility.Collapsed;
-                AnimeWatching.Content += " (" + AnilistAccount.UserLists.Find(n => n.name == "Watching").entries.Count + ")";
-                AnimeCompleted.Content += " (" + AnilistAccount.UserLists.Find(n => n.name == "Completed").entries.Count + ")";
-                AnimePaused.Content += " (" + AnilistAccount.UserLists.Find(n => n.name == "Paused").entries.Count + ")";
-                AnimeDropped.Content += " (" + AnilistAccount.UserLists.Find(n => n.name == "Dropped").entries.Count + ")";
-                AnimePlanning.Content += " (" + AnilistAccount.UserLists.Find(n => n.name == "Planning").entries.Count + ")";
+                /*AnimeWatching.Content += " (" + AnilistAccount.UserLists.Find(n => n.status == MediaStatus.CURRENT.ToString()).entries.Count + ")";
+                AnimeCompleted.Content += " (" + AnilistAccount.UserLists.Find(n => n.status == MediaStatus.COMPLETED.ToString()).entries.Count + ")";
+                AnimePaused.Content += " (" + AnilistAccount.UserLists.Find(n => n.status == MediaStatus.PAUSED.ToString()).entries.Count + ")";
+                AnimeDropped.Content += " (" + AnilistAccount.UserLists.Find(n => n.status == MediaStatus.DROPPED.ToString()).entries.Count + ")";
+                AnimePlanning.Content += " (" + AnilistAccount.UserLists.Find(n => n.status == MediaStatus.PLANNING.ToString()).entries.Count + ")";*/
                 ExhibitionModeListBig_Click(null, null);
 
                 NavView.SelectedItem = NavView.MenuItems[0];
@@ -140,7 +140,7 @@ namespace AnimeApp.Pages
             UpdateEntriesFiltered();
         }
 
-        private void NavigationView_SelectionChanged(muxc.NavigationView sender, muxc.NavigationViewSelectionChangedEventArgs args)
+        private void NavView_SelectionChanged(muxc.NavigationView sender, muxc.NavigationViewSelectionChangedEventArgs args)
         {
             if (args.SelectedItemContainer != null)
             {

@@ -95,7 +95,7 @@
                          PaneDisplayMode="Top"
                          IsBackButtonVisible="Collapsed"
                          IsSettingsVisible="False"
-                         SelectionChanged="NavigationView_SelectionChanged"
+                         SelectionChanged="NavView_SelectionChanged"
                          Margin="0, 40, 0, 0">
 
         <muxc:NavigationView.MenuItems>
@@ -513,7 +513,7 @@
                            RelativePanel.AlignRightWithPanel="True"
                         
                            x:Load="False">
-                
+
                 <Grid x:Name="ColumnsDetailsListCompact"
                       RelativePanel.AlignLeftWithPanel="True"
                       RelativePanel.AlignRightWithPanel="True"
@@ -687,20 +687,5 @@
 
             </StackPanel>
         </RelativePanel>
-
-        <!--<VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1460"/>
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="FooterCompact.Visibility" Value="Collapsed"/>
-                        <Setter Target="FooterExpanded.Visibility" Value="Visible"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>-->
     </muxc:NavigationView>
 </Page>

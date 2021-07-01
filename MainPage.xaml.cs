@@ -40,7 +40,10 @@ namespace AnimeApp
                         NavViewFrame.Navigate(typeof(Pages.Account.Account_Big));
                         break;
                     case "AnimeList":
-                        NavViewFrame.Navigate(typeof(Pages.AnimeList), this);
+                        NavViewFrame.Navigate(typeof(Pages.AnimeList));
+                        break;
+                    case "Info":
+                        NavViewFrame.Navigate(typeof(Pages.Information));
                         break;
                     default:
                         NavViewFrame.Navigate(typeof(Pages.NotImplemented));

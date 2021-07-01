@@ -9,7 +9,7 @@
   <Identity
     Name="43023831-c10a-419d-977b-4f5fdb67b8b8"
     Publisher="CN=Lil Taiga"
-    Version="0.1.0.0" />
+    Version="0.1.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="43023831-c10a-419d-977b-4f5fdb67b8b8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -39,6 +39,8 @@
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/></uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>
