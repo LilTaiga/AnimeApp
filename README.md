@@ -6,25 +6,5 @@ I'm trying to develop a modern application similar to [Taiga](https://taiga.moe)
 
 Currently this project is in a very early stage, I'm still implementing some basic functionalities yet.
 
-# Functionalities implemented
-* - [x] Linking your account
-  * - [x] Connect to your Anilist account
-  * - [x] View all your anime entries
-  * - [x] Group your anime entries
-  * - [x] Sort your anime entries
-  * - [x] Search your anime entries
-  * - [x] Rework code and add comments
-  * - [x] Update sort and search features
-  * - [x] Update UI
-  * - [x] Add quality of life updates?
-* - [ ] Update your anime lists
-  * - [ ] View anime information in full detail
-  * - [ ] Edit user entries and uploading changes to Anilist
-  * - [ ] Find bugs
-* - [ ] Discover new media
-  * - [ ] Search animes on Anilist
-    * - [ ] By title
-    * - [ ] By genre(s)
-  * - [ ] Lookup seasons on Anilist
-* - [ ] Automatically update anime lists
-  * - [ ] Add media detection 
+## State of development
+You can view the current state of AnimeApp [here](https://github.com/LilTaiga/AnimeApp/projects).
