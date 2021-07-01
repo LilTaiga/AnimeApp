@@ -7,4 +7,4 @@ I'm trying to develop a modern application similar to [Taiga](https://taiga.moe)
 Currently this project is in a very early stage, I'm still implementing some basic functionalities yet.
 
 ## State of development
-You can view the current state of AnimeApp [here](https://github.com/LilTaiga/AnimeApp/projects).
+You can view the current state of AnimeApp [here](https://github.com/LilTaiga/AnimeApp/projects/1).
