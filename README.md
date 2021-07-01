@@ -7,7 +7,7 @@ I'm trying to develop a modern application similar to [Taiga](https://taiga.moe)
 Currently this project is in a very early stage, I'm still implementing some basic functionalities yet.
 
 # Functionalities implemented
-* - [ ] Linking your account
+* - [x] Linking your account
   * - [x] Connect to your Anilist account
   * - [x] View all your anime entries
   * - [x] Group your anime entries
@@ -16,11 +16,11 @@ Currently this project is in a very early stage, I'm still implementing some bas
   * - [x] Rework code and add comments
   * - [x] Update sort and search features
   * - [x] Update UI
-  * - [ ] Add quality of life updates?
-  * - [ ] Find bugs
+  * - [x] Add quality of life updates?
 * - [ ] Update your anime lists
   * - [ ] View anime information in full detail
   * - [ ] Edit user entries and uploading changes to Anilist
+  * - [ ] Find bugs
 * - [ ] Discover new media
   * - [ ] Search animes on Anilist
     * - [ ] By title
