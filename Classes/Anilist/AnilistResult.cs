@@ -37,32 +37,19 @@ namespace AnimeApp.Classes.Anilist.Result
         public string large { get; set; }
     }
 
-    public class Title : IComparable<Title>
+    public class Title
     {
         public string romaji { get; set; }
         public string english { get; set; }
         public string native { get; set; }
         public string userPreferred { get; set; }
-
-        public int CompareTo(Title _other)
-        {
-            return string.Compare(romaji, _other.romaji, true);
-        }
     }
 
-    public class StartDate : IComparable<StartDate>
+    public class StartDate
     {
         public int? year { get; set; }
         public int? month { get; set; }
         public int? day { get; set; }
-
-        public int CompareTo(StartDate other)
-        {
-            DateTime date = new DateTime(year ?? 1, month ?? 1, day ?? 1);
-            DateTime otherDate = new DateTime(other.year ?? 1, other.month ?? 1, other.day ?? 1);
-
-            return date.CompareTo(otherDate);
-        }
     }
 
     public class EndDate
@@ -129,54 +116,20 @@ namespace AnimeApp.Classes.Anilist.Result
         public NextAiringEpisode nextAiringEpisode { get; set; }
         public string siteUrl { get; set; }
         public List<ExternalLink> externalLinks { get; set; }
-
-        public double GetNumberOfAiredEpisodes()
-        {
-            return episodes ?? (nextAiringEpisode != null ? nextAiringEpisode.episode : 1);
-        }
-
-        public string GetMediaFormat()
-        {
-           string newFormat =  format.Replace('_', ' ').ToLower().Replace("tv", "TV").Replace("ova", "OVA").Replace("ona", "ONA");
-            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(newFormat);
-        }
-
-        public string GetSeasonAndYear()
-        {
-            string SeasonAndYear = $"{season ?? "Unknown"} {startDate.year}";
-
-            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(SeasonAndYear.ToLower());
-        }
     }
 
-    public class StartedAt : IComparable<StartedAt>
+    public class StartedAt
     {
         public int? year { get; set; }
         public int? month { get; set; }
         public int? day { get; set; }
-
-        public int CompareTo(StartedAt other)
-        {
-            DateTime date = new DateTime(year ?? 1, month ?? 1, day ?? 1);
-            DateTime otherDate = new DateTime(other.year ?? 1, other.month ?? 1, other.day ?? 1);
-
-            return date.CompareTo(otherDate);
-        }
     }
 
-    public class CompletedAt : IComparable<CompletedAt>
+    public class CompletedAt
     {
         public int? year { get; set; }
         public int? month { get; set; }
         public int? day { get; set; }
-
-        public int CompareTo(CompletedAt other)
-        {
-            DateTime date = new DateTime(year ?? 1, month ?? 1, day ?? 1);
-            DateTime otherDate = new DateTime(other.year ?? 1, other.month ?? 1, other.day ?? 1);
-
-            return date.CompareTo(otherDate);
-        }
     }
 
     public class Entry
@@ -191,11 +144,6 @@ namespace AnimeApp.Classes.Anilist.Result
         public StartedAt startedAt { get; set; }
         public CompletedAt completedAt { get; set; }
         public Media media { get; set; }
-
-        public string GetProgressFormatted()
-        {
-            return progress + "/" + (media.episodes ?? (media.nextAiringEpisode != null ? media.nextAiringEpisode.episode - 1 : 0)).ToString() + (media.episodes == null ? "+" : "");
-        }
     }
 
     public class List

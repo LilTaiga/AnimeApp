@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 
 using AnimeApp.Classes.Anilist.Result;
+using AnimeApp.Classes.AnimeApp;
 
 namespace AnimeApp.Classes.Anilist
 {
@@ -18,7 +19,7 @@ namespace AnimeApp.Classes.Anilist
         public static string AvatarMedium { get; private set; }
         public static string AvatarLarge { get; private set; }
         public static string Token { get; private set; }
-        public static List<List> UserLists { get; private set; }
+        public static List<UserList> UserLists { get; private set; }
 
         #region Profile
 
@@ -102,29 +103,11 @@ namespace AnimeApp.Classes.Anilist
             AnilistResponse result = await AnilistOperations.GetViewerAnimeLists();
             List<List> lists = result.data.MediaListCollection.lists;
 
-            //Remove custom lists.
-            if(!includeCustomLists)
-                lists.RemoveAll(RemoveCustomLists);
-
-            //Store user lists.
-            UserLists = lists;
-        }
-
-        //A LINQ function to remove custom lists.
-        //Returns false to maintain official lists.
-        //Return true to remove custom lists.
-        private static bool RemoveCustomLists(Result.List _item)
-        {
-            switch(_item.status)
+            //Convert result into AnimeApp format.
+            UserLists = new List<UserList>();
+            foreach(List list in lists)
             {
-                case "COMPLETED":
-                case "PLANNING":
-                case "CURRENT":
-                case "PAUSED":
-                case "DROPPED":
-                    return false;
-                default:
-                    return true;
+                UserLists.Add(new UserList(list));
             }
         }
 

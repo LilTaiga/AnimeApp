@@ -135,7 +135,11 @@
     <Compile Include="Classes\Anilist\AnilistOperations.cs" />
     <Compile Include="Classes\Anilist\AnilistRequest.cs" />
     <Compile Include="Classes\Anilist\AnilistResult.cs" />
+    <Compile Include="Classes\AnimeApp\UserEntry.cs" />
+    <Compile Include="Classes\AnimeApp\Media.cs" />
+    <Compile Include="Classes\AnimeApp\UserList.cs" />
     <Compile Include="Enums\ExhibitionMode.cs" />
+    <Compile Include="Enums\EntryStatus.cs" />
     <Compile Include="Enums\MediaStatus.cs" />
     <Compile Include="Enums\SortColumn.cs" />
     <Compile Include="Enums\SortOrder.cs" />
@@ -216,7 +220,7 @@
       <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.6.0</Version>
+      <Version>2.6.1</Version>
     </PackageReference>
     <PackageReference Include="System.Memory">
       <Version>4.5.4</Version>
