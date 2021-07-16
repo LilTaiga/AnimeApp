@@ -28,6 +28,9 @@ namespace AnimeApp
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
             titlebar.ButtonBackgroundColor = Colors.Transparent;
             titlebar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+            var dialog = new Pages.EntryView.EntryDialog();
+            dialog.ShowAsync();
         }
 
         private void NavView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
