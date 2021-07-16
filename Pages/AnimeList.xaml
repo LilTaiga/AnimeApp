@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeApp.Pages"
-    xmlns:anilist="using:AnimeApp.Classes.Anilist.Result"
+    xmlns:userLists="using:AnimeApp.Classes.AnimeApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -323,7 +323,7 @@
                           
                           ItemsSource="{x:Bind visibleEntries, Mode=OneWay}">
                     <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="anilist:Entry">
+                        <DataTemplate x:DataType="userLists:UserEntry">
                             <StackPanel Width="250"
                                         Height="340"
                                         Margin="0, 8">
@@ -332,12 +332,12 @@
                                 
                                         CornerRadius="8">
                                     <Border.Background>
-                                        <ImageBrush ImageSource="{x:Bind media.coverImage.large}"
+                                        <ImageBrush ImageSource="{x:Bind Media.coverLarge}"
                                                     Stretch="UniformToFill"/>
                                     </Border.Background>
                                 </Border>
 
-                                <TextBlock Text="{x:Bind media.title.userPreferred}"
+                                <TextBlock Text="{x:Bind Media.title}"
                                            HorizontalAlignment="Center"
                                            TextAlignment="Center"
                                            TextWrapping="WrapWholeWords"
@@ -347,7 +347,7 @@
                                            x:Phase="1"/>
 
                                 <RelativePanel Margin="0, 16, 0 0">
-                                    <TextBlock Text="{x:Bind media.GetMediaFormat()}"
+                                    <TextBlock Text="{x:Bind Media.GetMediaFormatFormatted()}"
                                                RelativePanel.AlignLeftWithPanel="True"
                                                RelativePanel.AlignBottomWithPanel="True"
                                                Foreground="Gray"
@@ -355,7 +355,7 @@
                                                
                                                x:Phase="2"/>
 
-                                    <TextBlock Text="{x:Bind GetProgressFormatted()}"
+                                    <TextBlock Text="{x:Bind GetProgressFormated()}"
                                                RelativePanel.AlignRightWithPanel="True"
                                                RelativePanel.AlignBottomWithPanel="True"
                                                Margin="0, 0, 25, 0"
@@ -428,7 +428,7 @@
                           ItemsSource="{x:Bind visibleEntries, Mode=OneWay}"
                           HorizontalContentAlignment="Stretch">
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="anilist:Entry">
+                        <DataTemplate x:DataType="userLists:UserEntry">
                             <Grid Height="100"
                                   Margin="0, 0, -12, 0">
                                 <Grid.ColumnDefinitions>
@@ -446,13 +446,13 @@
                                         
                                         CornerRadius="4">
                                     <Border.Background>
-                                        <ImageBrush ImageSource="{x:Bind media.coverImage.large}"
+                                        <ImageBrush ImageSource="{x:Bind Media.coverLarge}"
                                                     Stretch="UniformToFill"/>
                                     </Border.Background>
                                 </Border>
 
                                 <TextBlock Grid.Column="1"
-                                           Text="{x:Bind media.title.userPreferred}"
+                                           Text="{x:Bind Media.title}"
                                            TextWrapping="WrapWholeWords"
                                    
                                            VerticalAlignment="Center"
@@ -464,13 +464,13 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
 
-                                    <TextBlock Text="{x:Bind GetProgressFormatted()}"
+                                    <TextBlock Text="{x:Bind GetProgressFormated()}"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Center"
                                        
                                                FontSize="16"/>
                                     <ProgressBar Value="{x:Bind progress}"
-                                                 Maximum="{x:Bind media.GetNumberOfAiredEpisodes()}"
+                                                 Maximum="{x:Bind Media.GetEpisodesFormated()}"
                                                  Width="180"
                                          
                                                  Margin="0, 8, 0, 0"/>
@@ -483,13 +483,13 @@
                                            HorizontalAlignment="Center"/>
 
                                 <TextBlock Grid.Column="4"
-                                           Text="{x:Bind media.GetMediaFormat()}"
+                                           Text="{x:Bind Media.GetMediaFormatFormatted()}"
                                    
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Center"/>
 
                                 <TextBlock Grid.Column="5"
-                                           Text="{x:Bind media.GetSeasonAndYear()}"
+                                           Text="{x:Bind Media.GetSeasonAndYear()}"
                                    
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Center"/>
@@ -561,7 +561,7 @@
                           ItemsSource="{x:Bind visibleEntries, Mode=OneTime}"
                           HorizontalContentAlignment="Stretch">
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="anilist:Entry">
+                        <DataTemplate x:DataType="userLists:UserEntry">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -572,7 +572,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" 
-                                           Text="{x:Bind media.title.userPreferred}"
+                                           Text="{x:Bind Media.title}"
                                            TextWrapping="WrapWholeWords"
                                            
                                            VerticalAlignment="Center"
@@ -583,13 +583,13 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
 
-                                    <TextBlock Text="{x:Bind GetProgressFormatted()}"
+                                    <TextBlock Text="{x:Bind GetProgressFormated()}"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Center"
                                        
                                                FontSize="16"/>
                                     <ProgressBar Value="{x:Bind progress}"
-                                                 Maximum="{x:Bind media.GetNumberOfAiredEpisodes()}"
+                                                 Maximum="{x:Bind Media.GetEpisodesFormated()}"
                                                  Width="180"
                                          
                                                  Margin="0, 8, 0, 0"/>
@@ -602,13 +602,13 @@
                                            HorizontalAlignment="Center"/>
 
                                 <TextBlock Grid.Column="3"
-                                           Text="{x:Bind media.GetMediaFormat()}"
+                                           Text="{x:Bind Media.GetMediaFormatFormatted()}"
                                    
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Center"/>
 
                                 <TextBlock Grid.Column="4"
-                                           Text="{x:Bind media.GetSeasonAndYear()}"
+                                           Text="{x:Bind Media.GetSeasonAndYear()}"
                                    
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Center"/>

@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Navigation;
 using muxc = Microsoft.UI.Xaml.Controls;
 
 using AnimeApp.Classes.Anilist;
-using AnimeApp.Classes.Anilist.Result;
+using AnimeApp.Classes.AnimeApp;
 using AnimeApp.Enums;
 using System.Threading.Tasks;
 
@@ -31,10 +31,10 @@ namespace AnimeApp.Pages
         private bool isSortCrescent;
         public string SearchString { get; set; }
 
-        public List<Entry> groupEntries;                        //All entries from the current list.
-        public List<Entry> groupEntriesSorted;                  //All entries from the current list, after being sorted.
-        public List<Entry> groupEntriesFiltered;                //All entries from the current list, after being sorted, after being filtered.
-        public ObservableCollection<Entry> visibleEntries;      //The displayed entries on the user screen.
+        public List<UserEntry> groupEntries;                        //All entries from the current list.
+        public List<UserEntry> groupEntriesSorted;                  //All entries from the current list, after being sorted.
+        public List<UserEntry> groupEntriesFiltered;                //All entries from the current list, after being sorted, after being filtered.
+        public ObservableCollection<UserEntry> visibleEntries;      //The displayed entries on the user screen.
 
         #region Page initialization
 
@@ -43,10 +43,10 @@ namespace AnimeApp.Pages
         {
             InitializeComponent();
 
-            groupEntries = new List<Entry>();
-            groupEntriesSorted = new List<Entry>();
-            groupEntriesFiltered = new List<Entry>();
-            visibleEntries = new ObservableCollection<Entry>();
+            groupEntries = new List<UserEntry>();
+            groupEntriesSorted = new List<UserEntry>();
+            groupEntriesFiltered = new List<UserEntry>();
+            visibleEntries = new ObservableCollection<UserEntry>();
 
             SetupView();
         }
@@ -81,7 +81,7 @@ namespace AnimeApp.Pages
                 ExhibitionModeListBig_Click(null, null);
 
                 NavView.SelectedItem = NavView.MenuItems[0];
-                ChangeTab(MediaStatus.CURRENT);
+                ChangeTab(EntryStatus.CURRENT);
 
                 sortColumn = SortColumn.Progress;
                 isSortCrescent = true;
@@ -101,7 +101,7 @@ namespace AnimeApp.Pages
             {
                 await AnilistAccount.RetrieveLists();
             }
-            catch
+            catch (Exception e)
             {
                 RetrievingFailed();
             }
@@ -125,12 +125,12 @@ namespace AnimeApp.Pages
 
         #region NavigationView Navigation
 
-        private void ChangeTab(MediaStatus _tab)
+        private void ChangeTab(EntryStatus _tab)
         {
             groupEntries.Clear();
-            foreach (List _list in AnilistAccount.UserLists)
+            foreach (UserList _list in AnilistAccount.UserLists)
             {
-                if (_list.status == _tab.ToString())
+                if (_list.listStatus.ToString().ToLower() == _tab.ToString().ToLower())
                 {
                     groupEntries.AddRange(_list.entries);
                     break;
@@ -146,7 +146,7 @@ namespace AnimeApp.Pages
             {
                 var tabTag = args.SelectedItemContainer.Tag.ToString();
 
-                ChangeTab((MediaStatus)Enum.Parse(typeof(MediaStatus), tabTag));
+                ChangeTab((EntryStatus)Enum.Parse(typeof(EntryStatus), tabTag));
                 UpdateView();
             }
         }
@@ -162,7 +162,7 @@ namespace AnimeApp.Pages
             switch (sortColumn)
             {
                 case SortColumn.Title:
-                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.title.userPreferred).ToList();
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.Media.title).ToList();
                     break;
                 case SortColumn.Score:
                     groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.score).ToList();
@@ -171,25 +171,25 @@ namespace AnimeApp.Pages
                     groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.progress).ToList();
                     break;
                 case SortColumn.Last_Updated:
-                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.updatedAt).ToList();
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.updated).ToList();
                     break;
                 case SortColumn.Last_Added:
-                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.createdAt).ToList();
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.created).ToList();
                     break;
                 case SortColumn.Start_Date:
-                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.startedAt).ToList();
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.started).ToList();
                     break;
                 case SortColumn.Completed_Date:
-                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.completedAt).ToList();
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.ended).ToList();
                     break;
                 case SortColumn.Release_Date:
-                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.startDate).ToList();
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.Media.startDate).ToList();
                     break;
                 case SortColumn.Average_Score:
-                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.averageScore ?? 0).ToList();
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.Media.averageScore).ToList();
                     break;
                 case SortColumn.Popularity:
-                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.media.popularity).ToList();
+                    groupEntriesSorted = groupEntries.OrderByDescending(groupEntries => groupEntries.Media.popularity).ToList();
                     break;
             }
 
@@ -245,7 +245,7 @@ namespace AnimeApp.Pages
         {
             groupEntriesFiltered.Clear();
 
-            var filtered = groupEntriesSorted.FindAll(groupEntriesSorted => groupEntriesSorted.media.title.romaji.Contains(SearchString, StringComparison.CurrentCultureIgnoreCase));
+            var filtered = groupEntriesSorted.FindAll(groupEntriesSorted => groupEntriesSorted.Media.title.Contains(SearchString, StringComparison.CurrentCultureIgnoreCase));
             groupEntriesFiltered.AddRange(filtered);
         }
 
@@ -317,7 +317,7 @@ namespace AnimeApp.Pages
         {
             visibleEntries.Clear();
 
-            foreach (Entry _entry in groupEntriesFiltered)
+            foreach (UserEntry _entry in groupEntriesFiltered)
                 visibleEntries.Add(_entry);
         }
 
