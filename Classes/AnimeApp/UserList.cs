@@ -41,5 +41,6 @@ namespace AnimeApp.Classes.AnimeApp
                 entries.Add(new UserEntry(entry));
             }
         }
+
     }
 }

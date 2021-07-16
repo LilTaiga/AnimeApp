@@ -59,5 +59,6 @@ namespace AnimeApp.Classes.AnimeApp
 
             Media = new Media(entry.media);
         }
+
     }
 }
