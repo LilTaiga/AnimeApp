@@ -114,8 +114,19 @@ namespace AnimeApp.Classes.Anilist.Result
         public List<Tag> tags { get; set; }
         public bool isAdult { get; set; }
         public NextAiringEpisode nextAiringEpisode { get; set; }
+        public Studios studios { get; set; }
         public string siteUrl { get; set; }
         public List<ExternalLink> externalLinks { get; set; }
+    }
+
+    public class Studios
+    {
+        public List<Node> nodes { get; set; }
+    }
+
+    public class Node
+    {
+        public string name { get; set; }
     }
 
     public class StartedAt

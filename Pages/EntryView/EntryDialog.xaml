@@ -77,9 +77,11 @@
                                     Grid.Column="1">
                             <TextBlock Text="Description"
                                        Style="{StaticResource SubheaderTextBlockStyle}"/>
-                            <TextBlock TextWrapping="WrapWholeWords"
-                                       Text="{x:Bind entry.Media.description}">
-                            </TextBlock>
+                            <RichTextBlock x:Name="DescriptionRichTextBox"
+                                           TextWrapping="WrapWholeWords"/>
+                            <TextBlock x:Name="NoDescriptionText"
+                                       Text="No description provided"
+                                       Visibility="Collapsed"/>
                         </StackPanel>
 
                         <StackPanel Grid.Row="1"
@@ -87,7 +89,8 @@
 
                             <TextBlock Text="Genres"
                                        Style="{StaticResource BaseTextBlockStyle}"/>
-                            <ListView SelectionMode="None"
+                            <ListView x:Name="GenresList"
+                                      SelectionMode="None"
                                       ItemsSource="{x:Bind entry.Media.genres}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="x:String">
@@ -105,6 +108,11 @@
                                     </Style>
                                 </ListView.ItemContainerStyle>
                             </ListView>
+
+
+                            <TextBlock Name="GenresNoItemsText"
+                                       Text="None specified"
+                                       Visibility="Collapsed"/>
                         </StackPanel>
 
                         <Grid Grid.Row="1"
@@ -158,8 +166,31 @@
 
                             <StackPanel Grid.Row="1"
                                         Grid.Column="2">
-                                <TextBlock Text="Producers"
+                                <TextBlock Text="Studios"
                                            Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                <ListView x:Name="StudiosList"
+                                          SelectionMode="None"
+                                          ItemsSource="{x:Bind entry.Media.studios}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="x:String">
+                                            <TextBlock Text="{x:Bind}"/>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="MinHeight" Value="12"/>
+                                            <Setter Property="Height" Value="Auto"/>
+
+                                            <Setter Property="Margin" Value="0"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                </ListView>
+
+                                <TextBlock x:Name="StudiosNoItemsText"
+                                           Text="Unknown"
+                                           Visibility="Collapsed"/>
 
                             </StackPanel>
                         </Grid>
@@ -172,17 +203,18 @@
                             <TextBlock Text="4 days, 17 hours, 58 minutes"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="2"
+                        <StackPanel x:Name="LinksPanel"
+                                    Grid.Row="2"
                                     Grid.Column="1">
                             <TextBlock Text="Links"
                                        Style="{StaticResource BaseTextBlockStyle}"/>
 
-                            <!--<ListView SelectionMode="None"
-                                      ItemsSource="{x:Bind entry.Media.otherLinks}">
+                            <ListView SelectionMode="None"
+                                      ItemsSource="{x:Bind links}">
                                 <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="entry:Media">
-                                        <HyperlinkButton Content="{x:Bind otherLinks.Values}"
-                                                         NavigateUri="{x:Bind otherLinks.Keys}"/>
+                                    <DataTemplate x:DataType="local:EntryLink">
+                                        <HyperlinkButton Content="{x:Bind linkName}"
+                                                         NavigateUri="{x:Bind linkUri}"/>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
 
@@ -195,7 +227,7 @@
                                         <Setter Property="Padding" Value="0"/>
                                     </Style>
                                 </ListView.ItemContainerStyle>
-                            </ListView>-->
+                            </ListView>
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>

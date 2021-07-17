@@ -118,8 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MediaListCollectionFetch" xml:space="preserve">
-    <value>query ($id: Int) {
-  MediaListCollection(userId: $id, type: ANIME) {
+    <value>query ($userId: Int) {
+  MediaListCollection(userId: $userId, type: ANIME) {
     lists {
       name
       status
@@ -200,6 +200,13 @@
             airingAt
             timeUntilAiring
             episode
+          }
+          studios
+          {
+            nodes
+            {
+              name
+            }
           }
           siteUrl
           externalLinks {

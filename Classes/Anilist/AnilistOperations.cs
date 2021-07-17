@@ -85,7 +85,7 @@ namespace AnimeApp.Classes.Anilist
             //Can raise an exception if unsuccessfull.
             try
             {
-                string result = await AnilistRequest.SendQueryAuthorized(body, string.Format("\"id\": {0}", AnilistAccount.Id));
+                string result = await AnilistRequest.SendQueryAuthorized(body, string.Format("\"userId\": {0}", AnilistAccount.Id));
                 AnilistResponse data = JsonSerializer.Deserialize<AnilistResponse>(result);
 
                 return data;

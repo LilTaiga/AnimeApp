@@ -44,8 +44,10 @@ namespace AnimeApp.Classes.AnimeApp
         public DateTime nextAiringEpisode;                              //The date of next episode (if avaliable)
         public int nextEpisodeNumber;                                   //The number of the next episode (if not avaliable, set to -1)
 
+        public List<string> studios;                                    //The studios involved in the production of the media
         public string siteUrl;                                          //Link to the media official site (if avaliable)
         public Dictionary<string, string> otherLinks;                   //Links related to the media (if avaliable)
+
         #endregion
 
 
@@ -81,14 +83,14 @@ namespace AnimeApp.Classes.AnimeApp
             string s;
 
             if (episodes != -1)
-                s = string.Format("{0} episodes", episodes);
+                s = string.Format("{0} episode{1}", episodes, episodes != 1 ? "s" : "");
             else if (nextAiringEpisode > DateTimeOffset.FromUnixTimeSeconds(0).DateTime && nextEpisodeNumber != -1)
-                s = string.Format("{0} aired episodes", nextEpisodeNumber - 1 != 0 ? nextEpisodeNumber - 1 : 1);
+                s = string.Format("{0} aired episode{1}", nextEpisodeNumber - 1 != 0 ? nextEpisodeNumber - 1 : 1, nextEpisodeNumber != 2 ? "s" : "");
             else
                 s = "Unknown";
 
             if (duration > 0)
-                s += string.Format(", {0} minutes long", duration);
+                s += string.Format(", {0} minute{1} long", duration, duration != 1 ? "s" : "");
 
             return s;
         }
@@ -210,6 +212,11 @@ namespace AnimeApp.Classes.AnimeApp
                 nextEpisodeNumber = -1;
             }
 
+            studios = new List<string>();
+            foreach(Anilist.Result.Node node in media.studios.nodes)
+            {
+                studios.Add(node.name);
+            }
             siteUrl = media.siteUrl;
             if(media.externalLinks != null)
             {
