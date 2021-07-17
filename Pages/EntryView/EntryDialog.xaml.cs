@@ -13,15 +13,20 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+using AnimeApp.Classes.AnimeApp;
+
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace AnimeApp.Pages.EntryView
 {
     public sealed partial class EntryDialog : ContentDialog
     {
-        public EntryDialog()
+        private UserEntry entry;
+
+        public EntryDialog(UserEntry _entry)
         {
-            this.InitializeComponent();
+            entry = _entry;
+            InitializeComponent();
         }
     }
 }

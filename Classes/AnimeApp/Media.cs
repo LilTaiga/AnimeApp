@@ -15,6 +15,7 @@ namespace AnimeApp.Classes.AnimeApp
         public int id;                                                  //The Anilist ID of the media
 
         public string title;                                            //The user prefered title of the media
+        public List<string> altTitles;                                  //List of other titles that the media can be called
         public string format;                                           //The format of this media
         public MediaStatus status;                                      //The status of the media (See enum)
         public string description;                                      //The markdown description of the media
@@ -32,7 +33,6 @@ namespace AnimeApp.Classes.AnimeApp
         public string coverExtraLarge;                                  //The link for the extra large sized cover
 
         public List<string> genres;                                     //The list of genres of this media
-        public List<string> synonyms;                                   //The list of synonyms of this media
 
         public int averageScore;                                        //The average score of all users on Anilist (if not avaliable, set to -1)
         public int meanScore;                                           //The mean score of all users on Anilist (if not avaliable, set to -1)
@@ -45,7 +45,7 @@ namespace AnimeApp.Classes.AnimeApp
         public int nextEpisodeNumber;                                   //The number of the next episode (if not avaliable, set to -1)
 
         public string siteUrl;                                          //Link to the media official site (if avaliable)
-        public Dictionary<string, string> otherLinks;             //Links related to the media (if avaliable)
+        public Dictionary<string, string> otherLinks;                   //Links related to the media (if avaliable)
         #endregion
 
 
@@ -74,6 +74,56 @@ namespace AnimeApp.Classes.AnimeApp
                 return nextEpisodeNumber - 1 != 0 ? nextEpisodeNumber - 1 : 1;
 
             return 1;
+        }
+
+        public string GetEpisodesAndDurationFormated()
+        {
+            string s;
+
+            if (episodes != -1)
+                s = string.Format("{0} episodes", episodes);
+            else if (nextAiringEpisode > DateTimeOffset.FromUnixTimeSeconds(0).DateTime && nextEpisodeNumber != -1)
+                s = string.Format("{0} aired episodes", nextEpisodeNumber - 1 != 0 ? nextEpisodeNumber - 1 : 1);
+            else
+                s = "Unknown";
+
+            if (duration > 0)
+                s += string.Format(", {0} minutes long", duration);
+
+            return s;
+        }
+
+        public string GetStartDateFormated()
+        {
+            if (startDate == default)
+                return "Unknown";
+
+            return startDate.ToString("dd/MM/yyyy");
+        }
+
+        public string GetEndDateFormated()
+        {
+            if (endDate == default)
+                return "Unkown";
+
+            return endDate.ToString("dd/MM/yyyy");
+        }
+
+        public string GetMediaStatusFormated()
+        {
+            switch(status)
+            {
+                case MediaStatus.NOT_YET_RELEASED:
+                    return "Not aired yet";
+                case MediaStatus.RELEASING:
+                    return "Currently airing";
+                case MediaStatus.FINISHED:
+                    return "Finished airing";
+                case MediaStatus.CANCELLED:
+                    return "Cancelled";
+                default:
+                    return "Unknown";
+            }
         }
 
         public string GetMediaFormatFormatted()
@@ -106,6 +156,18 @@ namespace AnimeApp.Classes.AnimeApp
             id = media.id;
 
             title = media.title.userPreferred;
+            altTitles = new List<string>();
+
+            if (!string.IsNullOrEmpty(media.title.english) && media.title.english != media.title.userPreferred)
+                altTitles.Add(media.title.english);
+            if (!string.IsNullOrEmpty(media.title.romaji) && media.title.romaji != media.title.userPreferred)
+                altTitles.Add(media.title.romaji);
+            if (!string.IsNullOrEmpty(media.title.native) && media.title.native != media.title.userPreferred)
+                altTitles.Add(media.title.native);
+
+            foreach (string synonym in media.synonyms)
+                altTitles.Add(synonym);
+
             format = media.format;
             if (!Enum.TryParse(media.status, out status))
                 status = MediaStatus.UNKNOWN;
@@ -125,7 +187,6 @@ namespace AnimeApp.Classes.AnimeApp
             coverExtraLarge = media.coverImage.extraLarge;
 
             genres = new List<string>(media.genres);
-            synonyms = new List<string>(media.synonyms);
 
             averageScore = media.averageScore ?? -1;
             meanScore = media.meanScore ?? -1;

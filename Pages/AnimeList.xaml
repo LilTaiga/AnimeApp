@@ -321,7 +321,11 @@
                           RelativePanel.AlignRightWithPanel="True"
                           RelativePanel.AlignBottomWithPanel="True"
                           
-                          ItemsSource="{x:Bind visibleEntries, Mode=OneWay}">
+                          ItemsSource="{x:Bind visibleEntries, Mode=OneWay}"
+                          
+                          SelectionMode="None"
+                          IsItemClickEnabled="True"
+                          ItemClick="EntriesViewGrid_ItemClick">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="userLists:UserEntry">
                             <StackPanel Width="250"
@@ -425,8 +429,12 @@
                           RelativePanel.AlignRightWithPanel="True"
                           RelativePanel.AlignBottomWithPanel="True"
                   
+                          HorizontalContentAlignment="Stretch"
                           ItemsSource="{x:Bind visibleEntries, Mode=OneWay}"
-                          HorizontalContentAlignment="Stretch">
+                          
+                          SelectionMode="None"
+                          IsItemClickEnabled="True"
+                          ItemClick="EntriesViewListBig_ItemClick">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="userLists:UserEntry">
                             <Grid Height="100"
@@ -558,8 +566,12 @@
                           RelativePanel.AlignRightWithPanel="True"
                           RelativePanel.AlignBottomWithPanel="True"
                           
-                          ItemsSource="{x:Bind visibleEntries, Mode=OneTime}"
-                          HorizontalContentAlignment="Stretch">
+                          HorizontalContentAlignment="Stretch"
+                          ItemsSource="{x:Bind visibleEntries, Mode=OneWay}"
+                          
+                          SelectionMode="None"
+                          IsItemClickEnabled="True"
+                          ItemClick="EntriesViewListCompact_ItemClick">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="userLists:UserEntry">
                             <Grid>

@@ -374,5 +374,23 @@ namespace AnimeApp.Pages
             else if(e.NewSize.Width >= 1150 && e.PreviousSize.Width < 1150)
                 CompactToExpanded.Begin();
         }
+
+        private void EntriesViewGrid_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var entryView = new EntryView.EntryDialog((UserEntry)e.ClickedItem);
+            entryView.ShowAsync();
+        }
+
+        private void EntriesViewListBig_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var entryView = new EntryView.EntryDialog((UserEntry)e.ClickedItem);
+            entryView.ShowAsync();
+        }
+
+        private void EntriesViewListCompact_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var entryView = new EntryView.EntryDialog((UserEntry)e.ClickedItem);
+            entryView.ShowAsync();
+        }
     }
 }
