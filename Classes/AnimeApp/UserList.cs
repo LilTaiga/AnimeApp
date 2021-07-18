@@ -38,7 +38,10 @@ namespace AnimeApp.Classes.AnimeApp
             entries = new List<UserEntry>();
             foreach(Anilist.Result.Entry entry in userList.entries)
             {
-                entries.Add(new UserEntry(entry));
+                var newEntry = new UserEntry(entry);
+                newEntry.status = listStatus;
+
+                entries.Add(newEntry);
             }
         }
 

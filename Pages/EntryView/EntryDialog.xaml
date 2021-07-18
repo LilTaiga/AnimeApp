@@ -233,8 +233,28 @@
                 </ScrollViewer>
             </PivotItem>
             <PivotItem Header="Tags">
-                <ListView SelectionMode="None">
-                    <ListViewItem>
+                <ListView SelectionMode="None"
+                          ItemsSource="{x:Bind entry.Media.tags}">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="entry:Tag">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="4">
+                                <TextBlock Text="{x:Bind getTagRankFormated()}"/>
+                                <TextBlock Text="{x:Bind tagName}"
+                                           Style="{StaticResource BaseTextBlockStyle}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="MinHeight" Value="24"/>
+                            <Setter Property="Height" Value="Auto"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    
+                    <!--<ListViewItem>
                         <StackPanel Orientation="Horizontal"
                                     Spacing="4">
                             <TextBlock Text="96%"/>
@@ -349,7 +369,7 @@
                             <TextBlock Text="Otaku Culture"
                                        Style="{StaticResource BaseTextBlockStyle}"/>
                         </StackPanel>
-                    </ListViewItem>
+                    </ListViewItem>-->
                 </ListView>
             </PivotItem>
             <PivotItem Header="My list">
@@ -368,21 +388,24 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <muxc:NumberBox Grid.Row="0"
+                    <muxc:NumberBox x:Name="EpisodesNumberBox"
+                                    Grid.Row="0"
                                     Grid.Column="0"
                                     HorizontalAlignment="Left"
                                     
                                     Header="Episodes watched"
-                                    Value="0"
+                                    PlaceholderText="Not set"
+                                    Minimum="0"
                                     SpinButtonPlacementMode="Inline"
                                     
                                     Width="200"/>
 
-                    <ComboBox Grid.Row="1"
+                    <ComboBox x:Name="StatusComboBox"
+                              Grid.Row="1"
                               Grid.Column="0"
                         
                               Header="Status"
-                              PlaceholderText="Not set yet..."
+                              PlaceholderText="Not set"
                               
                               Width="200">
                         <ComboBoxItem Content="Watching"/>
@@ -390,19 +413,22 @@
                         <ComboBoxItem Content="Paused"/>
                         <ComboBoxItem Content="Dropped"/>
                         <ComboBoxItem Content="Planning"/>
+                        <ComboBoxItem Content="Unknown" Visibility="Collapsed"/>
                     </ComboBox>
 
-                    <CheckBox Grid.Row="0"
+                    <CheckBox x:Name="RewatchingCheckBox"
+                              Grid.Row="0"
                               Grid.Column="1"
                               
                               Content="Rewatching"/>
 
-                    <muxc:NumberBox Grid.Row="1"
+                    <muxc:NumberBox x:Name="ScoreNumberBox"
+                                    Grid.Row="1"
                                     Grid.Column="1"
                                     HorizontalAlignment="Left"
                                     
                                     Header="Score"
-                                    Value="0"
+                                    PlaceholderText="Not set"
                                     SpinButtonPlacementMode="Inline"
                                     SmallChange="0.5"
                                     Maximum="10"
@@ -416,9 +442,12 @@
                                 
                                 Orientation="Horizontal">
 
-                        <DatePicker Header="Start Date"/>
+                        <DatePicker x:Name="StartDatePicker"
+                                    Header="Start Date"/>
 
-                        <Button VerticalAlignment="Bottom"
+                        <Button x:Name="ClearStartDateButton"
+                                Click="ClearStartDateButton_Click"
+                                VerticalAlignment="Bottom"
                                 
                                 Height="30"
                                 Width="30"
@@ -436,9 +465,12 @@
                                 Grid.ColumnSpan="2"
                                 
                                 Orientation="Horizontal">
-                        <DatePicker Header="End Date"/>
+                        <DatePicker x:Name="EndDatePicker"
+                                    Header="End Date"/>
 
-                        <Button VerticalAlignment="Bottom"
+                        <Button x:Name="ClearEndDateButton"
+                                Click="ClearEndDateButton_Click"
+                                VerticalAlignment="Bottom"
                                 
                                 Height="30"
                                 Width="30"
@@ -451,7 +483,8 @@
                         </Button>
                     </StackPanel>
 
-                    <RichEditBox Grid.Row="0"
+                    <RichEditBox x:Name="NotesRichTextBox"
+                                 Grid.Row="0"
                                  Grid.Column="2"
                                  Grid.RowSpan="4"
                         

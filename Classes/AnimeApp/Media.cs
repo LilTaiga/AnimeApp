@@ -9,6 +9,17 @@ using AnimeApp.Enums;
 
 namespace AnimeApp.Classes.AnimeApp
 {
+    public class Tag
+    {
+        public string tagName;
+        public int tagRank;
+
+        public string getTagRankFormated()
+        {
+            return tagRank + "%";
+        }
+    }
+
     public class Media
     {
         #region Attributes
@@ -38,7 +49,7 @@ namespace AnimeApp.Classes.AnimeApp
         public int meanScore;                                           //The mean score of all users on Anilist (if not avaliable, set to -1)
         public int popularity;                                          //How many users have this media in their lists
 
-        public Dictionary<string, int> tags;                            //List of tags of media
+        public List<Tag> tags;                                          //The list of tags of this media
         public bool isAdult;                                            //This media is +18 and should probably be hiiden
 
         public DateTime nextAiringEpisode;                              //The date of next episode (if avaliable)
@@ -194,10 +205,10 @@ namespace AnimeApp.Classes.AnimeApp
             meanScore = media.meanScore ?? -1;
             popularity = media.popularity;
 
-            tags = new Dictionary<string, int>();
+            tags = new List<Tag>();
             foreach(Anilist.Result.Tag tag in media.tags)
             {
-                tags.Add(tag.name, tag.rank);
+                tags.Add(new Tag() { tagName = tag.name, tagRank = tag.rank } );
             }
             isAdult = media.isAdult;
 
