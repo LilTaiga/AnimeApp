@@ -131,18 +131,35 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\AccountManager.cs" />
+    <Compile Include="Classes\UserAccount.cs" />
+    <Compile Include="Classes\Anilist\Account.cs" />
     <Compile Include="Classes\Anilist\AnilistAccount.cs" />
     <Compile Include="Classes\Anilist\AnilistOperations.cs" />
     <Compile Include="Classes\Anilist\AnilistRequest.cs" />
     <Compile Include="Classes\Anilist\AnilistResult.cs" />
+    <Compile Include="Classes\Anime.cs" />
     <Compile Include="Classes\AnimeApp\UserEntry.cs" />
     <Compile Include="Classes\AnimeApp\Media.cs" />
     <Compile Include="Classes\AnimeApp\UserList.cs" />
+    <Compile Include="Classes\MediaAiring.cs" />
+    <Compile Include="Classes\MediaImage.cs" />
+    <Compile Include="Classes\Entry.cs" />
+    <Compile Include="Classes\Media.cs" />
+    <Compile Include="Classes\MediaList.cs" />
+    <Compile Include="Classes\MediaTag.cs" />
+    <Compile Include="Classes\MediaTitle.cs" />
+    <Compile Include="Classes\UserAvatar.cs" />
+    <Compile Include="Classes\Utilities\FileHandler.cs" />
+    <Compile Include="Classes\Utilities\HttpConnection.cs" />
+    <Compile Include="Classes\Utilities\JsonHandler.cs" />
     <Compile Include="Enums\ExhibitionMode.cs" />
     <Compile Include="Enums\EntryStatus.cs" />
+    <Compile Include="Enums\MediaFormat.cs" />
     <Compile Include="Enums\MediaStatus.cs" />
     <Compile Include="Enums\SortColumn.cs" />
     <Compile Include="Enums\SortOrder.cs" />
+    <Compile Include="Enums\TitleLanguage.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

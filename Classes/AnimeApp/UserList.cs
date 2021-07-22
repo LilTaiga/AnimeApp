@@ -28,9 +28,9 @@ namespace AnimeApp.Classes.AnimeApp
             listName = userList.name;
 
             if (userList.isCustomList)
-                listStatus = EntryStatus.CUSTOM;
+                listStatus = EntryStatus.Current;
             else if (!Enum.TryParse(userList.status, out listStatus))
-                listStatus = EntryStatus.UNKNOWN;
+                listStatus = EntryStatus.Unknown;
 
             if (userList.entries.Count == 0)
                 return;

@@ -129,13 +129,13 @@ namespace AnimeApp.Pages.EntryView
 
         public void SetupRewatching()
         {
-            if (entry.status == Enums.EntryStatus.CURRENT && entry.repeat > 0)
+            if (entry.status == Enums.EntryStatus.Current && entry.repeat > 0)
                 RewatchingCheckBox.IsChecked = true;
         }
 
         public void SetupStatus()
         {
-            if (entry.status == Enums.EntryStatus.UNKNOWN || entry.status == Enums.EntryStatus.CUSTOM)
+            if (entry.status == Enums.EntryStatus.Unknown || entry.status == Enums.EntryStatus.Custom)
                 StatusComboBox.SelectedIndex = 5;
 
             StatusComboBox.SelectedIndex = ((int)entry.status) - 1;

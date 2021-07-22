@@ -126,13 +126,13 @@ namespace AnimeApp.Classes.AnimeApp
         {
             switch(status)
             {
-                case MediaStatus.NOT_YET_RELEASED:
+                case MediaStatus.Not_Yet_Released:
                     return "Not aired yet";
-                case MediaStatus.RELEASING:
+                case MediaStatus.Releasing:
                     return "Currently airing";
-                case MediaStatus.FINISHED:
+                case MediaStatus.Finished:
                     return "Finished airing";
-                case MediaStatus.CANCELLED:
+                case MediaStatus.Cancelled:
                     return "Cancelled";
                 default:
                     return "Unknown";
@@ -183,7 +183,7 @@ namespace AnimeApp.Classes.AnimeApp
 
             format = media.format;
             if (!Enum.TryParse(media.status, out status))
-                status = MediaStatus.UNKNOWN;
+                status = MediaStatus.Unknown;
 
             description = media.description;
 

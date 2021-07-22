@@ -41,8 +41,8 @@
                         Margin="0, 10, 0, 0"
                         Click="LogInButton_Click"/>
                 <muxc:ProgressRing Name="UsernameProgressRing"
-                              IsActive="False"
-                              Margin="10, 10, 0, 0"/>
+                                   IsActive="False"
+                                   Margin="10, 10, 0, 0"/>
             </StackPanel>
 
             <TextBlock Text="This will open your web browser."

@@ -81,7 +81,7 @@ namespace AnimeApp.Pages
                 ExhibitionModeListBig_Click(null, null);
 
                 NavView.SelectedItem = NavView.MenuItems[0];
-                ChangeTab(EntryStatus.CURRENT);
+                ChangeTab(EntryStatus.Current);
 
                 sortColumn = SortColumn.Progress;
                 isSortCrescent = true;

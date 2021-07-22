@@ -43,7 +43,7 @@ namespace AnimeApp.Classes.AnimeApp
 
         public int GetStatusInteger()
         {
-            if (status == EntryStatus.UNKNOWN)
+            if (status == EntryStatus.Unknown)
                 return -1;
 
             return ((int)status) - 1;
