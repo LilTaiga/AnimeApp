@@ -11,42 +11,39 @@ namespace AnimeApp.Classes.Anilist
     //Class made to handle all HTTP requests made to Anilist.
     public static class AnilistRequest
     {
-        //Singleton made to generate only one HttpClient object.
-        private static HttpClient http;
-        private static HttpClient Http
-        {
-            get
-            {
-                if(http == null)
-                    http = new HttpClient();
 
-                return http;
-            }
-        }
-
-        //Constructs the http content to be sent into the http message.
-        private static string ConstructHttpContent(string body, string variables)
+        //Constructs the GraphQL query to be sent in the http message..
+        private static string ConstructHttpContent(string _body, string _variables)
         {
-            //Remove any linebreaks to avoid conflit with GraphQL
-            body = body.Replace('\r', ' ').Replace('\n', ' ');
-            variables = variables.Replace('\r', ' ').Replace('\n', ' ');
+            //Remove any linebreaks to avoid conflits with GraphQL
+            _body = _body.Replace('\r', ' ').Replace('\n', ' ');
+            _variables = _variables.Replace('\r', ' ').Replace('\n', ' ');
 
             //Returns the formated content to be sent.
-            return string.Format("{{\"query\": \"{0}\", \"variables\": {{{1}}}}}", body, variables);
+            //Due to unnecessary complations made by string.Format, string has to be written this way.
+            //Basically means:
+            /*{
+             *   "query": "body",
+             *   "variables": {
+             *     variables
+             *   }
+             * }
+             */
+            return string.Format("{{\"query\": \"{0}\", \"variables\": {{{1}}}}}", _body, _variables);
         }
 
         //Send a GraphQL request to Anilist
-        public async static Task<string> SendQuery(string body, string variables)
+        public async static Task<string> SendQuery(string _body, string _variables, string _authToken = null)
         {
             //Setup the GraphQL message to be sent, based on body and variables contents.
-            string content = ConstructHttpContent(body, variables);
+            string content = ConstructHttpContent(_body, _variables);
 
             //Send the http request to Anilist.
             //Raises an exception if it cannot receive back a response.
             try
             {
-                var response = await SendHttpRequest(content);
-                return response.Content.ToString();
+                var response = await Utilities.HttpConnection.SendGraphQLQuery("https://graphql.anilist.co/", content, _authToken);
+                return response;
             }
             catch(Exception e)
             {
@@ -54,7 +51,7 @@ namespace AnimeApp.Classes.Anilist
             }
         }
 
-        //Send a GraphQL request to Anilist using user's token as authorization.
+        /*//Send a GraphQL request to Anilist using user's token as authorization.
         public async static Task<string> SendQueryAuthorized(string body, string variables, string authToken = null)
         {
             //If there's no token, then it can't send the authorized message.
@@ -99,6 +96,6 @@ namespace AnimeApp.Classes.Anilist
             {
                 throw new Exception("Server could not be reached.", e);
             }
-        }
+        }*/
     }
 }

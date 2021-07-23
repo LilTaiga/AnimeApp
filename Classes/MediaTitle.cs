@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace AnimeApp.Classes
 {
-    class MediaTitle
+    public class MediaTitle
     {
-        string english;
-        string romaji;
-        string native;
-        List<string> synonyms;
+        public string English { get; set; }
+        public string Romaji { get; set; }
+        public string Native { get; set; }
+        public List<string> Synonyms { get; set; }
     }
 }

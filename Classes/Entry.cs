@@ -8,21 +8,21 @@ using AnimeApp.Enums;
 
 namespace AnimeApp.Classes
 {
-    class Entry
+    public class Entry
     {
-        EntryStatus status;
-        int score;
-        int progress;
-        int repeat;
-        bool isPrivate;
-        string notes;
+        public EntryStatus Status { get; set; }
+        public int Score { get; set; }
+        public int Progress { get; set; }
+        public int Repeat { get; set; }
+        public bool IsPrivate { get; set; }
+        public string Notes { get; set; }
 
-        DateTime started;
-        DateTime completed;
+        public DateTime Started { get; set; }
+        public DateTime Completed { get; set; }
 
-        DateTime created;
-        DateTime updated;
+        public DateTime Created { get; set; }
+        public DateTime Updated { get; set; }
 
-        Media media;
+        public Media Media;
     }
 }

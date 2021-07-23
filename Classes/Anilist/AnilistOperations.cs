@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
-using System.Text.Json;
 using Windows.Storage;
 using AnimeApp.Classes.Anilist.Result;
 
@@ -33,7 +32,7 @@ namespace AnimeApp.Classes.Anilist
             try
             {
                 string result = await AnilistRequest.SendQuery(body, variables);
-                AnilistResponse data = JsonSerializer.Deserialize<AnilistResponse>(result);
+                AnilistResponse data = Utilities.JsonHandler.FromJsonToObject<AnilistResponse>(result);
 
                 return data;
             }
@@ -62,8 +61,8 @@ namespace AnimeApp.Classes.Anilist
             //Can raise an exception if unsuccessfull.
             try
             {
-                string result = await AnilistRequest.SendQueryAuthorized(body, "", _token);
-                AnilistResponse data = JsonSerializer.Deserialize<AnilistResponse>(result);
+                string result = await AnilistRequest.SendQuery(body, "", _token);
+                AnilistResponse data = Utilities.JsonHandler.FromJsonToObject<AnilistResponse>(result);
 
                 return data;
             }
@@ -74,19 +73,23 @@ namespace AnimeApp.Classes.Anilist
         }
 
         //Retrieves the current authenticated user's anime lists.
-        //Only call this method if the user is logged in, otherwise will raise an exception.
+        //Only call this method if the user is logged in, otherwise it will return null.
         public async static Task<AnilistResponse> GetViewerAnimeLists()
         {
+            if (AccountManager.CurrentAccount.Anilist.AuthToken == null)
+                return null;
+
             //Retrieves the GraphQL body message to perform this operation.
             var resource = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView("AnilistQueries");
             string body = resource.GetString("MediaListCollectionFetch");
+            string variables = string.Format("\"userId\": {0}", AnilistAccount.Id);
 
             //Send the GrapQL message to Anilist, and awaits for a response.
             //Can raise an exception if unsuccessfull.
             try
             {
-                string result = await AnilistRequest.SendQueryAuthorized(body, string.Format("\"userId\": {0}", AnilistAccount.Id));
-                AnilistResponse data = JsonSerializer.Deserialize<AnilistResponse>(result);
+                string result = await AnilistRequest.SendQuery(body, variables, AccountManager.CurrentAccount.Anilist.AuthToken);
+                AnilistResponse data = Utilities.JsonHandler.FromJsonToObject<AnilistResponse>(result);
 
                 return data;
             }

@@ -2,9 +2,9 @@
 
 namespace AnimeApp.Classes
 {
-    class MediaAiring
+    public class MediaAiring
     {
-        int episodeNumber;
-        DateTime airingDate;
+        public int Episode { get; set; }
+        public DateTime AiringDate { get; set; }
     }
 }

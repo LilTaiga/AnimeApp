@@ -19,7 +19,7 @@ namespace AnimeApp.Classes.Anilist
         public static string AvatarMedium { get; private set; }
         public static string AvatarLarge { get; private set; }
         public static string Token { get; private set; }
-        public static List<UserList> UserLists { get; private set; }
+        public static List<AnimeApp.UserList> UserLists { get; private set; }
 
         #region Profile
 
@@ -104,10 +104,10 @@ namespace AnimeApp.Classes.Anilist
             List<List> lists = result.data.MediaListCollection.lists;
 
             //Convert result into AnimeApp format.
-            UserLists = new List<UserList>();
+            UserLists = new List<AnimeApp.UserList>();
             foreach(List list in lists)
             {
-                UserLists.Add(new UserList(list));
+                UserLists.Add(new AnimeApp.UserList(list));
             }
         }
 

@@ -2,10 +2,9 @@
 
 namespace AnimeApp.Classes
 {
-    class MediaImage
+    public class MediaImage
     {
-        StorageFile imageFile;              //The stored image cover of the media
-        string ImageWebUrl;                 //The Anilist link to the image cover of the media
-        char[] color;                       //The hex code of the average color of the cover
+        public bool IsDownloaded { get; set; }          //The stored image cover of the media
+        public string WebUrl { get; set; }              //The Anilist link to the image cover of the media
     }
 }

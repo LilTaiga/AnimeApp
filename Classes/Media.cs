@@ -11,29 +11,29 @@ namespace AnimeApp.Classes
 {
     public abstract class Media
     {
-        int id;                             //The Anilist ID of the media
+        public int Id { get; set; }                             //The Anilist ID of the media
 
-        MediaTitle titles;                  //All the titles and alternative titles of the media
-        string description;                 //The description of the media
+        public MediaTitle Titles { get; set; }                  //All the titles and alternative titles of the media
+        public string Description { get; set; }                 //The description of the media
 
-        MediaStatus status;                 //The current status of the media
+        public MediaStatus Status { get; set; }                 //The current status of the media
 
-        DateTime startDate;                 //The date when the media started releasing
-        DateTime endDate;                   //The date when the media was finished
+        public DateTime StartDate { get; set; }                 //The date when the media started releasing
+        public DateTime EndDate { get; set; }                   //The date when the media was finished
 
-        int updated;                        //The last time when this media information was updated on Anilist
+        public int Updated { get; set; }                        //The last time when this media information was updated on Anilist
 
-        MediaImage cover;                   //The image of the media's cover
-        MediaImage banner;                  //The image of the media's banner in Anilist
+        public MediaImage Cover { get; set; }                   //The image of the media's cover
+        public MediaImage Banner { get; set; }                  //The image of the media's banner in Anilist
 
-        List<string> genres;                //A list of all genres of this media
-        List<MediaTag> tags;                //A list of all tags of this media
+        public List<string> Genres { get; set; }                //A list of all genres of this media
+        public List<MediaTag> Tags { get; set; }                //A list of all tags of this media
 
-        int averageScore = -1;              //The average score of this media in Anilist (-1 if unavaliable)
-        int popularity = -1;                //The quantity of users that have this media in their lists (-1 if unavaliable)
+        public int AverageScore { get; set; }                   //The average score of this media in Anilist (-1 if unavaliable)
+        public int Popularity { get; set; }                     //The quantity of users that have this media in their lists (-1 if unavaliable)
 
-        bool isAdult;                       //If this media is +18 only
+        public bool IsAdult { get; set; }                       //If this media is +18 only
 
-        string siteUrl;                     //The link for the Anilist page of this media
+        public string SiteUrl { get; set; }                     //The link for the Anilist page of this media
     }
 }

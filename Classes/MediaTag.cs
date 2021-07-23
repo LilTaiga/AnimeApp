@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace AnimeApp.Classes
 {
-    class MediaTag
+    public class MediaTag
     {
-        string name;
-        int rank;
-        bool isSpoiler;
+        public string Name { get; set; }
+        public int Rank { get; set; }
+        public bool IsSpoiler { get; set; }
     }
 }

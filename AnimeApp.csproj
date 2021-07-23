@@ -132,6 +132,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\AccountManager.cs" />
+    <Compile Include="Classes\ListManager.cs" />
     <Compile Include="Classes\UserAccount.cs" />
     <Compile Include="Classes\Anilist\Account.cs" />
     <Compile Include="Classes\Anilist\AnilistAccount.cs" />
@@ -150,6 +151,8 @@
     <Compile Include="Classes\MediaTag.cs" />
     <Compile Include="Classes\MediaTitle.cs" />
     <Compile Include="Classes\UserAvatar.cs" />
+    <Compile Include="Classes\UserList.cs" />
+    <Compile Include="Classes\UserListCollection.cs" />
     <Compile Include="Classes\Utilities\FileHandler.cs" />
     <Compile Include="Classes\Utilities\HttpConnection.cs" />
     <Compile Include="Classes\Utilities\JsonHandler.cs" />

@@ -8,6 +8,7 @@
         Paused = 3,
         Dropped = 4,
         Planning = 5,
-        Custom = 6
+        Repeating = 6,
+        Custom = 7
     }
 }
