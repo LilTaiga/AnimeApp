@@ -47,9 +47,9 @@ namespace AnimeApp.Classes.Anilist.Result
 
     public class StartDate
     {
-        public int year { get; set; }
-        public int month { get; set; }
-        public int day { get; set; }
+        public int? year { get; set; }
+        public int? month { get; set; }
+        public int? day { get; set; }
     }
 
     public class EndDate
@@ -91,7 +91,7 @@ namespace AnimeApp.Classes.Anilist.Result
         public string bannerImage { get; set; }
         public List<string> genres { get; set; }
         public List<Tag> tags { get; set; }
-        public int averageScore { get; set; }
+        public int? averageScore { get; set; }
         public int popularity { get; set; }
         public bool isAdult { get; set; }
         public Studios studios { get; set; }
@@ -131,6 +131,7 @@ namespace AnimeApp.Classes.Anilist.Result
 
     public class Entry
     {
+        public int id { get; set; }
         public string status { get; set; }
         public double score { get; set; }
         public int progress { get; set; }

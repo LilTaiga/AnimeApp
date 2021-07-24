@@ -11,6 +11,9 @@ namespace AnimeApp.Classes
 {
     public abstract class Media
     {
+
+        #region Properties
+
         public int Id { get; set; }                             //The Anilist ID of the media
 
         public MediaTitle Titles { get; set; }                  //All the titles and alternative titles of the media
@@ -35,5 +38,69 @@ namespace AnimeApp.Classes
         public bool IsAdult { get; set; }                       //If this media is +18 only
 
         public string SiteUrl { get; set; }                     //The link for the Anilist page of this media
+
+        #endregion
+
+        //
+        // Constructors
+        //
+
+        //Default constructor
+        //Should be edited externally
+        public Media()
+        {
+
+        }
+
+        //This constructor parses an Anilist Result into this class.
+        protected Media(Anilist.Result.Media _media)
+        {
+            Id = _media.id;
+
+            Titles = new MediaTitle();
+            Titles.English = _media.title.english;
+            Titles.Romaji = _media.title.romaji;
+            Titles.Native = _media.title.native;
+            Titles.Synonyms = new List<string>();
+            foreach (string synonym in _media.synonyms)
+                Titles.Synonyms.Add(synonym);
+
+            Description = _media.description;
+            Status = Enum.Parse<MediaStatus>(_media.status, true);
+            Updated = _media.updatedAt;
+            AverageScore = _media.averageScore ?? -1;
+            Popularity = _media.popularity;
+            IsAdult = _media.isAdult;
+            SiteUrl = _media.siteUrl;
+
+            StartDate = new DateTime(_media.startDate.year ?? 1,
+                                     _media.startDate.month ?? 1,
+                                     _media.startDate.day ?? 1);
+
+            if (_media.endDate.year == null)
+                EndDate = default;
+            else
+                EndDate = new DateTime(_media.endDate.year ?? 1,
+                                       _media.endDate.month ?? 1,
+                                       _media.endDate.day ?? 1);
+
+            Cover = new MediaImage(_media.coverImage.large);
+            Banner = new MediaImage(_media.bannerImage);
+
+            Genres = new List<string>();
+            foreach (string genre in _media.genres)
+                Genres.Add(genre);
+
+            Tags = new List<MediaTag>();
+            foreach(Anilist.Result.Tag tag in _media.tags)
+            {
+                MediaTag _tag = new MediaTag();
+                _tag.Name = tag.name;
+                _tag.Rank = tag.rank;
+                _tag.IsSpoiler = tag.isMediaSpoiler;
+
+                Tags.Add(_tag);
+            }
+        }
     }
 }

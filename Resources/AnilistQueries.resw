@@ -118,21 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MediaListCollectionFetch" xml:space="preserve">
-    <value>query ($userId: Int) {
-  MediaListCollection(userId: $userId, type: ANIME) {
-    lists {
+    <value>query($userId: Int)
+{
+  MediaListCollection(userId: $userId, type: ANIME, forceSingleCompletedList: true)
+  {
+    lists
+    {
       name
       status
       isCustomList
-      entries{
-        mediaId
+      isSplitCompletedList
+      entries
+      {
+        id
+        status
         score
         progress
         repeat
-        priority
-        createdAt
-        updatedAt
-        priority
+        private
+        notes
         startedAt {
           year
           month
@@ -143,23 +147,21 @@
           month
           day
         }
-        media {
+        createdAt
+        updatedAt
+        
+        media
+        {
           id
-          title {
-            romaji
-            english
-            native
-            userPreferred
-          }
-          title {
+          title
+          {
             english
             romaji
             native
-            userPreferred
           }
-          format
-          status
+          synonyms
           description
+          status
           startDate {
             year
             month
@@ -170,48 +172,43 @@
             month
             day
           }
-          season
-          seasonYear
-          seasonInt
+          updatedAt
+          coverImage
+          {
+            large
+            color
+          }
+          bannerImage
+          genres
+          tags
+          {
+            name
+            rank
+            isMediaSpoiler
+          }
+          averageScore
+          popularity
+          isAdult
+          siteUrl
+          
+          format
           episodes
           duration
-          coverImage {
-            color
-            medium
-            large
-            extraLarge
-          }
-          genres
-          synonyms
-          averageScore
-          meanScore
-          popularity
-          tags {
-            id
-            name
-            category
-            rank
-            isGeneralSpoiler
-            isMediaSpoiler
-            isAdult
-          }
-          isAdult
-          nextAiringEpisode {
-            airingAt
-            timeUntilAiring
-            episode
-          }
           studios
           {
             nodes
             {
               name
+              isAnimationStudio
             }
           }
-          siteUrl
-          externalLinks {
-            url
-            site
+          airingSchedule(notYetAired: true)
+          {
+            nodes
+            {
+              episode
+              airingAt
+            }
           }
         }
       }

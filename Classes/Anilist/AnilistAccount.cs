@@ -96,19 +96,7 @@ namespace AnimeApp.Classes.Anilist
         //If user is not logged in, an exception is raised.
         public static async Task RetrieveLists(bool includeCustomLists = false)
         {
-            if (Token == null)
-                throw new Exception("User not logged in.");
-
-            //Get user lists.
-            AnilistResponse result = await AnilistOperations.GetViewerAnimeLists();
-            List<List> lists = result.data.MediaListCollection.lists;
-
-            //Convert result into AnimeApp format.
-            UserLists = new List<AnimeApp.UserList>();
-            foreach(List list in lists)
-            {
-                UserLists.Add(new AnimeApp.UserList(list));
-            }
+            
         }
 
         #endregion

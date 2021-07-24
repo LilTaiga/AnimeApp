@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Windows.Storage;
+using Windows.ApplicationModel.Resources;
 using AnimeApp.Classes.Anilist.Result;
 
 namespace AnimeApp.Classes.Anilist
@@ -21,7 +22,7 @@ namespace AnimeApp.Classes.Anilist
         public async static Task<AnilistResponse> SearchForUser(string _username)
         {
             //Retrieves the GraphQL body message to perform this operation.
-            var resource = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView("AnilistQueries");
+            var resource = ResourceLoader.GetForCurrentView("AnilistQueries");
             string body = resource.GetString("UserFetch");
 
             //Constructs the GraphQL variables message to perform this operation.
@@ -54,7 +55,7 @@ namespace AnimeApp.Classes.Anilist
         public async static Task<AnilistResponse> GetViewer(string _token = null)
         {
             //Retrieves the GraphQL body message to perform this operation.
-            var resource = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView("AnilistQueries");
+            var resource = ResourceLoader.GetForCurrentView("AnilistQueries");
             string body = resource.GetString("ViewerFetch");
 
             //Send the GrapQL message to Anilist, and awaits for a response.
@@ -74,21 +75,21 @@ namespace AnimeApp.Classes.Anilist
 
         //Retrieves the current authenticated user's anime lists.
         //Only call this method if the user is logged in, otherwise it will return null.
-        public async static Task<AnilistResponse> GetViewerAnimeLists()
+        public async static Task<AnilistResponse> GetUserAnimeLists(UserAccount _acc)
         {
-            if (AccountManager.CurrentAccount.Anilist.AuthToken == null)
+            if (_acc == null || _acc.Anilist.AuthToken == null)
                 return null;
 
             //Retrieves the GraphQL body message to perform this operation.
-            var resource = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView("AnilistQueries");
+            var resource = ResourceLoader.GetForViewIndependentUse("AnilistQueries");
             string body = resource.GetString("MediaListCollectionFetch");
-            string variables = string.Format("\"userId\": {0}", AnilistAccount.Id);
+            string variables = string.Format("\"userId\": {0}", _acc.Anilist.Id);
 
             //Send the GrapQL message to Anilist, and awaits for a response.
             //Can raise an exception if unsuccessfull.
             try
             {
-                string result = await AnilistRequest.SendQuery(body, variables, AccountManager.CurrentAccount.Anilist.AuthToken);
+                string result = await AnilistRequest.SendQuery(body, variables, _acc.Anilist.AuthToken);
                 AnilistResponse data = Utilities.JsonHandler.FromJsonToObject<AnilistResponse>(result);
 
                 return data;

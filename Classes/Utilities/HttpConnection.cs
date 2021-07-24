@@ -47,7 +47,7 @@ namespace AnimeApp.Classes.Utilities
                 //If request is sucessful, return the content of the response.
                 //Otherwise, throw an exception explaining why it failed.
                 if (response.IsSuccessStatusCode)
-                    return response.Content.ToString();
+                    return await response.Content.ReadAsStringAsync();
 
                 switch(response.StatusCode)
                 {

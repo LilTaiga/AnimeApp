@@ -158,7 +158,7 @@
     <Compile Include="Classes\Utilities\JsonHandler.cs" />
     <Compile Include="Enums\ExhibitionMode.cs" />
     <Compile Include="Enums\EntryStatus.cs" />
-    <Compile Include="Enums\MediaFormat.cs" />
+    <Compile Include="Enums\AnimeFormat.cs" />
     <Compile Include="Enums\MediaStatus.cs" />
     <Compile Include="Enums\SortColumn.cs" />
     <Compile Include="Enums\SortOrder.cs" />

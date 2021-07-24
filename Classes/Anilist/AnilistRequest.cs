@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using Windows.Web.Http.Headers;
@@ -16,8 +17,8 @@ namespace AnimeApp.Classes.Anilist
         private static string ConstructHttpContent(string _body, string _variables)
         {
             //Remove any linebreaks to avoid conflits with GraphQL
-            _body = _body.Replace('\r', ' ').Replace('\n', ' ');
-            _variables = _variables.Replace('\r', ' ').Replace('\n', ' ');
+            _body = Regex.Replace(_body, @"\t|\n|\r", string.Empty);
+            _variables = Regex.Replace(_variables, @"\t|\n|\r", string.Empty);
 
             //Returns the formated content to be sent.
             //Due to unnecessary complations made by string.Format, string has to be written this way.

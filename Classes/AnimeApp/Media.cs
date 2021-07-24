@@ -167,16 +167,7 @@ namespace AnimeApp.Classes.AnimeApp
         public Media(Anilist.Result.Media media)
         {
             id = media.id;
-
-            title = media.title.userPreferred;
             altTitles = new List<string>();
-
-            if (!string.IsNullOrEmpty(media.title.english) && media.title.english != media.title.userPreferred)
-                altTitles.Add(media.title.english);
-            if (!string.IsNullOrEmpty(media.title.romaji) && media.title.romaji != media.title.userPreferred)
-                altTitles.Add(media.title.romaji);
-            if (!string.IsNullOrEmpty(media.title.native) && media.title.native != media.title.userPreferred)
-                altTitles.Add(media.title.native);
 
             foreach (string synonym in media.synonyms)
                 altTitles.Add(synonym);
@@ -187,23 +178,10 @@ namespace AnimeApp.Classes.AnimeApp
 
             description = media.description;
 
-            startDate = new DateTime(media.startDate.year ?? 1, media.startDate.month ?? 1, media.startDate.day ?? 1);
-            endDate = new DateTime(media.endDate.year ?? 1, media.endDate.month ?? 1, media.endDate.day ?? 1);
-            seasonName = media.season;
-            seasonYear = media.seasonYear ?? -1;
-
             episodes = media.episodes ?? -1;
             duration = media.duration ?? -1;
 
-            coverMedium = media.coverImage.medium;
-            coverLarge = media.coverImage.large;
-            coverExtraLarge = media.coverImage.extraLarge;
-
             genres = new List<string>(media.genres);
-
-            averageScore = media.averageScore ?? -1;
-            meanScore = media.meanScore ?? -1;
-            popularity = media.popularity;
 
             tags = new List<Tag>();
             foreach(Anilist.Result.Tag tag in media.tags)
@@ -212,31 +190,12 @@ namespace AnimeApp.Classes.AnimeApp
             }
             isAdult = media.isAdult;
 
-            if(media.nextAiringEpisode != null)
-            {
-                nextAiringEpisode = DateTimeOffset.FromUnixTimeSeconds(media.nextAiringEpisode.airingAt).DateTime;
-                nextEpisodeNumber = media.nextAiringEpisode.episode;
-            }
-            else
-            {
-                nextAiringEpisode = default;
-                nextEpisodeNumber = -1;
-            }
-
             studios = new List<string>();
             foreach(Anilist.Result.Node node in media.studios.nodes)
             {
                 studios.Add(node.name);
             }
             siteUrl = media.siteUrl;
-            if(media.externalLinks != null)
-            {
-                otherLinks = new Dictionary<string, string>();
-                foreach(Anilist.Result.ExternalLink link in media.externalLinks)
-                {
-                    otherLinks.Add(link.url, link.site);
-                }
-            }
         }
 
     }
