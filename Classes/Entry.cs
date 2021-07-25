@@ -26,7 +26,7 @@ namespace AnimeApp.Classes
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
 
-        public Media Media;
+        public Media Media { get; set; }
 
         #endregion
 

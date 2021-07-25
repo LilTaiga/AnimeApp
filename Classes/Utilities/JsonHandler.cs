@@ -4,22 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace AnimeApp.Classes.Utilities
 {
     public static class JsonHandler
     {
-        public static byte[] FromObjectToJson<T>(T _object)
+        private static readonly JsonSerializerOptions options = new JsonSerializerOptions
+        { 
+            WriteIndented = true,
+            IncludeFields = true
+        };
+
+        public static string FromObjectToJson<T>(T _object)
         {
-            var options = new JsonSerializerOptions() { WriteIndented = true };
-            var jsonContent = JsonSerializer.SerializeToUtf8Bytes(_object, options);
+            var jsonContent = JsonConvert.SerializeObject(_object, Formatting.Indented, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            });
 
             return jsonContent;
         }
 
         public static T FromJsonToObject<T>(string _jsonString)
         {
-            return JsonSerializer.Deserialize<T>(_jsonString);
+            return JsonConvert.DeserializeObject<T>(_jsonString, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            });
         }
     }
 }

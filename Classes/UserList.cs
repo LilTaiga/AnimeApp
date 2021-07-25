@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Newtonsoft.Json;
+
 using AnimeApp.Enums;
 
 namespace AnimeApp.Classes
@@ -14,7 +16,22 @@ namespace AnimeApp.Classes
         public EntryStatus Status { get; set; }
         public bool IsCustomList { get; set; }
 
-        public int Length { get; set; }
-        public List<Entry> Entries { get; set; }
+        [JsonProperty]
+        public readonly List<Entry> entries = new List<Entry>();
+        public IReadOnlyList<Entry> Entries
+        {
+            get { return entries.AsReadOnly(); }
+        }
+
+
+        public void AddOrUpdateEntry(Anilist.Result.Entry _entry)
+        {
+            Entry _oldEntry = entries.Find(n => n.Id == _entry.id);
+
+            if (_oldEntry != null)
+                _oldEntry = new Entry(_entry);
+            else
+                entries.Add(new Entry(_entry));
+        }
     }
 }

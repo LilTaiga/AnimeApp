@@ -53,14 +53,14 @@ namespace AnimeApp.Classes
             if (CurrentAccount == null)
                 return;
 
-            var json = Utilities.JsonHandler.FromObjectToJson(CurrentAccount);
-            await Utilities.FileHandler.WriteBytesToLocalFolder(CurrentAccount.Name + ".json", json);
+            string json = Utilities.JsonHandler.FromObjectToJson(CurrentAccount);
+            await Utilities.FileHandler.WriteStringToLocalFolder(CurrentAccount.Name + ".json", json);
         }
 
         public static async Task LoadAccountFromDisk(string _accName)
         {
-            var jsonContent = await Utilities.FileHandler.ReadBytesFromLocalFolder(_accName + ".json");
-            var desserializedAcc = Utilities.JsonHandler.FromJsonToObject<UserAccount>(Encoding.UTF8.GetString(jsonContent));
+            string jsonContent = await Utilities.FileHandler.ReadStringFromLocalFolder(_accName + ".json");
+            UserAccount desserializedAcc = Utilities.JsonHandler.FromJsonToObject<UserAccount>(jsonContent);
 
             SetCurrentAccount(desserializedAcc);
         }

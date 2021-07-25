@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 using AnimeApp.Enums;
 
@@ -21,8 +18,10 @@ namespace AnimeApp.Classes
 
         public MediaStatus Status { get; set; }                 //The current status of the media
 
-        public DateTime StartDate { get; set; }                 //The date when the media started releasing
-        public DateTime EndDate { get; set; }                   //The date when the media was finished
+        public DateTime? StartDate { get; set; }                 //The date when the media started releasing
+        public bool StartDateYearOnly { get; set; }             //The start date only contains the year
+        public DateTime? EndDate { get; set; }                   //The date when the media was finished
+        public bool EndDateYearOnly { get; set; }               //The end date only contains the year
 
         public int Updated { get; set; }                        //The last time when this media information was updated on Anilist
 
@@ -57,11 +56,13 @@ namespace AnimeApp.Classes
         {
             Id = _media.id;
 
-            Titles = new MediaTitle();
-            Titles.English = _media.title.english;
-            Titles.Romaji = _media.title.romaji;
-            Titles.Native = _media.title.native;
-            Titles.Synonyms = new List<string>();
+            Titles = new MediaTitle
+            {
+                English = _media.title.english,
+                Romaji = _media.title.romaji,
+                Native = _media.title.native,
+                Synonyms = new List<string>()
+            };
             foreach (string synonym in _media.synonyms)
                 Titles.Synonyms.Add(synonym);
 
@@ -73,16 +74,27 @@ namespace AnimeApp.Classes
             IsAdult = _media.isAdult;
             SiteUrl = _media.siteUrl;
 
-            StartDate = new DateTime(_media.startDate.year ?? 1,
-                                     _media.startDate.month ?? 1,
-                                     _media.startDate.day ?? 1);
+            #region Start and End Date bullshit
 
-            if (_media.endDate.year == null)
-                EndDate = default;
-            else
+            if(_media.startDate.year.HasValue)
+            {
+                StartDate = new DateTime(_media.startDate.year ?? 1,
+                                         _media.startDate.month ?? 1,
+                                         _media.startDate.day ?? 1);
+
+                StartDateYearOnly = !_media.startDate.month.HasValue;
+            }
+
+            if (_media.endDate.year.HasValue)
+            {
                 EndDate = new DateTime(_media.endDate.year ?? 1,
-                                       _media.endDate.month ?? 1,
-                                       _media.endDate.day ?? 1);
+                                         _media.endDate.month ?? 1,
+                                         _media.endDate.day ?? 1);
+
+                EndDateYearOnly = !_media.endDate.month.HasValue;
+            }
+                
+            #endregion
 
             Cover = new MediaImage(_media.coverImage.large);
             Banner = new MediaImage(_media.bannerImage);
@@ -94,10 +106,12 @@ namespace AnimeApp.Classes
             Tags = new List<MediaTag>();
             foreach(Anilist.Result.Tag tag in _media.tags)
             {
-                MediaTag _tag = new MediaTag();
-                _tag.Name = tag.name;
-                _tag.Rank = tag.rank;
-                _tag.IsSpoiler = tag.isMediaSpoiler;
+                MediaTag _tag = new MediaTag
+                {
+                    Name = tag.name,
+                    Rank = tag.rank,
+                    IsSpoiler = tag.isMediaSpoiler
+                };
 
                 Tags.Add(_tag);
             }

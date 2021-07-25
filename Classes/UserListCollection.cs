@@ -11,7 +11,8 @@ namespace AnimeApp.Classes
 {
     public class UserListCollection
     {
-        private UserAccount userAccount;
+        private readonly UserAccount userAccount;
+        public UserAccount UserAccount { get { return userAccount; } }
 
         public UserList currentList;
         public UserList completedList;
@@ -26,58 +27,46 @@ namespace AnimeApp.Classes
         {
             userAccount = _acc;
 
-            currentList = new UserList()
+            currentList = new UserList
             {
                 Name = "Watching",
                 Status = EntryStatus.Current,
-                IsCustomList = false,
-                Length = 0,
-                Entries = new List<Entry>()
+                IsCustomList = false
             };
 
-            completedList = new UserList()
+            completedList = new UserList
             {
                 Name = "Completed",
                 Status = EntryStatus.Completed,
-                IsCustomList = false,
-                Length = 0,
-                Entries = new List<Entry>()
+                IsCustomList = false
         };
 
-            pausedList = new UserList()
+            pausedList = new UserList
             {
                 Name = "Paused",
                 Status = EntryStatus.Paused,
-                IsCustomList = false,
-                Length = 0,
-                Entries = new List<Entry>()
+                IsCustomList = false
         };
 
-            droppedList = new UserList()
+            droppedList = new UserList
             {
                 Name = "Dropped",
                 Status = EntryStatus.Dropped,
-                IsCustomList = false,
-                Length = 0,
-                Entries = new List<Entry>()
+                IsCustomList = false
             };
 
-            planningList = new UserList()
+            planningList = new UserList
             {
-                Name = "Paused",
+                Name = "Planning",
                 Status = EntryStatus.Planning,
-                IsCustomList = false,
-                Length = 0,
-                Entries = new List<Entry>()
+                IsCustomList = false
             };
 
-            repeatingList = new UserList()
+            repeatingList = new UserList
             {
                 Name = "Rewatching",
                 Status = EntryStatus.Repeating,
-                IsCustomList = false,
-                Length = 0,
-                Entries = new List<Entry>()
+                IsCustomList = false
             };
         }
 
@@ -123,11 +112,7 @@ namespace AnimeApp.Classes
             //If not, add a new entry
             foreach(Anilist.Result.Entry entry in _newList.entries)
             {
-                Entry _oldEntry = _oldlist.Entries.Find(n => n.Id == entry.id);
-                if (_oldEntry != null)
-                    _oldEntry = new Entry(entry);
-                else
-                    _oldlist.Entries.Add(new Entry(entry));
+                _oldlist.AddOrUpdateEntry(entry);
             }
         }
     }

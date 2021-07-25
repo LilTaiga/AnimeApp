@@ -55,9 +55,13 @@ namespace AnimeApp.Classes
             NextEpisodes = new List<MediaAiring>();
             foreach(Anilist.Result.Node node in _anime.airingSchedule.nodes)
             {
-                MediaAiring nextEp = new MediaAiring();
-                nextEp.AiringDate = DateTimeOffset.FromUnixTimeSeconds(node.airingAt).DateTime;
-                nextEp.Episode = node.episode;
+                MediaAiring nextEp = new MediaAiring
+                {
+                    AiringDate = DateTimeOffset.FromUnixTimeSeconds(node.airingAt).DateTime,
+                    Episode = node.episode
+                };
+
+                NextEpisodes.Add(nextEp);
             }
         }
     }
