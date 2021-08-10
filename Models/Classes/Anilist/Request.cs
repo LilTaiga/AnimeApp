@@ -10,7 +10,7 @@ using Windows.Web.Http.Headers;
 namespace AnimeApp.Classes.Anilist
 {
     //Class made to handle all HTTP requests made to Anilist.
-    public static class AnilistRequest
+    public static class Request
     {
 
         //Constructs the GraphQL query to be sent in the http message..

@@ -12,7 +12,7 @@ using AnimeApp.Classes.Anilist.Result;
 namespace AnimeApp.Classes.Anilist
 {
     //This class has all operations that AnimeApp can request to Anilist.
-    public static class AnilistOperations
+    public static class Operations
     {
         #region Unauthorized
 
@@ -32,7 +32,7 @@ namespace AnimeApp.Classes.Anilist
             //Can raise an exception if unsuccessfull.
             try
             {
-                string result = await AnilistRequest.SendQuery(body, variables);
+                string result = await Request.SendQuery(body, variables);
                 AnilistResponse data = Utilities.JsonHandler.FromJsonToObject<AnilistResponse>(result);
 
                 return data;
@@ -62,7 +62,7 @@ namespace AnimeApp.Classes.Anilist
             //Can raise an exception if unsuccessfull.
             try
             {
-                string result = await AnilistRequest.SendQuery(body, "", _token);
+                string result = await Request.SendQuery(body, "", _token);
                 AnilistResponse data = Utilities.JsonHandler.FromJsonToObject<AnilistResponse>(result);
 
                 return data;
@@ -89,7 +89,7 @@ namespace AnimeApp.Classes.Anilist
             //Can raise an exception if unsuccessfull.
             try
             {
-                string result = await AnilistRequest.SendQuery(body, variables, _acc.Anilist.AuthToken);
+                string result = await Request.SendQuery(body, variables, _acc.Anilist.AuthToken);
                 AnilistResponse data = Utilities.JsonHandler.FromJsonToObject<AnilistResponse>(result);
 
                 return data;

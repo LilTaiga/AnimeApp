@@ -75,7 +75,7 @@ namespace AnimeApp.Classes
             if (userAccount == null)
                 return;
 
-            AnilistResponse response = await Anilist.AnilistOperations.GetUserAnimeLists(userAccount);
+            AnilistResponse response = await Anilist.Operations.GetUserAnimeLists(userAccount);
             if (response.data == null)
                 throw new Exception("Error downloading data from Anilist");
 

@@ -131,60 +131,38 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\AccountManager.cs" />
-    <Compile Include="Classes\ListManager.cs" />
-    <Compile Include="Classes\UserAccount.cs" />
-    <Compile Include="Classes\Anilist\Account.cs" />
-    <Compile Include="Classes\Anilist\AnilistAccount.cs" />
-    <Compile Include="Classes\Anilist\AnilistOperations.cs" />
-    <Compile Include="Classes\Anilist\AnilistRequest.cs" />
-    <Compile Include="Classes\Anilist\AnilistResult.cs" />
-    <Compile Include="Classes\Anime.cs" />
-    <Compile Include="Classes\AnimeApp\UserEntry.cs" />
-    <Compile Include="Classes\AnimeApp\Media.cs" />
-    <Compile Include="Classes\AnimeApp\UserList.cs" />
-    <Compile Include="Classes\MediaAiring.cs" />
-    <Compile Include="Classes\MediaImage.cs" />
-    <Compile Include="Classes\Entry.cs" />
-    <Compile Include="Classes\Media.cs" />
-    <Compile Include="Classes\MediaList.cs" />
-    <Compile Include="Classes\MediaTag.cs" />
-    <Compile Include="Classes\MediaTitle.cs" />
-    <Compile Include="Classes\UserAvatar.cs" />
-    <Compile Include="Classes\UserList.cs" />
-    <Compile Include="Classes\UserListCollection.cs" />
-    <Compile Include="Classes\Utilities\FileHandler.cs" />
-    <Compile Include="Classes\Utilities\HttpConnection.cs" />
-    <Compile Include="Classes\Utilities\JsonHandler.cs" />
-    <Compile Include="Enums\ExhibitionMode.cs" />
-    <Compile Include="Enums\EntryStatus.cs" />
-    <Compile Include="Enums\AnimeFormat.cs" />
-    <Compile Include="Enums\MediaStatus.cs" />
-    <Compile Include="Enums\SortColumn.cs" />
-    <Compile Include="Enums\SortOrder.cs" />
-    <Compile Include="Enums\TitleLanguage.cs" />
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="Models\Classes\AccountManager.cs" />
+    <Compile Include="Models\Classes\Anilist\Account.cs" />
+    <Compile Include="Models\Classes\ListManager.cs" />
+    <Compile Include="Models\Classes\UserAccount.cs" />
+    <Compile Include="Models\Classes\Anilist\Operations.cs" />
+    <Compile Include="Models\Classes\Anilist\Request.cs" />
+    <Compile Include="Models\Classes\Anilist\Result.cs" />
+    <Compile Include="Models\Classes\Anime.cs" />
+    <Compile Include="Models\Classes\MediaAiring.cs" />
+    <Compile Include="Models\Classes\MediaImage.cs" />
+    <Compile Include="Models\Classes\Entry.cs" />
+    <Compile Include="Models\Classes\Media.cs" />
+    <Compile Include="Models\Classes\MediaList.cs" />
+    <Compile Include="Models\Classes\MediaTag.cs" />
+    <Compile Include="Models\Classes\MediaTitle.cs" />
+    <Compile Include="Models\Classes\UserAvatar.cs" />
+    <Compile Include="Models\Classes\UserList.cs" />
+    <Compile Include="Models\Classes\UserListCollection.cs" />
+    <Compile Include="Models\Classes\Utilities\FileHandler.cs" />
+    <Compile Include="Models\Classes\Utilities\HttpConnection.cs" />
+    <Compile Include="Models\Classes\Utilities\JsonHandler.cs" />
+    <Compile Include="Models\Enums\ExhibitionMode.cs" />
+    <Compile Include="Models\Enums\EntryStatus.cs" />
+    <Compile Include="Models\Enums\AnimeFormat.cs" />
+    <Compile Include="Models\Enums\MediaStatus.cs" />
+    <Compile Include="Models\Enums\SortColumn.cs" />
+    <Compile Include="Models\Enums\SortOrder.cs" />
+    <Compile Include="Models\Enums\TitleLanguage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Account\Account_Big.xaml.cs">
-      <DependentUpon>Account_Big.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Account\GetTokenDialog.xaml.cs">
-      <DependentUpon>GetTokenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\AnimeList.xaml.cs">
-      <DependentUpon>AnimeList.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\EntryView\EntryDialog.xaml.cs">
-      <DependentUpon>EntryDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Information.xaml.cs">
-      <DependentUpon>Information.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\NotImplemented.xaml.cs">
-      <DependentUpon>NotImplemented.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -206,34 +184,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\Account\Account_Big.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Account\GetTokenDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\AnimeList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\EntryView\EntryDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Information.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\NotImplemented.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
@@ -268,7 +218,15 @@
     <None Include=".editorconfig" />
     <None Include="AnimeApp_TemporaryKey.pfx" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Views\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

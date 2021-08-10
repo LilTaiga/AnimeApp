@@ -75,5 +75,21 @@ namespace AnimeApp.Classes
 
             Media = new Anime(_entry.media);
         }
+
+        
+
+        public string GetAnimeProgressFormatted()
+        {
+            Anime anime = Media as Anime;
+            string progress = "{0}/{1}";
+
+            if (anime.Episodes != -1)
+                return string.Format(progress, Progress, anime.Episodes);
+
+            if (anime.NextEpisodes.Count == 0)
+                return string.Format(progress, Progress, "??");
+
+            return string.Format(progress, Progress, anime.NextEpisodes[0].Episode - 1 + "+");
+        }
     }
 }

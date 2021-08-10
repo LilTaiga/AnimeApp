@@ -38,6 +38,33 @@ namespace AnimeApp.Classes
 
         public string SiteUrl { get; set; }                     //The link for the Anilist page of this media
 
+        public string PreferredTitle
+        {
+            get
+            {
+                if (AccountManager.CurrentAccount == null)
+                    return Titles.Romaji;
+
+                switch (AccountManager.CurrentAccount.TitlePreference)
+                {
+                    case TitleLanguage.English:
+                        if (!string.IsNullOrEmpty(Titles.English))
+                            return Titles.English;
+
+                        goto case TitleLanguage.Native;
+                    case TitleLanguage.Native:
+                        if (!string.IsNullOrEmpty(Titles.Native))
+                            return Titles.Native;
+
+                        goto case TitleLanguage.Romaji;
+                    case TitleLanguage.Romaji:
+                        return Titles.Romaji;
+                    default:
+                        return "Unknown title???";
+                }
+            }
+        }
+
         #endregion
 
         //
@@ -116,5 +143,7 @@ namespace AnimeApp.Classes
                 Tags.Add(_tag);
             }
         }
+
+        
     }
 }
