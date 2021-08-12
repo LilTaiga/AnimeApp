@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="AnimeApp.Views.Account"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:local="using:AnimeApp.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel x:Name="AccountLinkPanel"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="4">
+            <muxc:PersonPicture/>
+            <TextBlock Text="No linked account"
+                       FontSize="24"
+                       Margin="8"
+                       HorizontalAlignment="Center"/>
+            <TextBox Header="Link your Anilist account:"
+                     PlaceholderText="Anilist account name"
+                     Width="250"/>
+            <TextBlock x:Name="AccountNotFoundText"
+                       Text="User not found (404)"
+                       FontSize="12"
+                       Foreground="IndianRed"
+                       Visibility="Collapsed"/>
+
+            <StackPanel Orientation="Horizontal"
+                        Spacing="4">
+                <Button Name="LinkAccountButton"
+                        Content="Link account"
+                        Click="LinkAccountButton_Click"
+                        Style="{ThemeResource AccentButtonStyle}"/>
+                <muxc:ProgressRing x:Name="AccountLookupProgressRing"
+                                   Width="24"
+                                   Height="24"/>
+                <TextBlock x:Name="AccountLookUpText"
+                           Text="Searching for account..."
+                           FontSize="12"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

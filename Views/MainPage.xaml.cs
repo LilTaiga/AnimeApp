@@ -40,6 +40,8 @@ namespace AnimeApp.Views
             UpdateTitleBarLayout(coreTitleBar);
             Window.Current.SetTitleBar(TitleBarDraggableArea);
             coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
+
+            MainNavigationView.SelectedItem = MainNavigationView.MenuItems[1];
         }
 
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
@@ -62,6 +64,23 @@ namespace AnimeApp.Views
         private void MainNavigationView_PaneClosing(MUXC.NavigationView sender, MUXC.NavigationViewPaneClosingEventArgs args)
         {
             LeftPaddingColumn.Width = new GridLength(MainNavigationView.CompactPaneLength);
+        }
+
+        //A new tab was selected in the main window.
+        private void MainNavigationView_SelectionChanged(MUXC.NavigationView sender, MUXC.NavigationViewSelectionChangedEventArgs args)
+        {
+            //Gets the selected item object.
+            //If the object is not an menu item, return. Something has gone very wrong.
+            if (!(args.SelectedItem is MUXC.NavigationViewItem selectedItem))
+                return;
+
+            //The object has a tag (probably), so we use that to select the page to navigate to.
+            switch (selectedItem.Tag)
+            {
+                default:
+                    MainFrame.Navigate(typeof(Views.NotImplemented));
+                    break;
+            }
         }
     }
 }

@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="AnimeApp.Views.NotImplemented"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:local="using:AnimeApp.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBlock FontSize="36"
+                       Text="Oops, this section is not implemented yet..."
+                       TextWrapping="WrapWholeWords"/>
+            <TextBlock Text="AnimeApp is still in development, so some pages may not be ready."
+                       Foreground="Gray"
+                       TextWrapping="WrapWholeWords"/>
+            <TextBlock Text="Go bother the developer to finish this section soon."
+                       Foreground="Gray"
+                       TextWrapping="WrapWholeWords"/>
+        </StackPanel>
+    </Grid>
+</Page>
