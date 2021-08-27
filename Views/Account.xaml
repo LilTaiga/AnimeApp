@@ -19,9 +19,11 @@
                        FontSize="24"
                        Margin="8"
                        HorizontalAlignment="Center"/>
-            <TextBox Header="Link your Anilist account:"
+            <TextBox x:Name="AccountNameTextBox"
+                     Header="Link your Anilist account:"
                      PlaceholderText="Anilist account name"
-                     Width="250"/>
+                     Width="250"
+                     TextChanged="AccountNameTextBox_TextChanged"/>
             <TextBlock x:Name="AccountNotFoundText"
                        Text="User not found (404)"
                        FontSize="12"
@@ -32,15 +34,18 @@
                         Spacing="4">
                 <Button Name="LinkAccountButton"
                         Content="Link account"
+                        IsEnabled="False"
                         Click="LinkAccountButton_Click"
                         Style="{ThemeResource AccentButtonStyle}"/>
                 <muxc:ProgressRing x:Name="AccountLookupProgressRing"
                                    Width="24"
-                                   Height="24"/>
+                                   Height="24"
+                                   Visibility="Collapsed"/>
                 <TextBlock x:Name="AccountLookUpText"
                            Text="Searching for account..."
                            FontSize="12"
-                           VerticalAlignment="Center"/>
+                           VerticalAlignment="Center"
+                           Visibility="Collapsed"/>
             </StackPanel>
         </StackPanel>
     </Grid>

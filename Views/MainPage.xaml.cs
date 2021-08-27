@@ -77,6 +77,9 @@ namespace AnimeApp.Views
             //The object has a tag (probably), so we use that to select the page to navigate to.
             switch (selectedItem.Tag)
             {
+                case "Accounts":
+                    MainFrame.Navigate(typeof(Views.Account));
+                    break;
                 default:
                     MainFrame.Navigate(typeof(Views.NotImplemented));
                     break;
